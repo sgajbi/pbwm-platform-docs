@@ -57,8 +57,8 @@ docker compose ps
 ```bash
 cd /c/Users/sande/dev/advisor-experience-api
 export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
-export PAS_INGESTION_SERVICE_BASE_URL="http://host.docker.internal:8200"
-export PAS_QUERY_SERVICE_BASE_URL="http://host.docker.internal:8201"
+export PORTFOLIO_DATA_INGESTION_BASE_URL="http://host.docker.internal:8200"
+export PORTFOLIO_DATA_PLATFORM_BASE_URL="http://host.docker.internal:8201"
 docker compose up -d --build
 docker compose ps
 ```
@@ -135,9 +135,9 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 - BFF cannot reach DPM
   - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
 - BFF cannot reach PAS ingestion
-  - Check `PAS_INGESTION_SERVICE_BASE_URL=http://host.docker.internal:8200`.
+  - Check `PORTFOLIO_DATA_INGESTION_BASE_URL=http://host.docker.internal:8200`.
 - BFF cannot reach PAS query
-  - Check `PAS_QUERY_SERVICE_BASE_URL=http://host.docker.internal:8201`.
+  - Check `PORTFOLIO_DATA_PLATFORM_BASE_URL=http://host.docker.internal:8201`.
 - UI cannot reach BFF
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
