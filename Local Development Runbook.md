@@ -75,8 +75,12 @@ curl -sSf http://127.0.0.1:3000 >/dev/null && echo "ui ok"
 ```
 
 Manual UI checks:
+- `http://localhost:3000/suite`
+- `http://localhost:3000/pas/intake`
+- `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
 - `http://localhost:3000/proposals`
+- `http://localhost:3000/proposals/PP-7721` (verify version + lineage sections render)
 
 ## 6. Logs and Debugging
 
@@ -182,6 +186,7 @@ Current related RFCs:
 - `rfcs/RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
 - `rfcs/RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 - `rfcs/RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
+- `rfcs/RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -191,6 +196,8 @@ Current related RFCs:
 - Proposal workspace should expose stage-grouped operations view with searchable proposals and explicit next-action guidance.
 - Proposal detail should support `include_evidence` retrieval and show evidence hashes when returned by DPM/BFF.
 - Proposal detail should support immutable version lookup and next-version creation through BFF parity endpoints.
+- Proposal detail should expose lineage metadata chain (request/simulation/artifact hashes with timestamps) through BFF parity endpoint.
+- Suite shell and storyboard screens should use workflow-first enterprise labels; backend service names remain implementation detail, not primary UI language.
 - Suite evolution direction:
   - PAS as core portfolio/market/valuation system of record.
   - PA for advanced performance/risk analytics on PAS outputs.
