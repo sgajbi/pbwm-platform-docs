@@ -1,8 +1,8 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-23
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, and run `portfolio-analytics-system` standalone when needed
-- Current phase: DPM-first for UI/BFF workflows; PAS runs independently for analytics pipeline validation
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` standalone when needed, and keep standardized local gates for `performanceAnalytics`
+- Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
 ## 1. Prerequisites
 
@@ -19,6 +19,8 @@ Expected:
 ## 2. Ports and Dependencies
 
 - DPM API: `http://localhost:8000`
+- PAS Ingestion API: `http://localhost:8200`
+- PAS Query API: `http://localhost:8201`
 - Postgres (for DPM): `localhost:5432`
 - BFF API: `http://localhost:8100`
 - UI: `http://localhost:3000`
@@ -26,6 +28,8 @@ Expected:
 Dependency chain:
 - UI -> BFF
 - BFF -> DPM
+- BFF -> PAS Ingestion (for portfolio creation)
+- BFF -> PAS Query (for governed selectors)
 - DPM -> Postgres (via its compose file)
 
 ## 3. One-Time Pull
@@ -53,6 +57,8 @@ docker compose ps
 ```bash
 cd /c/Users/sande/dev/advisor-experience-api
 export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
+export PAS_INGESTION_SERVICE_BASE_URL="http://host.docker.internal:8200"
+export PAS_QUERY_SERVICE_BASE_URL="http://host.docker.internal:8201"
 docker compose up -d --build
 docker compose ps
 ```
@@ -75,8 +81,20 @@ curl -sSf http://127.0.0.1:3000 >/dev/null && echo "ui ok"
 ```
 
 Manual UI checks:
+- `http://localhost:3000/suite`
+  - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
+- `http://localhost:3000/pas/intake`
+  - verify operation selector is available (`Create Portfolio`, `Add Positions`, `Add Transactions`, `Add Instruments`, `Add Market Data`)
+  - verify portfolio/instrument/currency fields provide lookup suggestions from PAS query via BFF
+  - verify non-portfolio operations allow list row add/remove and submit successfully
+  - verify list operations render in table-style editors with dense enterprise controls
+  - verify no button/text overlap at narrow widths (mobile/tablet), and horizontal scroll appears for wide tables/toggles
+  - submit each operation and verify success message with relevant published counts
+  - upload CSV package and verify parser validation + success queue message
+- `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
 - `http://localhost:3000/proposals`
+- `http://localhost:3000/proposals/PP-7721` (verify version + lineage sections render)
 
 ## 6. Logs and Debugging
 
@@ -116,6 +134,10 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
   - Docker Desktop/Engine is not running.
 - BFF cannot reach DPM
   - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
+- BFF cannot reach PAS ingestion
+  - Check `PAS_INGESTION_SERVICE_BASE_URL=http://host.docker.internal:8200`.
+- BFF cannot reach PAS query
+  - Check `PAS_QUERY_SERVICE_BASE_URL=http://host.docker.internal:8201`.
 - UI cannot reach BFF
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
@@ -231,3 +253,47 @@ Response should include:
 cd /c/Users/sande/dev/advisor-experience-api
 make e2e-down
 ```
+
+## 12. Performance Analytics Local Workflow (Aligned Baseline)
+
+Repository: `performanceAnalytics`
+
+### 12.1 Setup
+
+```bash
+cd /c/Users/sande/dev/performanceAnalytics
+python -m venv .venv
+source .venv/Scripts/activate
+make install
+```
+
+### 12.2 Local Gates
+
+```bash
+make check
+make ci-local
+```
+
+Docker CI parity:
+
+```bash
+make ci-local-docker
+make ci-local-docker-down
+```
+
+### 12.3 Local Runtime
+
+```bash
+make docker-up
+curl -sSf http://127.0.0.1:8000/docs >/dev/null && echo "performance analytics ok"
+make docker-down
+```
+
+## 13. Documentation and RFC Governance (Mandatory)
+
+- Keep documentation and code synchronized in the same PR when behavior changes.
+- Open a new RFC (or update an existing RFC) for every non-trivial platform engineering change:
+  - CI/gates/tooling changes
+  - architecture/ownership changes
+  - contract/error-handling behavior changes
+- Update this runbook whenever local commands, dependency flow, or smoke-check steps change.
