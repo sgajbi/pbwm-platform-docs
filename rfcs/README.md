@@ -48,3 +48,4 @@ Reference baseline:
 - `RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`
 - `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 - `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
+- `RFC-0026-advisor-workbench-proposal-operations-workspace.md`

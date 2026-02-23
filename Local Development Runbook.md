@@ -177,9 +177,11 @@ Current related RFCs:
 - `rfcs/RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`
 - `rfcs/RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 - `rfcs/RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
+- `rfcs/RFC-0026-advisor-workbench-proposal-operations-workspace.md`
 
 ## 12. Advisor Workbench UI Note
 
 - UI client calls should go through the Next.js BFF proxy route (`/api/bff/...`) instead of direct browser calls to `http://localhost:8100`.
 - This keeps browser networking stable across local/Docker environments and aligns with the BFF-first integration model.
 - Advisor-facing proposal pages should use structured forms and summary components; raw request/response JSON must not be part of the default user workflow.
+- Proposal workspace should expose stage-grouped operations view with searchable proposals and explicit next-action guidance.
