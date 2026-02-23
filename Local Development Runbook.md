@@ -88,6 +88,7 @@ Manual UI checks:
   - verify portfolio/instrument/currency fields provide lookup suggestions from PAS query via BFF
   - verify non-portfolio operations allow list row add/remove and submit successfully
   - verify list operations render in table-style editors with dense enterprise controls
+  - verify no button/text overlap at narrow widths (mobile/tablet), and horizontal scroll appears for wide tables/toggles
   - submit each operation and verify success message with relevant published counts
   - upload CSV package and verify parser validation + success queue message
 - `http://localhost:3000/pa/analytics`
@@ -211,6 +212,7 @@ Current related RFCs:
 - `rfcs/RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
 - `rfcs/RFC-0037-intake-governed-selectors-via-pas-lookups.md`
 - `rfcs/RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
+- `rfcs/RFC-0039-ui-responsive-scaling-and-overlap-hardening.md`
 
 ## 12. Advisor Workbench UI Note
 
