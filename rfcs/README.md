@@ -60,3 +60,4 @@ Reference baseline:
 - `RFC-0035-private-banking-intake-console-ux-hardening.md`
 - `RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
 - `RFC-0037-intake-governed-selectors-via-pas-lookups.md`
+- `RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`

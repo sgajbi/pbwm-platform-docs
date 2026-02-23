@@ -87,6 +87,7 @@ Manual UI checks:
   - verify operation selector is available (`Create Portfolio`, `Add Positions`, `Add Transactions`, `Add Instruments`, `Add Market Data`)
   - verify portfolio/instrument/currency fields provide lookup suggestions from PAS query via BFF
   - verify non-portfolio operations allow list row add/remove and submit successfully
+  - verify list operations render in table-style editors with dense enterprise controls
   - submit each operation and verify success message with relevant published counts
   - upload CSV package and verify parser validation + success queue message
 - `http://localhost:3000/pa/analytics`
@@ -209,6 +210,7 @@ Current related RFCs:
 - `rfcs/RFC-0035-private-banking-intake-console-ux-hardening.md`
 - `rfcs/RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
 - `rfcs/RFC-0037-intake-governed-selectors-via-pas-lookups.md`
+- `rfcs/RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
 
 ## 12. Advisor Workbench UI Note
 
