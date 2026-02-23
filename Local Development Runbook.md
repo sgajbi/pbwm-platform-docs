@@ -1,8 +1,8 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-23
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, plus standardized local gates for `performanceAnalytics`
-- Current phase: DPM-first UI slice, with `performanceAnalytics` engineering baseline now aligned
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` standalone when needed, and keep standardized local gates for `performanceAnalytics`
+- Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
 ## 1. Prerequisites
 
@@ -149,11 +149,116 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 - CI parity tests use each repo's `docker-compose.ci-local.yml`.
 - Keep both paths green when changing infra or test commands.
 
-## 10. Performance Analytics Local Workflow (Aligned Baseline)
+## 10. PAS Local Docker Run (No Port Conflicts)
+
+PAS now uses dedicated host ports and can run in parallel with DPM/BFF/UI.
+
+PAS host ports:
+- Ingestion API: `http://localhost:8200`
+- Query API: `http://localhost:8201`
+- Postgres: `localhost:55432`
+- Prometheus: `http://localhost:9190`
+- Grafana: `http://localhost:3300`
+
+### 10.1 Pull Latest
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+git checkout main
+git pull --ff-only
+```
+
+### 10.2 Start PAS
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose up -d --build
+docker compose ps
+```
+
+### 10.3 Health + API Smoke
+
+```bash
+curl -sSf http://127.0.0.1:8200/health/ready >/dev/null && echo "pas-ingestion ok"
+curl -sSf http://127.0.0.1:8201/health/ready >/dev/null && echo "pas-query ok"
+curl -sSf http://127.0.0.1:8201/docs >/dev/null && echo "pas-swagger ok"
+```
+
+Support/lineage API smoke:
+
+```bash
+curl -s "http://127.0.0.1:8201/support/portfolios/PORT001/overview"
+curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
+```
+
+### 10.4 Stop PAS
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose down
+```
+
+## 11. Live PAS + PA + DPM -> BFF Capabilities E2E (Docker)
+
+This path validates `advisor-experience-api` aggregation endpoint against live upstream containers:
+- PAS query service
+- PA service
+- DPM service
+- BFF service
+
+### 11.1 Pull Latest
+
+```bash
+cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/portfolio-analytics-system && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/performanceAnalytics && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull --ff-only
+```
+
+### 11.2 Start Stack From BFF Repo
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+export DPM_REPO_PATH=/c/Users/sande/dev/dpm-rebalance-engine
+export PAS_REPO_PATH=/c/Users/sande/dev/portfolio-analytics-system
+export PA_REPO_PATH=/c/Users/sande/dev/performanceAnalytics
+make e2e-up
+```
+
+### 11.3 Run Live E2E Assertion
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+make test-e2e-live
+```
+
+Expected output:
+- `E2E platform capabilities assertion passed`
+
+### 11.4 Manual API Smoke
+
+```bash
+curl -s "http://127.0.0.1:8100/api/v1/platform/capabilities?consumerSystem=BFF&tenantId=default"
+```
+
+Response should include:
+- `data.partialFailure=false`
+- `data.sources.pas`
+- `data.sources.pa`
+- `data.sources.dpm`
+
+### 11.5 Teardown
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+make e2e-down
+```
+
+## 12. Performance Analytics Local Workflow (Aligned Baseline)
 
 Repository: `performanceAnalytics`
 
-### 10.1 Setup
+### 12.1 Setup
 
 ```bash
 cd /c/Users/sande/dev/performanceAnalytics
@@ -162,7 +267,7 @@ source .venv/Scripts/activate
 make install
 ```
 
-### 10.2 Local Gates
+### 12.2 Local Gates
 
 ```bash
 make check
@@ -176,7 +281,7 @@ make ci-local-docker
 make ci-local-docker-down
 ```
 
-### 10.3 Local Runtime
+### 12.3 Local Runtime
 
 ```bash
 make docker-up
@@ -184,7 +289,7 @@ curl -sSf http://127.0.0.1:8000/docs >/dev/null && echo "performance analytics o
 make docker-down
 ```
 
-## 11. Documentation and RFC Governance (Mandatory)
+## 13. Documentation and RFC Governance (Mandatory)
 
 - Keep documentation and code synchronized in the same PR when behavior changes.
 - Open a new RFC (or update an existing RFC) for every non-trivial platform engineering change:
@@ -192,50 +297,3 @@ make docker-down
   - architecture/ownership changes
   - contract/error-handling behavior changes
 - Update this runbook whenever local commands, dependency flow, or smoke-check steps change.
-
-Current related RFCs:
-
-- `rfcs/RFC-0022-performance-analytics-engineering-alignment-to-dpm-standard.md`
-- `rfcs/RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`
-- `rfcs/RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
-- `rfcs/RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
-- `rfcs/RFC-0026-advisor-workbench-proposal-operations-workspace.md`
-- `rfcs/RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
-- `rfcs/RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
-- `rfcs/RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
-- `rfcs/RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
-- `rfcs/RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
-- `rfcs/RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
-- `rfcs/RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
-- `rfcs/RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
-- `rfcs/RFC-0035-private-banking-intake-console-ux-hardening.md`
-- `rfcs/RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
-- `rfcs/RFC-0037-intake-governed-selectors-via-pas-lookups.md`
-- `rfcs/RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
-- `rfcs/RFC-0039-ui-responsive-scaling-and-overlap-hardening.md`
-
-## 12. Advisor Workbench UI Note
-
-- UI client calls should go through the Next.js BFF proxy route (`/api/bff/...`) instead of direct browser calls to `http://localhost:8100`.
-- This keeps browser networking stable across local/Docker environments and aligns with the BFF-first integration model.
-- Advisor-facing proposal pages should use structured forms and summary components; raw request/response JSON must not be part of the default user workflow.
-- Proposal workspace should expose stage-grouped operations view with searchable proposals and explicit next-action guidance.
-- Proposal detail should support `include_evidence` retrieval and show evidence hashes when returned by DPM/BFF.
-- Proposal detail should support immutable version lookup and next-version creation through BFF parity endpoints.
-- Proposal detail should expose lineage metadata chain (request/simulation/artifact hashes with timestamps) through BFF parity endpoint.
-- Suite shell and storyboard screens should use workflow-first enterprise labels; backend service names remain implementation detail, not primary UI language.
-- Command Center should support role-based operating views (advisor/risk/compliance) with role-scoped priorities and action playbooks.
-- Intake workspace should submit real PAS portfolio-bundle payloads through BFF for portfolio creation (manual single-holding flow in current phase).
-- Intake workspace should follow private-banking operations UX standards: clear readiness controls, explicit workflow channels (manual vs CSV), and operational queue visibility.
-- Intake workspace should support operation-specific list management for entities (positions, transactions, instruments, market data) without forcing full portfolio re-submission.
-- Intake selectors should use governed lookups from PAS query via BFF, with manual override fallback for operational continuity.
-- Suite evolution direction:
-  - PAS as core portfolio/market/valuation system of record.
-  - PA for advanced performance/risk analytics on PAS outputs.
-  - DPM for advisory/discretionary workflows and recommendation lifecycle.
-  - UI/BFF as unified suite interaction layer with both direct-payload and PAS-connected API modes.
-  - Portfolio ingestion via manual forms and CSV/Excel upload should be supported through UI/BFF, with PAS as persistence owner.
-- Current implementation mode:
-  - PAS UI routes are storyboard/mock-data only until PAS API surface stabilizes.
-  - PA UI routes are storyboard/mock-data only until PA API surface stabilizes.
-  - DPM UI routes remain live and connected via BFF.

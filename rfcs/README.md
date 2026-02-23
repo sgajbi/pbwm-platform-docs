@@ -62,3 +62,12 @@ Reference baseline:
 - `RFC-0037-intake-governed-selectors-via-pas-lookups.md`
 - `RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
 - `RFC-0039-ui-responsive-scaling-and-overlap-hardening.md`
+- `RFC-0022-platform-target-operating-model-and-service-additions.md`
+- `RFC-0023-pas-api-product-and-governance-principles.md`
+- `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
+- `RFC-0025-backend-driven-configurability-entitlements-and-workflow-control.md`
+- `RFC-0026-synchronous-vs-asynchronous-integration-patterns.md`
+- `RFC-0027-reporting-and-analytics-separation-strategy.md`
+- `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
+- `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
+- `RFC-0030-adr-governance-and-decision-traceability.md`
