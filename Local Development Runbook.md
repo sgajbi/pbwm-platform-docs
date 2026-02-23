@@ -175,3 +175,59 @@ curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 cd /c/Users/sande/dev/portfolio-analytics-system
 docker compose down
 ```
+
+## 11. Live PAS + PA + DPM -> BFF Capabilities E2E (Docker)
+
+This path validates `advisor-experience-api` aggregation endpoint against live upstream containers:
+- PAS query service
+- PA service
+- DPM service
+- BFF service
+
+### 11.1 Pull Latest
+
+```bash
+cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/portfolio-analytics-system && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/performanceAnalytics && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull --ff-only
+```
+
+### 11.2 Start Stack From BFF Repo
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+export DPM_REPO_PATH=/c/Users/sande/dev/dpm-rebalance-engine
+export PAS_REPO_PATH=/c/Users/sande/dev/portfolio-analytics-system
+export PA_REPO_PATH=/c/Users/sande/dev/performanceAnalytics
+make e2e-up
+```
+
+### 11.3 Run Live E2E Assertion
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+make test-e2e-live
+```
+
+Expected output:
+- `E2E platform capabilities assertion passed`
+
+### 11.4 Manual API Smoke
+
+```bash
+curl -s "http://127.0.0.1:8100/api/v1/platform/capabilities?consumerSystem=BFF&tenantId=default"
+```
+
+Response should include:
+- `data.partialFailure=false`
+- `data.sources.pas`
+- `data.sources.pa`
+- `data.sources.dpm`
+
+### 11.5 Teardown
+
+```bash
+cd /c/Users/sande/dev/advisor-experience-api
+make e2e-down
+```
