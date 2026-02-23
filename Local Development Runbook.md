@@ -178,6 +178,7 @@ Current related RFCs:
 - `rfcs/RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 - `rfcs/RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
 - `rfcs/RFC-0026-advisor-workbench-proposal-operations-workspace.md`
+- `rfcs/RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -185,3 +186,4 @@ Current related RFCs:
 - This keeps browser networking stable across local/Docker environments and aligns with the BFF-first integration model.
 - Advisor-facing proposal pages should use structured forms and summary components; raw request/response JSON must not be part of the default user workflow.
 - Proposal workspace should expose stage-grouped operations view with searchable proposals and explicit next-action guidance.
+- Proposal detail should support `include_evidence` retrieval and show evidence hashes when returned by DPM/BFF.

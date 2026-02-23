@@ -49,3 +49,4 @@ Reference baseline:
 - `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 - `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
 - `RFC-0026-advisor-workbench-proposal-operations-workspace.md`
+- `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
