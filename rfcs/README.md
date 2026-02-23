@@ -50,3 +50,4 @@ Reference baseline:
 - `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
 - `RFC-0026-advisor-workbench-proposal-operations-workspace.md`
 - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+- `RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
