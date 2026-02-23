@@ -1,8 +1,8 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-23
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker
-- Current phase: DPM-first (`performanceAnalytics` and `portfolio-analytics-system` remain out of scope)
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, and run `portfolio-analytics-system` standalone when needed
+- Current phase: DPM-first for UI/BFF workflows; PAS runs independently for analytics pipeline validation
 
 ## 1. Prerequisites
 
@@ -126,3 +126,47 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 - Local Docker startup uses each repo's `docker-compose.yml`.
 - CI parity tests use each repo's `docker-compose.ci-local.yml`.
 - Keep both paths green when changing infra or test commands.
+
+## 10. PAS Local Docker Run (Standalone)
+
+Important:
+- PAS uses ports that conflict with the DPM/BFF/UI stack (`8000`, `5432`, `3000`).
+- Stop DPM/BFF/UI stack before starting PAS.
+
+### 10.1 Pull Latest
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+git checkout main
+git pull --ff-only
+```
+
+### 10.2 Start PAS
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose up -d --build
+docker compose ps
+```
+
+### 10.3 Health + API Smoke
+
+```bash
+curl -sSf http://127.0.0.1:8000/health/ready >/dev/null && echo "pas-ingestion ok"
+curl -sSf http://127.0.0.1:8001/health/ready >/dev/null && echo "pas-query ok"
+curl -sSf http://127.0.0.1:8001/docs >/dev/null && echo "pas-swagger ok"
+```
+
+Support/lineage API smoke:
+
+```bash
+curl -s "http://127.0.0.1:8001/support/portfolios/PORT001/overview"
+curl -s "http://127.0.0.1:8001/lineage/portfolios/PORT001/securities/SEC001"
+```
+
+### 10.4 Stop PAS
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose down
+```
