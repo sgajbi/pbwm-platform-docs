@@ -81,7 +81,9 @@ Manual UI checks:
 - `http://localhost:3000/suite`
   - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
 - `http://localhost:3000/pas/intake`
-  - submit "Create Portfolio In PAS" and verify success message with published counts
+  - verify readiness checklist/progress is visible
+  - submit manual bundle and verify success message with published counts
+  - upload CSV package and verify parser validation + success queue message
 - `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
 - `http://localhost:3000/proposals`
@@ -197,6 +199,7 @@ Current related RFCs:
 - `rfcs/RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
 - `rfcs/RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
 - `rfcs/RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
+- `rfcs/RFC-0035-private-banking-intake-console-ux-hardening.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -210,6 +213,7 @@ Current related RFCs:
 - Suite shell and storyboard screens should use workflow-first enterprise labels; backend service names remain implementation detail, not primary UI language.
 - Command Center should support role-based operating views (advisor/risk/compliance) with role-scoped priorities and action playbooks.
 - Intake workspace should submit real PAS portfolio-bundle payloads through BFF for portfolio creation (manual single-holding flow in current phase).
+- Intake workspace should follow private-banking operations UX standards: clear readiness controls, explicit workflow channels (manual vs CSV), and operational queue visibility.
 - Suite evolution direction:
   - PAS as core portfolio/market/valuation system of record.
   - PA for advanced performance/risk analytics on PAS outputs.

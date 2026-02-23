@@ -57,3 +57,4 @@ Reference baseline:
 - `RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
 - `RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
 - `RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
+- `RFC-0035-private-banking-intake-console-ux-hardening.md`
