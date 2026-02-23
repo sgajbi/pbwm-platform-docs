@@ -59,3 +59,4 @@ Reference baseline:
 - `RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
 - `RFC-0035-private-banking-intake-console-ux-hardening.md`
 - `RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
+- `RFC-0037-intake-governed-selectors-via-pas-lookups.md`

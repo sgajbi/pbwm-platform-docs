@@ -20,6 +20,7 @@ Expected:
 
 - DPM API: `http://localhost:8000`
 - PAS Ingestion API: `http://localhost:8200`
+- PAS Query API: `http://localhost:8201`
 - Postgres (for DPM): `localhost:5432`
 - BFF API: `http://localhost:8100`
 - UI: `http://localhost:3000`
@@ -28,6 +29,7 @@ Dependency chain:
 - UI -> BFF
 - BFF -> DPM
 - BFF -> PAS Ingestion (for portfolio creation)
+- BFF -> PAS Query (for governed selectors)
 - DPM -> Postgres (via its compose file)
 
 ## 3. One-Time Pull
@@ -56,6 +58,7 @@ docker compose ps
 cd /c/Users/sande/dev/advisor-experience-api
 export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
 export PAS_INGESTION_SERVICE_BASE_URL="http://host.docker.internal:8200"
+export PAS_QUERY_SERVICE_BASE_URL="http://host.docker.internal:8201"
 docker compose up -d --build
 docker compose ps
 ```
@@ -82,6 +85,7 @@ Manual UI checks:
   - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
 - `http://localhost:3000/pas/intake`
   - verify operation selector is available (`Create Portfolio`, `Add Positions`, `Add Transactions`, `Add Instruments`, `Add Market Data`)
+  - verify portfolio/instrument/currency fields provide lookup suggestions from PAS query via BFF
   - verify non-portfolio operations allow list row add/remove and submit successfully
   - submit each operation and verify success message with relevant published counts
   - upload CSV package and verify parser validation + success queue message
@@ -130,6 +134,8 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
   - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
 - BFF cannot reach PAS ingestion
   - Check `PAS_INGESTION_SERVICE_BASE_URL=http://host.docker.internal:8200`.
+- BFF cannot reach PAS query
+  - Check `PAS_QUERY_SERVICE_BASE_URL=http://host.docker.internal:8201`.
 - UI cannot reach BFF
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
@@ -202,6 +208,7 @@ Current related RFCs:
 - `rfcs/RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
 - `rfcs/RFC-0035-private-banking-intake-console-ux-hardening.md`
 - `rfcs/RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
+- `rfcs/RFC-0037-intake-governed-selectors-via-pas-lookups.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -217,6 +224,7 @@ Current related RFCs:
 - Intake workspace should submit real PAS portfolio-bundle payloads through BFF for portfolio creation (manual single-holding flow in current phase).
 - Intake workspace should follow private-banking operations UX standards: clear readiness controls, explicit workflow channels (manual vs CSV), and operational queue visibility.
 - Intake workspace should support operation-specific list management for entities (positions, transactions, instruments, market data) without forcing full portfolio re-submission.
+- Intake selectors should use governed lookups from PAS query via BFF, with manual override fallback for operational continuity.
 - Suite evolution direction:
   - PAS as core portfolio/market/valuation system of record.
   - PA for advanced performance/risk analytics on PAS outputs.
