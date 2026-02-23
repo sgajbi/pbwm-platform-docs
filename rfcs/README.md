@@ -54,3 +54,4 @@ Reference baseline:
 - `RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 - `RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
 - `RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
+- `RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
