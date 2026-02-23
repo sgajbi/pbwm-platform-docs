@@ -44,3 +44,5 @@ Reference baseline:
 - `RFC-0019-pragmatic-unification-plan-now-vs-later.md`
 - `RFC-0020-sprint-1-advisor-workbench-vertical-slice.md`
 - `RFC-0021-authn-authz-foundation-deferred.md`
+- `RFC-0022-performance-analytics-engineering-alignment-to-dpm-standard.md`
+- `RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`

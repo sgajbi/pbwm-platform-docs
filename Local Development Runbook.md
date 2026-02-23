@@ -1,8 +1,8 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-23
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker
-- Current phase: DPM-first (`performanceAnalytics` and `portfolio-analytics-system` remain out of scope)
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, plus standardized local gates for `performanceAnalytics`
+- Current phase: DPM-first UI slice, with `performanceAnalytics` engineering baseline now aligned
 
 ## 1. Prerequisites
 
@@ -126,3 +126,52 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 - Local Docker startup uses each repo's `docker-compose.yml`.
 - CI parity tests use each repo's `docker-compose.ci-local.yml`.
 - Keep both paths green when changing infra or test commands.
+
+## 10. Performance Analytics Local Workflow (Aligned Baseline)
+
+Repository: `performanceAnalytics`
+
+### 10.1 Setup
+
+```bash
+cd /c/Users/sande/dev/performanceAnalytics
+python -m venv .venv
+source .venv/Scripts/activate
+make install
+```
+
+### 10.2 Local Gates
+
+```bash
+make check
+make ci-local
+```
+
+Docker CI parity:
+
+```bash
+make ci-local-docker
+make ci-local-docker-down
+```
+
+### 10.3 Local Runtime
+
+```bash
+make docker-up
+curl -sSf http://127.0.0.1:8000/docs >/dev/null && echo "performance analytics ok"
+make docker-down
+```
+
+## 11. Documentation and RFC Governance (Mandatory)
+
+- Keep documentation and code synchronized in the same PR when behavior changes.
+- Open a new RFC (or update an existing RFC) for every non-trivial platform engineering change:
+  - CI/gates/tooling changes
+  - architecture/ownership changes
+  - contract/error-handling behavior changes
+- Update this runbook whenever local commands, dependency flow, or smoke-check steps change.
+
+Current related RFCs:
+
+- `rfcs/RFC-0022-performance-analytics-engineering-alignment-to-dpm-standard.md`
+- `rfcs/RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`
