@@ -45,3 +45,11 @@ Reference baseline:
 - `RFC-0020-sprint-1-advisor-workbench-vertical-slice.md`
 - `RFC-0021-authn-authz-foundation-deferred.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
+- `RFC-0023-pas-api-product-and-governance-principles.md`
+- `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
+- `RFC-0025-backend-driven-configurability-entitlements-and-workflow-control.md`
+- `RFC-0026-synchronous-vs-asynchronous-integration-patterns.md`
+- `RFC-0027-reporting-and-analytics-separation-strategy.md`
+- `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
+- `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
+- `RFC-0030-adr-governance-and-decision-traceability.md`
