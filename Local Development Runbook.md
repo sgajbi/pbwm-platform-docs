@@ -1,178 +1,128 @@
-# Local Development Runbook (Bash)
+# Local Development Runbook (Docker, Bash)
 
-- Last updated: 2026-02-22
-- Scope: local startup for DPM-first flow (`dpm-rebalance-engine` + BFF + UI)
+- Last updated: 2026-02-23
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker
+- Current phase: DPM-first (`performanceAnalytics` and `portfolio-analytics-system` remain out of scope)
 
-## 1. Verified Local Tooling
+## 1. Prerequisites
 
 ```bash
-node -v            # v24.13.1
-npm -v             # 11.8.0
-python --version   # Python 3.12.9
-git --version      # git version 2.51.1.windows.1
-docker --version   # Docker version 29.2.1
-docker compose version # Docker Compose version v5.0.2
+docker --version
+docker compose version
+git --version
 ```
 
-## 2. Start Order (Current DPM-First Scope)
+Expected:
+- Docker Engine must be running.
+- Use Git Bash (commands below are Bash format).
 
-Use separate Bash terminals/tabs for each service.
+## 2. Ports and Dependencies
 
-1. `dpm-rebalance-engine` (8000)
-2. `advisor-experience-api` BFF (8100)
-3. `advisor-workbench` UI (3000)
+- DPM API: `http://localhost:8000`
+- Postgres (for DPM): `localhost:5432`
+- BFF API: `http://localhost:8100`
+- UI: `http://localhost:3000`
 
-Note:
-- `performanceAnalytics` and `portfolio-analytics-system` are intentionally out of scope for this phase.
+Dependency chain:
+- UI -> BFF
+- BFF -> DPM
+- DPM -> Postgres (via its compose file)
 
-## 3. Commands
+## 3. One-Time Pull
 
-## 3.1 dpm-rebalance-engine (port 8000)
+```bash
+cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/advisor-workbench && git checkout main && git pull --ff-only
+```
+
+## 4. Start All 3 Apps (Docker)
+
+Run these in 3 separate Git Bash terminals.
+
+## 4.1 Start DPM (+ Postgres)
 
 ```bash
 cd /c/Users/sande/dev/dpm-rebalance-engine
-python -m venv .venv
-source .venv/Scripts/activate
-pip install -r requirements.txt
-uvicorn src.api.main:app --reload --port 8000
+docker compose up -d --build
+docker compose ps
 ```
 
-## 3.2 advisor-experience-api (BFF, port 8100)
+## 4.2 Start BFF
 
 ```bash
 cd /c/Users/sande/dev/advisor-experience-api
-python -m venv .venv
-source .venv/Scripts/activate
-pip install -e ".[dev]"
-
-export DECISIONING_SERVICE_BASE_URL="http://127.0.0.1:8000"
-
-uvicorn app.main:app --reload --app-dir src --port 8100
+export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
+docker compose up -d --build
+docker compose ps
 ```
 
-## 3.3 advisor-workbench (UI, port 3000)
+## 4.3 Start UI
 
 ```bash
 cd /c/Users/sande/dev/advisor-workbench
-npm install
-export BFF_BASE_URL="http://127.0.0.1:8100"
-npm run dev
+export BFF_BASE_URL="http://host.docker.internal:8100"
+docker compose up -d --build
+docker compose ps
 ```
 
-## 4. URLs
-
-- UI Home: `http://localhost:3000`
-- UI Proposal Simulation: `http://localhost:3000/proposals/simulate`
-- UI Proposal Workspace: `http://localhost:3000/proposals`
-- BFF Swagger: `http://localhost:8100/docs`
-
-## 5. Quick Checks
+## 5. Smoke Checks
 
 ```bash
-curl -s http://127.0.0.1:8000/docs >/dev/null && echo "dpm ok"
-curl -s http://127.0.0.1:8100/health && echo
+curl -sSf http://127.0.0.1:8000/docs >/dev/null && echo "dpm ok"
+curl -sSf http://127.0.0.1:8100/health >/dev/null && echo "bff ok"
+curl -sSf http://127.0.0.1:3000 >/dev/null && echo "ui ok"
 ```
 
-## 6. Troubleshooting Log (append as you hit issues)
+Manual UI checks:
+- `http://localhost:3000/proposals/simulate`
+- `http://localhost:3000/proposals`
 
-## Issue Template
+## 6. Logs and Debugging
 
-- Date:
-- Service:
-- Command:
-- Error:
-- Root cause:
-- Fix:
+Tail logs:
 
-## Known Notes
+```bash
+cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose logs -f --tail=200
+cd /c/Users/sande/dev/advisor-experience-api && docker compose logs -f --tail=200
+cd /c/Users/sande/dev/advisor-workbench && docker compose logs -f --tail=200
+```
 
-- UI depends on BFF (`BFF_BASE_URL`), and BFF depends on DPM in the current phase.
-- If UI fails to load data, check BFF logs first, then DPM logs.
-
-## 7. Current Progress
-
-- DPM status: `UP` (confirmed running on `http://127.0.0.1:8000`).
-
-## 8. Next Service To Start
-
-Start `advisor-experience-api` next (port `8100`).
+Restart a single stack:
 
 ```bash
 cd /c/Users/sande/dev/advisor-experience-api
-python -m venv .venv
-source .venv/Scripts/activate
-pip install -e ".[dev]"
-export DECISIONING_SERVICE_BASE_URL="http://127.0.0.1:8000"
-uvicorn app.main:app --reload --app-dir src --port 8100
+docker compose down
+docker compose up -d --build
 ```
 
-Quick check:
+## 7. Stop All
 
 ```bash
-curl -I http://127.0.0.1:8100/docs
+cd /c/Users/sande/dev/advisor-workbench && docker compose down
+cd /c/Users/sande/dev/advisor-experience-api && docker compose down
+cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down
 ```
 
-## 9. PR Merge Order (DPM-First Slice)
-
-Use this order for future slices to reduce integration breakage:
-
-1. `dpm-rebalance-engine` (domain/api contract source)
-2. `advisor-experience-api` (BFF mapping to DPM contract)
-3. `advisor-workbench` (UI consuming BFF contract)
-
-Current PR status (2026-02-22):
-- `sgajbi/advisor-experience-api#1`: `MERGED`
-- `sgajbi/advisor-workbench#1`: `MERGED`
-
-## 10. Post-Merge Smoke Checklist
-
-Run after each merge to `main`:
+If you need clean volumes (destructive for local DB data):
 
 ```bash
-# 1) Pull latest
-cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull
-cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull
-cd /c/Users/sande/dev/advisor-workbench && git checkout main && git pull
-
-# 2) Restart services in order
-cd /c/Users/sande/dev/dpm-rebalance-engine
-source .venv/Scripts/activate
-uvicorn src.api.main:app --reload --port 8000
+cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 ```
 
-```bash
-cd /c/Users/sande/dev/advisor-experience-api
-source .venv/Scripts/activate
-export DECISIONING_SERVICE_BASE_URL="http://127.0.0.1:8000"
-uvicorn app.main:app --reload --app-dir src --port 8100
-```
+## 8. Common Failure Cases
 
-```bash
-cd /c/Users/sande/dev/advisor-workbench
-export BFF_BASE_URL="http://127.0.0.1:8100"
-npm run dev
-```
+- `Cannot connect to Docker daemon`
+  - Docker Desktop/Engine is not running.
+- BFF cannot reach DPM
+  - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
+- UI cannot reach BFF
+  - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
+- Port conflict on `3000/8100/8000/5432`
+  - Stop conflicting process/container and rerun `docker compose up -d --build`.
 
-```bash
-# 3) Endpoint checks
-curl -s http://127.0.0.1:8000/docs >/dev/null && echo "dpm ok"
-curl -s http://127.0.0.1:8100/health && echo
+## 9. CI Parity Note
 
-# 4) UI check (manual)
-# Open http://localhost:3000/proposals/simulate and run one proposal simulation.
-# Save draft, then verify list/detail flow at /proposals and /proposals/{proposalId}.
-```
-
-## 11. Docs-With-Code Rule (Mandatory)
-
-For every implementation PR in `dpm-rebalance-engine`, `advisor-experience-api`, and `advisor-workbench`:
-
-- update code + tests
-- update required docs in the same PR
-- complete PR docs checklist before merge
-
-Repo standards:
-
-- `CONTRIBUTING.md`
-- `docs/documentation/implementation-documentation-standard.md`
-- `.github/pull_request_template.md`
+- Local Docker startup uses each repo's `docker-compose.yml`.
+- CI parity tests use each repo's `docker-compose.ci-local.yml`.
+- Keep both paths green when changing infra or test commands.

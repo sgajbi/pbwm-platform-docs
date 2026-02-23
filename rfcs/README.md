@@ -43,3 +43,4 @@ Reference baseline:
 - `RFC-0018-phased-implementation-roadmap.md`
 - `RFC-0019-pragmatic-unification-plan-now-vs-later.md`
 - `RFC-0020-sprint-1-advisor-workbench-vertical-slice.md`
+- `RFC-0021-authn-authz-foundation-deferred.md`
