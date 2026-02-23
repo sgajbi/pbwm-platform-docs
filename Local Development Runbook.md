@@ -76,7 +76,7 @@ curl -sSf http://127.0.0.1:3000 >/dev/null && echo "ui ok"
 
 Manual UI checks:
 - `http://localhost:3000/suite`
-  - verify "Today's Client Priorities" and "DPM Action Playbook" sections render with actionable links
+  - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
 - `http://localhost:3000/pas/intake`
 - `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
@@ -189,6 +189,7 @@ Current related RFCs:
 - `rfcs/RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
 - `rfcs/RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
 - `rfcs/RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
+- `rfcs/RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -200,6 +201,7 @@ Current related RFCs:
 - Proposal detail should support immutable version lookup and next-version creation through BFF parity endpoints.
 - Proposal detail should expose lineage metadata chain (request/simulation/artifact hashes with timestamps) through BFF parity endpoint.
 - Suite shell and storyboard screens should use workflow-first enterprise labels; backend service names remain implementation detail, not primary UI language.
+- Command Center should support role-based operating views (advisor/risk/compliance) with role-scoped priorities and action playbooks.
 - Suite evolution direction:
   - PAS as core portfolio/market/valuation system of record.
   - PA for advanced performance/risk analytics on PAS outputs.
