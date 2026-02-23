@@ -181,6 +181,7 @@ Current related RFCs:
 - `rfcs/RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
 - `rfcs/RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
 - `rfcs/RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
+- `rfcs/RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -196,3 +197,7 @@ Current related RFCs:
   - DPM for advisory/discretionary workflows and recommendation lifecycle.
   - UI/BFF as unified suite interaction layer with both direct-payload and PAS-connected API modes.
   - Portfolio ingestion via manual forms and CSV/Excel upload should be supported through UI/BFF, with PAS as persistence owner.
+- Current implementation mode:
+  - PAS UI routes are storyboard/mock-data only until PAS API surface stabilizes.
+  - PA UI routes are storyboard/mock-data only until PA API surface stabilizes.
+  - DPM UI routes remain live and connected via BFF.
