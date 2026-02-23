@@ -51,3 +51,4 @@ Reference baseline:
 - `RFC-0026-advisor-workbench-proposal-operations-workspace.md`
 - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
 - `RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
+- `RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`

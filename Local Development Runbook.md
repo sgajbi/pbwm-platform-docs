@@ -180,6 +180,7 @@ Current related RFCs:
 - `rfcs/RFC-0026-advisor-workbench-proposal-operations-workspace.md`
 - `rfcs/RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
 - `rfcs/RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
+- `rfcs/RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -189,3 +190,9 @@ Current related RFCs:
 - Proposal workspace should expose stage-grouped operations view with searchable proposals and explicit next-action guidance.
 - Proposal detail should support `include_evidence` retrieval and show evidence hashes when returned by DPM/BFF.
 - Proposal detail should support immutable version lookup and next-version creation through BFF parity endpoints.
+- Suite evolution direction:
+  - PAS as core portfolio/market/valuation system of record.
+  - PA for advanced performance/risk analytics on PAS outputs.
+  - DPM for advisory/discretionary workflows and recommendation lifecycle.
+  - UI/BFF as unified suite interaction layer with both direct-payload and PAS-connected API modes.
+  - Portfolio ingestion via manual forms and CSV/Excel upload should be supported through UI/BFF, with PAS as persistence owner.
