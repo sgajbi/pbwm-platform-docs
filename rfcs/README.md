@@ -1,4 +1,4 @@
-﻿# Cross-Repository Alignment RFCs
+# Cross-Repository Alignment RFCs
 
 This folder contains architecture RFCs to align:
 
@@ -63,6 +63,7 @@ Reference baseline:
 - `RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
 - `RFC-0039-ui-responsive-scaling-and-overlap-hardening.md`
 - `RFC-0040-ui-browser-qa-remediation-and-enterprise-ux-hardening.md`
+- `RFC-0041-platform-integration-architecture-bible-governance.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
@@ -72,3 +73,4 @@ Reference baseline:
 - `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
 - `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
 - `RFC-0030-adr-governance-and-decision-traceability.md`
+
