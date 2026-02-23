@@ -100,3 +100,12 @@ If implementation in any service diverges from this document:
 1. record the deviation in a service RFC/ADR (service-local),
 2. if cross-cutting, update central RFCs in this repository,
 3. classify as intentional, temporary, or refactor-required with target date/owner.
+
+## 9. Documentation Synchronization Rule
+
+Documentation must be kept aligned with implementation continuously:
+
+1. Every architecture-impacting code change updates relevant docs in the same PR cycle.
+2. Cross-cutting changes are documented in `pbwm-platform-docs`; service-local behavior remains documented in each service repo.
+3. If docs and code diverge, release readiness is blocked until alignment is restored.
+4. API contract changes require synchronized updates to OpenAPI, integration docs, and RFC/ADR references.

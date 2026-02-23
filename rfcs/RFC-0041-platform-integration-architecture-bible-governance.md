@@ -34,3 +34,4 @@ Adopt `Platform Integration Architecture Bible.md` as the central guiding princi
 1. One authoritative source for platform architecture standards.
 2. Cleaner service repositories focused on implementation details.
 3. Better traceability for multi-service integration decisions.
+4. Documentation and implementation stay synchronized through same-cycle update discipline.
