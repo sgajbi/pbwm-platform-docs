@@ -19,6 +19,7 @@ Expected:
 ## 2. Ports and Dependencies
 
 - DPM API: `http://localhost:8000`
+- PAS Ingestion API: `http://localhost:8200`
 - Postgres (for DPM): `localhost:5432`
 - BFF API: `http://localhost:8100`
 - UI: `http://localhost:3000`
@@ -26,6 +27,7 @@ Expected:
 Dependency chain:
 - UI -> BFF
 - BFF -> DPM
+- BFF -> PAS Ingestion (for portfolio creation)
 - DPM -> Postgres (via its compose file)
 
 ## 3. One-Time Pull
@@ -53,6 +55,7 @@ docker compose ps
 ```bash
 cd /c/Users/sande/dev/advisor-experience-api
 export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
+export PAS_INGESTION_SERVICE_BASE_URL="http://host.docker.internal:8200"
 docker compose up -d --build
 docker compose ps
 ```
@@ -78,6 +81,7 @@ Manual UI checks:
 - `http://localhost:3000/suite`
   - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
 - `http://localhost:3000/pas/intake`
+  - submit "Create Portfolio In PAS" and verify success message with published counts
 - `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
 - `http://localhost:3000/proposals`
@@ -121,6 +125,8 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
   - Docker Desktop/Engine is not running.
 - BFF cannot reach DPM
   - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
+- BFF cannot reach PAS ingestion
+  - Check `PAS_INGESTION_SERVICE_BASE_URL=http://host.docker.internal:8200`.
 - UI cannot reach BFF
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
@@ -190,6 +196,7 @@ Current related RFCs:
 - `rfcs/RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
 - `rfcs/RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
 - `rfcs/RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
+- `rfcs/RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
 
 ## 12. Advisor Workbench UI Note
 
@@ -202,6 +209,7 @@ Current related RFCs:
 - Proposal detail should expose lineage metadata chain (request/simulation/artifact hashes with timestamps) through BFF parity endpoint.
 - Suite shell and storyboard screens should use workflow-first enterprise labels; backend service names remain implementation detail, not primary UI language.
 - Command Center should support role-based operating views (advisor/risk/compliance) with role-scoped priorities and action playbooks.
+- Intake workspace should submit real PAS portfolio-bundle payloads through BFF for portfolio creation (manual single-holding flow in current phase).
 - Suite evolution direction:
   - PAS as core portfolio/market/valuation system of record.
   - PA for advanced performance/risk analytics on PAS outputs.
