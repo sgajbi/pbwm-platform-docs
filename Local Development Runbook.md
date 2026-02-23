@@ -127,11 +127,16 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
 - CI parity tests use each repo's `docker-compose.ci-local.yml`.
 - Keep both paths green when changing infra or test commands.
 
-## 10. PAS Local Docker Run (Standalone)
+## 10. PAS Local Docker Run (No Port Conflicts)
 
-Important:
-- PAS uses ports that conflict with the DPM/BFF/UI stack (`8000`, `5432`, `3000`).
-- Stop DPM/BFF/UI stack before starting PAS.
+PAS now uses dedicated host ports and can run in parallel with DPM/BFF/UI.
+
+PAS host ports:
+- Ingestion API: `http://localhost:8200`
+- Query API: `http://localhost:8201`
+- Postgres: `localhost:55432`
+- Prometheus: `http://localhost:9190`
+- Grafana: `http://localhost:3300`
 
 ### 10.1 Pull Latest
 
@@ -152,16 +157,16 @@ docker compose ps
 ### 10.3 Health + API Smoke
 
 ```bash
-curl -sSf http://127.0.0.1:8000/health/ready >/dev/null && echo "pas-ingestion ok"
-curl -sSf http://127.0.0.1:8001/health/ready >/dev/null && echo "pas-query ok"
-curl -sSf http://127.0.0.1:8001/docs >/dev/null && echo "pas-swagger ok"
+curl -sSf http://127.0.0.1:8200/health/ready >/dev/null && echo "pas-ingestion ok"
+curl -sSf http://127.0.0.1:8201/health/ready >/dev/null && echo "pas-query ok"
+curl -sSf http://127.0.0.1:8201/docs >/dev/null && echo "pas-swagger ok"
 ```
 
 Support/lineage API smoke:
 
 ```bash
-curl -s "http://127.0.0.1:8001/support/portfolios/PORT001/overview"
-curl -s "http://127.0.0.1:8001/lineage/portfolios/PORT001/securities/SEC001"
+curl -s "http://127.0.0.1:8201/support/portfolios/PORT001/overview"
+curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 ```
 
 ### 10.4 Stop PAS
