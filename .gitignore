@@ -1,3 +1,7 @@
 .DS_Store
 Thumbs.db
+output/pr-monitor.json
+output/agent-status.md
+output/background-runs.json
+output/task-runs/
 

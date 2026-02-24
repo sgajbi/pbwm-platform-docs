@@ -180,6 +180,14 @@ docker compose up -d --build
 docker compose ps
 ```
 
+PAS startup now includes automated demo dataset bootstrap (`demo_data_loader`).
+Validate bootstrap completion:
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose logs --tail=200 demo_data_loader
+```
+
 ### 10.3 Health + API Smoke
 
 ```bash
@@ -200,6 +208,29 @@ curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 ```bash
 cd /c/Users/sande/dev/portfolio-analytics-system
 docker compose down
+```
+
+### 10.5 Targeted Refresh Standard (Fast Feedback)
+
+Do not restart the full platform by default. Rebuild only changed services:
+
+```bash
+# PAS: refresh only ingestion service after ingestion changes
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose up -d --build ingestion_service
+
+# PAS: refresh only demo loader after demo pack script changes
+docker compose up -d --build demo_data_loader
+
+# BFF/UI targeted refresh examples
+cd /c/Users/sande/dev/advisor-experience-api && docker compose up -d --build advisor-experience-api
+cd /c/Users/sande/dev/advisor-workbench && docker compose up -d --build advisor-workbench
+```
+
+Use container logs first for debugging:
+
+```bash
+docker logs --tail=200 <container_name>
 ```
 
 ## 11. Live PAS + PA + DPM -> BFF Capabilities E2E (Docker)
@@ -301,3 +332,90 @@ make docker-down
   - architecture/ownership changes
   - contract/error-handling behavior changes
 - Update this runbook whenever local commands, dependency flow, or smoke-check steps change.
+
+## 14. Shared Automation Toolkit (Cross-Repo)
+
+Canonical location: `pbwm-platform-docs/automation`
+
+### 14.1 One-Shot Platform Pulse
+
+```powershell
+cd C:\Users\Sandeep\projects\pbwm-platform-docs
+powershell -ExecutionPolicy Bypass -File automation\Platform-Pulse.ps1
+```
+
+This runs:
+- multi-repo sync (safe, no pull on dirty worktrees)
+- open PR monitor (`author:@me`)
+
+### 14.2 Continuous Agent Loop
+
+```powershell
+cd C:\Users\Sandeep\projects\pbwm-platform-docs
+powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1
+```
+
+One iteration only:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1 -Once
+```
+
+Output artifacts:
+- `output/pr-monitor.json`
+- `output/agent-status.md`
+
+### 14.3 Targeted Service Refresh (No Full Stack Restart)
+
+Example for PAS:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
+```
+
+Changed-files based (recommended):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -ChangedOnly -BaseRef origin/main
+```
+
+### 14.4 Offload Parallel Work Outside Chat
+
+Use these profiles to run repeatable, long-running tasks without consuming chat context:
+
+```powershell
+# fast development quality checks in parallel
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile fast-feedback -MaxParallel 3
+
+# one-time dependency bootstrap (run before fast-feedback on new machine)
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile bootstrap-env -MaxParallel 2
+
+# CI parity checks in parallel
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile ci-parity -MaxParallel 2
+
+# detached/background execution
+powershell -ExecutionPolicy Bypass -File automation\Start-Background-Run.ps1 -Profile docker-build -MaxParallel 2
+
+# check background status on demand
+powershell -ExecutionPolicy Bypass -File automation\Check-Background-Runs.ps1
+
+# live watch background status
+powershell -ExecutionPolicy Bypass -File automation\Check-Background-Runs.ps1 -Watch -IntervalSeconds 20
+
+# summarize only actionable failures from latest runs
+powershell -ExecutionPolicy Bypass -File automation\Summarize-Task-Failures.ps1 -Latest 3
+```
+
+Profiles are defined in `automation/task-profiles.json` and currently include:
+- `bootstrap-env`
+- `fast-feedback`
+- `docker-build`
+- `ci-parity`
+- `pas-data-smoke`
+
+Artifacts:
+- `output/task-runs/*.json`
+- `output/task-runs/*.md`
+- `output/task-runs/*.out.log`
+- `output/task-runs/*.err.log`
+- `output/background-runs.json`
