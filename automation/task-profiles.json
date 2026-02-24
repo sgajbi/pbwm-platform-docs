@@ -6,10 +6,10 @@
       "tasks": [
         { "id": "awb-lint", "repo": "advisor-workbench", "command": "npm run lint" },
         { "id": "awb-typecheck", "repo": "advisor-workbench", "command": "npm run typecheck" },
-        { "id": "aea-check", "repo": "advisor-experience-api", "command": "make check" },
-        { "id": "dpm-check", "repo": "dpm-rebalance-engine", "command": "make check" },
-        { "id": "pa-check", "repo": "performanceAnalytics", "command": "make check" },
-        { "id": "pas-check", "repo": "portfolio-analytics-system", "command": "make check" }
+        { "id": "aea-check", "repo": "advisor-experience-api", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract" },
+        { "id": "dpm-check", "repo": "dpm-rebalance-engine", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit" },
+        { "id": "pa-check", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit" },
+        { "id": "pas-check", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python -m pytest tests/unit/services/query_service -q" }
       ]
     },
     {
@@ -27,10 +27,10 @@
       "name": "ci-parity",
       "description": "Run CI parity targets locally in parallel",
       "tasks": [
-        { "id": "aea-ci-local", "repo": "advisor-experience-api", "command": "make ci-local" },
-        { "id": "dpm-ci-local", "repo": "dpm-rebalance-engine", "command": "make ci-local" },
-        { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "make ci-local" },
-        { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "make ci-local" },
+        { "id": "aea-ci-local", "repo": "advisor-experience-api", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract && python -m pytest tests/integration" },
+        { "id": "dpm-ci-local", "repo": "dpm-rebalance-engine", "command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini" },
+        { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=95 && python -m mypy --config-file mypy.ini" },
+        { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python scripts/coverage_gate.py" },
         { "id": "awb-test", "repo": "advisor-workbench", "command": "npm run test" }
       ]
     },

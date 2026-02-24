@@ -93,6 +93,8 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `ci-parity`
 - `pas-data-smoke`
 
+Note: profiles are Windows-native and do not require `make`.
+
 ## Output Artifacts
 
 - `output/pr-monitor.json`

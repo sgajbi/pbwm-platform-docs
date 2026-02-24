@@ -71,7 +71,7 @@ for ($i = 0; $i -lt $resolvedTasks.Count; $i += $MaxParallel) {
       try {
         Push-Location $RepoPath
         try {
-          $output = powershell -NoProfile -ExecutionPolicy Bypass -Command $Command 2>&1 | Out-String
+          $output = cmd /c $Command 2>&1 | Out-String
           if ($LASTEXITCODE -ne $null) {
             $exitCode = $LASTEXITCODE
           }
