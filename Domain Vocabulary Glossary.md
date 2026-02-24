@@ -15,6 +15,8 @@ All repositories must align request/response models, service names, logs, and do
 - `position_timeseries`: Daily position-level derived state.
 - `reporting_snapshot`: Report-ready aggregation output for one portfolio and one `as_of_date`.
 - `reporting_row`: Atomic reporting metric row (`bucket`, `metric`, `value`).
+- `decision_readiness`: Backend-derived readiness state for advisory decisioning (`READY`, `PENDING`, `ATTENTION`).
+- `concentration_signal`: Portfolio concentration category derived from HHI (`LOW`, `MEDIUM`, `HIGH`, `UNKNOWN`).
 
 ## Service Responsibilities
 
