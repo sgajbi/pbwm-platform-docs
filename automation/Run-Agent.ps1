@@ -25,7 +25,7 @@ while ($true) {
     $syncOutput = "sync_failed: $($_.ToString())"
   }
   try {
-    $prOutput = & powershell -ExecutionPolicy Bypass -File "automation/PR-Monitor.ps1" -ConfigPath $ConfigPath -OutputPath "output/pr-monitor.json" 2>&1 | Out-String
+    $prOutput = & powershell -ExecutionPolicy Bypass -File "automation/PR-Monitor.ps1" -ConfigPath $ConfigPath -OutputPath "output/pr-monitor.json" -IncludeChecks 2>&1 | Out-String
   } catch {
     $prOutput = "pr_monitor_failed: $($_.ToString())"
   }
