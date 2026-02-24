@@ -85,6 +85,14 @@
         ,
         { "id": "ras-integration", "repo": "reporting-aggregation-service", "command": "python -m pytest tests/integration -q" }
       ]
+    },
+    {
+      "name": "coverage-pyramid-baseline",
+      "description": "Generate cross-service pyramid and coverage baseline artifacts",
+      "tasks": [
+        { "id": "validate-platform-contract", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Platform-Contract.ps1" },
+        { "id": "measure-test-pyramid", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -RunCoverage" }
+      ]
     }
   ]
 }
