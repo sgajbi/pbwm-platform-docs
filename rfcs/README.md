@@ -64,6 +64,7 @@ Reference baseline:
 - `RFC-0039-ui-responsive-scaling-and-overlap-hardening.md`
 - `RFC-0040-ui-browser-qa-remediation-and-enterprise-ux-hardening.md`
 - `RFC-0041-platform-integration-architecture-bible-governance.md`
+- `RFC-0042-capabilities-governed-ux-contract-and-current-state-assessment.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`

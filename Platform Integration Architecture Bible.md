@@ -92,6 +92,7 @@ This bible is enforced and refined by existing platform RFCs, including:
 - `rfcs/RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
 - `rfcs/RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 - `rfcs/RFC-0030-adr-governance-and-decision-traceability.md`
+- `rfcs/RFC-0042-capabilities-governed-ux-contract-and-current-state-assessment.md`
 
 ## 8. Decision Rule
 
