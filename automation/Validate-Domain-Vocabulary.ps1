@@ -57,7 +57,10 @@ foreach ($repo in $repos) {
             "--glob", "!**/.mypy_cache/**",
             "--glob", "!**/.pytest_cache/**",
             "--glob", "!**/dist/**",
-            "--glob", "!**/build/**"
+            "--glob", "!**/build/**",
+            "--glob", "!**/docs/RFCs/**",
+            "--glob", "!**/docs/rfcs/**",
+            "--glob", "!**/rfcs/**"
         )
         $args += @($pattern.regex, $repoPath)
 
