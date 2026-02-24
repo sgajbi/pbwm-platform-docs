@@ -32,6 +32,18 @@ Continuous agent loop:
 powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 ```
 
+One-shot PR health (with failing check detection):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/PR-Monitor.ps1 -IncludeChecks
+```
+
+PR monitor with custom search filter:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/PR-Monitor.ps1 -PrSearch "state:open label:ready-for-review" -IncludeChecks
+```
+
 One iteration only:
 
 ```powershell
