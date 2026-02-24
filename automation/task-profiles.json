@@ -107,6 +107,13 @@
       "tasks": [
         { "id": "validate-openapi-conformance", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-OpenAPI-Conformance.ps1" }
       ]
+    },
+    {
+      "name": "domain-vocabulary-conformance",
+      "description": "Validate backend repositories against domain vocabulary prohibited terms baseline",
+      "tasks": [
+        { "id": "validate-domain-vocabulary", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1" }
+      ]
     }
   ]
 }

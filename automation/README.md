@@ -18,6 +18,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Measure-Test-Pyramid.ps1`
 - `automation/Validate-Backend-Standards.ps1`
 - `automation/Validate-OpenAPI-Conformance.ps1`
+- `automation/Validate-Domain-Vocabulary.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -36,7 +37,7 @@ Continuous agent loop:
 powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 ```
 
-`Run-Agent.ps1` now executes four checks per iteration: repo sync, PR monitor, backend standards conformance validation, and OpenAPI conformance validation.
+`Run-Agent.ps1` now executes five checks per iteration: repo sync, PR monitor, backend standards conformance validation, OpenAPI conformance validation, and domain vocabulary conformance validation.
 
 One-shot PR health (with failing check detection):
 
@@ -138,6 +139,12 @@ Validate OpenAPI contract quality conformance across backend repositories:
 powershell -ExecutionPolicy Bypass -File automation/Validate-OpenAPI-Conformance.ps1
 ```
 
+Validate domain vocabulary conformance across backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1
+```
+
 Generate test-pyramid and coverage baseline across backend services:
 
 ```powershell
@@ -155,6 +162,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `coverage-pyramid-baseline`
 - `backend-standards-conformance`
 - `openapi-conformance-baseline`
+- `domain-vocabulary-conformance`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -192,6 +200,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/backend-standards-conformance.md`
 - `output/openapi-conformance-summary.json`
 - `output/openapi-conformance-summary.md`
+- `output/domain-vocabulary-conformance.json`
+- `output/domain-vocabulary-conformance.md`
 
 ## Governance
 

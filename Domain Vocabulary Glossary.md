@@ -75,3 +75,5 @@ All repositories must align request/response models, service names, logs, and do
    - OpenAPI docs
    - integration tests
    - this glossary
+3. Run vocabulary baseline validation after glossary or contract changes:
+   - `powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1`
