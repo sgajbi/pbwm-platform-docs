@@ -32,6 +32,11 @@ Reference baseline:
 - UI consumes a unified BFF contract, not raw service contracts.
 - Cloud and on-prem deployment parity is required for productization.
 
+## Central Standards
+
+- `Domain Vocabulary Glossary.md`
+- `Migration Engineering Quality Standard.md`
+
 ## Execution RFC Set (Implementation Start)
 
 - `RFC-0012-refined-long-term-platform-vision.md`
@@ -73,6 +78,8 @@ Reference baseline:
 - `RFC-0047-domain-driven-product-experience-portfolio-advisory-dpm-lifecycles.md`
 - `RFC-0048-shared-automation-and-agent-toolkit.md`
 - `RFC-0049A-portfolio-360-and-live-proposal-sandbox.md`
+- `RFC-0050-core-data-analytics-and-reporting-service-boundaries.md`
+- `RFC-0051-cross-platform-vocabulary-normalization.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`

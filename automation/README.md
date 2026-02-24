@@ -107,9 +107,24 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `ci-parity`
 - `docker-ci-parity`
 - `pas-data-smoke`
+- `migration-quality`
 
 Note: profiles are Windows-native and do not require `make`.
 For PAS, `bootstrap-env` intentionally installs a minimal local dependency set for query-service unit checks instead of full multi-service editable bootstrap.
+
+## Migration Quality Standard
+
+For migration work, run strict async checks in background:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Start-Background-Run.ps1 -Profile migration-quality -MaxParallel 3
+```
+
+Then monitor:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -Watch -IntervalSeconds 20
+```
 
 ## Output Artifacts
 
