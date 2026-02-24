@@ -16,6 +16,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Bootstrap-Repo-Env.ps1`
 - `automation/Validate-Platform-Contract.ps1`
 - `automation/Measure-Test-Pyramid.ps1`
+- `automation/Validate-Backend-Standards.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -122,6 +123,12 @@ Validate cross-cutting platform contract compliance:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Platform-Contract.ps1
 ```
 
+Validate backend standards conformance across all backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1
+```
+
 Generate test-pyramid and coverage baseline across backend services:
 
 ```powershell
@@ -137,6 +144,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `pas-data-smoke`
 - `migration-quality`
 - `coverage-pyramid-baseline`
+- `backend-standards-conformance`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -170,6 +178,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/background-runs.json`
 - `output/test-coverage-summary.json`
 - `output/test-coverage-summary.md`
+- `output/backend-standards-conformance.json`
+- `output/backend-standards-conformance.md`
 
 ## Governance
 
