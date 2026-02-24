@@ -6,6 +6,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $false
 
 if (-not (Test-Path $ConfigPath)) {
   throw "Config file not found: $ConfigPath"
