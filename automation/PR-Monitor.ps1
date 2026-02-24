@@ -1,6 +1,7 @@
 param(
   [string]$ConfigPath = "automation/repos.json",
   [string]$OutputPath = "output/pr-monitor.json",
+  [string]$SummaryPath = "output/pr-monitor.md",
   [string]$PrSearch = "state:open",
   [switch]$IncludeChecks
 )
@@ -51,16 +52,52 @@ if ($dir -and -not (Test-Path $dir)) {
 $allResults | ConvertTo-Json -Depth 8 | Set-Content $OutputPath
 Write-Host "Wrote PR monitor output: $OutputPath"
 
+$summaryLines = @()
+$summaryLines += "# PR Monitor Summary"
+$summaryLines += ""
+$summaryLines += "Generated: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
+$summaryLines += ""
+
 foreach ($entry in $allResults) {
+  $summaryLines += "## $($entry.repo)"
+  if (-not $entry.pulls -or $entry.pulls.Count -eq 0) {
+    $summaryLines += "- No open PRs."
+    $summaryLines += ""
+    continue
+  }
+
   foreach ($pr in $entry.pulls) {
     if ($IncludeChecks) {
       $failingChecks = 0
+      $failingCheckNames = @()
       if ($pr.PSObject.Properties.Name -contains "checks") {
-        $failingChecks = @($pr.checks | Where-Object { $_.state -eq "FAILURE" -or $_.state -eq "ERROR" }).Count
+        $failed = @($pr.checks | Where-Object { $_.state -eq "FAILURE" -or $_.state -eq "ERROR" })
+        $failingChecks = $failed.Count
+        $failingCheckNames = @($failed | ForEach-Object { $_.name })
       }
       Write-Host ("[{0}] #{1} {2} | {3} | failing_checks={4} | {5}" -f $entry.repo, $pr.number, $pr.title, $pr.mergeStateStatus, $failingChecks, $pr.url)
+      if ($failingChecks -gt 0) {
+        $summaryLines += "- #$($pr.number) $($pr.title) | $($pr.mergeStateStatus) | failing_checks=$failingChecks"
+        foreach ($checkName in $failingCheckNames) {
+          $summaryLines += "  - failing: $checkName"
+        }
+        $summaryLines += "  - $($pr.url)"
+      } else {
+        $summaryLines += "- #$($pr.number) $($pr.title) | $($pr.mergeStateStatus) | failing_checks=0"
+        $summaryLines += "  - $($pr.url)"
+      }
     } else {
       Write-Host ("[{0}] #{1} {2} | {3} | {4}" -f $entry.repo, $pr.number, $pr.title, $pr.mergeStateStatus, $pr.url)
+      $summaryLines += "- #$($pr.number) $($pr.title) | $($pr.mergeStateStatus)"
+      $summaryLines += "  - $($pr.url)"
     }
   }
+  $summaryLines += ""
 }
+
+$summaryDir = Split-Path -Parent $SummaryPath
+if ($summaryDir -and -not (Test-Path $summaryDir)) {
+  New-Item -ItemType Directory -Force $summaryDir | Out-Null
+}
+$summaryLines | Set-Content $SummaryPath
+Write-Host "Wrote PR monitor summary: $SummaryPath"

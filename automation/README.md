@@ -144,6 +144,7 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 ## Output Artifacts
 
 - `output/pr-monitor.json`
+- `output/pr-monitor.md`
 - `output/agent-status.md`
 - `output/task-runs/*.json`
 - `output/task-runs/*.md`
