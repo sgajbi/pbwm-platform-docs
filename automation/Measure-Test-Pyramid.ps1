@@ -51,9 +51,10 @@ function Get-CoveragePercent {
         "Total coverage:\s+(\d+(?:\.\d+)?)%"
     )
     foreach ($pattern in $regexes) {
-        $match = [regex]::Match($joined, $pattern)
-        if ($match.Success) {
-            return [int][math]::Floor([double]$match.Groups[1].Value)
+        $matches = [regex]::Matches($joined, $pattern)
+        if ($matches.Count -gt 0) {
+            $last = $matches[$matches.Count - 1]
+            return [int][math]::Floor([double]$last.Groups[1].Value)
         }
     }
     return $null
