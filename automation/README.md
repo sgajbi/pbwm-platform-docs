@@ -35,6 +35,8 @@ Continuous agent loop:
 powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 ```
 
+`Run-Agent.ps1` now executes three checks per iteration: repo sync, PR monitor, and backend standards conformance validation.
+
 One-shot PR health (with failing check detection):
 
 ```powershell

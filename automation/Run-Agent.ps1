@@ -29,6 +29,11 @@ while ($true) {
   } catch {
     $prOutput = "pr_monitor_failed: $($_.ToString())"
   }
+  try {
+    $conformanceOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-Backend-Standards.ps1" 2>&1 | Out-String
+  } catch {
+    $conformanceOutput = "backend_standards_failed: $($_.ToString())"
+  }
 
   $lines = @()
   $lines += "# Platform Agent Status"
@@ -43,6 +48,11 @@ while ($true) {
   $lines += "## Open PRs (author:@me)"
   $lines += '```text'
   $lines += $prOutput.TrimEnd()
+  $lines += '```'
+  $lines += ""
+  $lines += "## Backend Standards Conformance"
+  $lines += '```text'
+  $lines += $conformanceOutput.TrimEnd()
   $lines += '```'
 
   Write-Status -Path $OutputPath -Lines $lines
