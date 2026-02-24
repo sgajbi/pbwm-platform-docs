@@ -1,0 +1,317 @@
+name: pbwm-platform
+
+x-default-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_4LW_COMMANDS_WHITELIST: "ruok,stat,mntr,conf"
+      KAFKA_OPTS: "-Dzookeeper.4lw.commands.whitelist=ruok,stat,mntr,conf"
+    healthcheck:
+      test: ["CMD", "bash", "-c", "echo ruok | nc localhost 2181 | grep imok"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+      start_period: 15s
+    logging: *default-logging
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    depends_on:
+      zookeeper:
+        condition: service_healthy
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093,PLAINTEXT_HOST://localhost:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE: "false"
+    healthcheck:
+      test: ["CMD-SHELL", "kafka-topics --bootstrap-server kafka:9093 --list || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+    logging: *default-logging
+
+  pas-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${PAS_POSTGRES_DB:-portfolio_db}
+      POSTGRES_USER: ${PAS_POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${PAS_POSTGRES_PASSWORD:-password}
+    volumes:
+      - pas-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 10s
+    logging: *default-logging
+
+  dpm-postgres:
+    image: postgres:17.6
+    environment:
+      POSTGRES_DB: dpm_supportability
+      POSTGRES_USER: dpm
+      POSTGRES_PASSWORD: dpm
+    volumes:
+      - dpm-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dpm -d dpm_supportability"]
+      interval: 10s
+      timeout: 5s
+      retries: 8
+      start_period: 10s
+    logging: *default-logging
+
+  pas-kafka-topic-creator:
+    build:
+      context: ${PAS_REPO_PATH}
+      dockerfile: ./src/services/persistence_service/Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+    command: ["python", "-m", "tools.kafka_setup"]
+    restart: "no"
+    logging: *default-logging
+
+  pas-migration-runner:
+    build:
+      context: ${PAS_REPO_PATH}
+      dockerfile: ./src/services/persistence_service/Dockerfile
+    depends_on:
+      pas-postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${PAS_POSTGRES_USER:-user}:${PAS_POSTGRES_PASSWORD:-password}@pas-postgres:5432/${PAS_POSTGRES_DB:-portfolio_db}
+    command: ["alembic", "upgrade", "head"]
+    restart: "no"
+    logging: *default-logging
+
+  pas-query:
+    build:
+      context: ${PAS_REPO_PATH}
+      dockerfile: ./src/services/query_service/Dockerfile
+    depends_on:
+      pas-migration-runner:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://${PAS_POSTGRES_USER:-user}:${PAS_POSTGRES_PASSWORD:-password}@pas-postgres:5432/${PAS_POSTGRES_DB:-portfolio_db}
+      OTEL_SERVICE_NAME: pas-query
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${PAS_QUERY_PORT:-8201}:8001"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+    logging: *default-logging
+
+  pas-ingestion:
+    build:
+      context: ${PAS_REPO_PATH}
+      dockerfile: ./src/services/ingestion_service/Dockerfile
+    depends_on:
+      kafka:
+        condition: service_healthy
+      pas-kafka-topic-creator:
+        condition: service_completed_successfully
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9093
+      OTEL_SERVICE_NAME: pas-ingestion
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${PAS_INGESTION_PORT:-8200}:8000"
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 25s
+    logging: *default-logging
+
+  dpm:
+    build:
+      context: ${DPM_REPO_PATH}
+      dockerfile: Dockerfile
+    depends_on:
+      dpm-postgres:
+        condition: service_healthy
+    environment:
+      ENVIRONMENT: production
+      APP_PERSISTENCE_PROFILE: PRODUCTION
+      DPM_SUPPORTABILITY_STORE_BACKEND: POSTGRES
+      DPM_SUPPORTABILITY_POSTGRES_DSN: postgresql://dpm:dpm@dpm-postgres:5432/dpm_supportability
+      PROPOSAL_STORE_BACKEND: POSTGRES
+      PROPOSAL_POSTGRES_DSN: postgresql://dpm:dpm@dpm-postgres:5432/dpm_supportability
+      DPM_POLICY_PACK_CATALOG_BACKEND: POSTGRES
+      DPM_POLICY_PACK_POSTGRES_DSN: postgresql://dpm:dpm@dpm-postgres:5432/dpm_supportability
+      OTEL_SERVICE_NAME: dpm-rebalance-engine
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${DPM_PORT:-8000}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+    logging: *default-logging
+
+  pa:
+    build:
+      context: ${PA_REPO_PATH}
+      dockerfile: Dockerfile
+    environment:
+      OTEL_SERVICE_NAME: performance-analytics
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${PA_PORT:-8002}:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 25s
+    logging: *default-logging
+
+  ras:
+    build:
+      context: ${RAS_REPO_PATH}
+      dockerfile: Dockerfile
+    depends_on:
+      pas-query:
+        condition: service_healthy
+      pa:
+        condition: service_healthy
+    environment:
+      PAS_BASE_URL: http://pas-query:8001
+      PA_BASE_URL: http://pa:8000
+      CONTRACT_VERSION: v1
+      OTEL_SERVICE_NAME: reporting-aggregation-service
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${RAS_PORT:-8300}:8300"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8300/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+    logging: *default-logging
+
+  bff:
+    build:
+      context: ${BFF_REPO_PATH}
+      dockerfile: Dockerfile
+    depends_on:
+      dpm:
+        condition: service_healthy
+      pas-query:
+        condition: service_healthy
+      pas-ingestion:
+        condition: service_healthy
+      pa:
+        condition: service_healthy
+      ras:
+        condition: service_healthy
+    environment:
+      DECISIONING_SERVICE_BASE_URL: http://dpm:8000
+      PORTFOLIO_DATA_PLATFORM_BASE_URL: http://pas-query:8001
+      PORTFOLIO_DATA_INGESTION_BASE_URL: http://pas-ingestion:8000
+      PERFORMANCE_ANALYTICS_BASE_URL: http://pa:8000
+      REPORTING_AGGREGATION_BASE_URL: http://ras:8300
+      UPSTREAM_TIMEOUT_SECONDS: 15
+      CONTRACT_VERSION: v1
+      OTEL_SERVICE_NAME: advisor-experience-api
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+    ports:
+      - "${BFF_PORT:-8100}:8100"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8100/health/ready', timeout=5)"]
+      interval: 20s
+      timeout: 5s
+      retries: 15
+      start_period: 20s
+    logging: *default-logging
+
+  ui:
+    build:
+      context: ${UI_REPO_PATH}
+      dockerfile: Dockerfile
+    depends_on:
+      bff:
+        condition: service_healthy
+    environment:
+      BFF_BASE_URL: http://bff:8100
+    ports:
+      - "${UI_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:3000"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    logging: *default-logging
+
+  prometheus:
+    image: prom/prometheus:v2.47.2
+    depends_on:
+      bff:
+        condition: service_healthy
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    command: ["--config.file=/etc/prometheus/prometheus.yml"]
+    ports:
+      - "${PROMETHEUS_PORT:-9190}:9090"
+    logging: *default-logging
+
+  grafana:
+    image: grafana/grafana:10.1.5
+    depends_on:
+      prometheus:
+        condition: service_started
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    ports:
+      - "${GRAFANA_PORT:-3300}:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning:ro
+    logging: *default-logging
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.111.0
+    command: ["--config=/etc/otelcol/config.yaml"]
+    volumes:
+      - ./otel-collector/config.yaml:/etc/otelcol/config.yaml:ro
+    ports:
+      - "${OTEL_GRPC_PORT:-4317}:4317"
+      - "${OTEL_HTTP_PORT:-4318}:4318"
+    logging: *default-logging
+
+volumes:
+  pas-postgres-data:
+  dpm-postgres-data:
+  grafana-data:

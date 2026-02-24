@@ -16,6 +16,31 @@ Expected:
 - Docker Engine must be running.
 - Use Git Bash (commands below are Bash format).
 
+## 1.1 Centralized Full-Platform Compose (Recommended)
+
+Canonical centralized orchestration now lives in:
+- `pbwm-platform-docs/platform-stack/docker-compose.yml`
+
+Run end-to-end stack (PAS, PA, DPM, RAS, BFF, UI + observability):
+
+```powershell
+cd C:\Users\Sandeep\projects\pbwm-platform-docs\platform-stack
+Copy-Item .env.example .env
+docker compose up -d --build
+docker compose ps
+```
+
+Key endpoints:
+- UI: `http://localhost:3000`
+- BFF: `http://localhost:8100`
+- PAS Ingestion: `http://localhost:8200`
+- PAS Query: `http://localhost:8201`
+- DPM: `http://localhost:8000`
+- PA: `http://localhost:8002`
+- RAS: `http://localhost:8300`
+- Prometheus: `http://localhost:9190`
+- Grafana: `http://localhost:3300`
+
 ## 2. Ports and Dependencies
 
 - DPM API: `http://localhost:8000`
@@ -239,7 +264,7 @@ Use container logs first for debugging:
 docker logs --tail=200 <container_name>
 ```
 
-## 11. Live PAS + PA + DPM -> BFF Capabilities E2E (Docker)
+## 11. Live PAS + PA + DPM + RAS -> BFF Capabilities E2E (Docker)
 
 This path validates `advisor-experience-api` aggregation endpoint against live upstream containers:
 - PAS query service
@@ -287,6 +312,7 @@ Response should include:
 - `data.sources.pas`
 - `data.sources.pa`
 - `data.sources.dpm`
+- `data.sources.ras`
 
 ### 11.5 Teardown
 
