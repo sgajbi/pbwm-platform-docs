@@ -8,7 +8,7 @@
         { "id": "bootstrap-aea", "repo": "advisor-experience-api", "command": "python -m pip install -e \".[dev]\"" },
         { "id": "bootstrap-dpm", "repo": "dpm-rebalance-engine", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
         { "id": "bootstrap-pa", "repo": "performanceAnalytics", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
-        { "id": "bootstrap-pas", "repo": "portfolio-analytics-system", "command": "python scripts/bootstrap_dev.py" }
+        { "id": "bootstrap-pas", "repo": "portfolio-analytics-system", "command": "python -m pip install asyncpg==0.30.0 SQLAlchemy==2.0.46 pydantic==2.12.5 python-dotenv==1.0.1 python-json-logger==2.0.7 prometheus-client==0.20.0 tenacity==8.2.3" }
       ]
     },
     {
@@ -43,6 +43,17 @@
         { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=95 && python -m mypy --config-file mypy.ini" },
         { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python scripts/coverage_gate.py" },
         { "id": "awb-test", "repo": "advisor-workbench", "command": "npm run test" }
+      ]
+    },
+    {
+      "name": "docker-ci-parity",
+      "description": "Run CI parity checks inside Dockerized workflows to avoid host env drift",
+      "tasks": [
+        { "id": "aea-ci-docker", "repo": "advisor-experience-api", "command": "make ci-local-docker && make ci-local-docker-down" },
+        { "id": "dpm-ci-docker", "repo": "dpm-rebalance-engine", "command": "make ci-local-docker && make ci-local-docker-down" },
+        { "id": "pa-ci-docker", "repo": "performanceAnalytics", "command": "make ci-local-docker && make ci-local-docker-down" },
+        { "id": "pas-docker-build", "repo": "portfolio-analytics-system", "command": "make docker-build" },
+        { "id": "awb-docker-build", "repo": "advisor-workbench", "command": "docker compose build advisor-workbench" }
       ]
     },
     {
