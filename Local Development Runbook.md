@@ -1,6 +1,6 @@
 # Local Development Runbook (Docker, Bash)
 
-- Last updated: 2026-02-23
+- Last updated: 2026-02-24
 - Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` standalone when needed, and keep standardized local gates for `performanceAnalytics`
 - Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
@@ -21,6 +21,7 @@ Expected:
 - DPM API: `http://localhost:8000`
 - PAS Ingestion API: `http://localhost:8200`
 - PAS Query API: `http://localhost:8201`
+- PA API: `http://localhost:8002`
 - Postgres (for DPM): `localhost:5432`
 - BFF API: `http://localhost:8100`
 - UI: `http://localhost:3000`
@@ -94,7 +95,8 @@ Manual UI checks:
 - `http://localhost:3000/pa/analytics`
 - `http://localhost:3000/proposals/simulate`
 - `http://localhost:3000/proposals`
-- `http://localhost:3000/proposals/PP-7721` (verify version + lineage sections render)
+- `http://localhost:3000/workbench` (verify route resolves to a live portfolio workbench when lookup data exists)
+- open any proposal from `http://localhost:3000/proposals` and verify detail view renders version + lineage sections
 
 ## 6. Logs and Debugging
 
@@ -142,6 +144,8 @@ cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
   - Stop conflicting process/container and rerun `docker compose up -d --build`.
+- PA conflict with DPM on `8000`
+  - PA Docker compose now defaults to host port `8002` (`PA_HOST_PORT` override supported).
 
 ## 9. CI Parity Note
 
@@ -285,7 +289,7 @@ make ci-local-docker-down
 
 ```bash
 make docker-up
-curl -sSf http://127.0.0.1:8000/docs >/dev/null && echo "performance analytics ok"
+curl -sSf http://127.0.0.1:8002/docs >/dev/null && echo "performance analytics ok"
 make docker-down
 ```
 
