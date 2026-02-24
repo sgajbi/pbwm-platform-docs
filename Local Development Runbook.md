@@ -441,6 +441,9 @@ powershell -ExecutionPolicy Bypass -File automation\Summarize-Task-Failures.ps1 
 
 # OpenAPI contract quality conformance baseline
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile openapi-conformance-baseline -MaxParallel 1
+
+# Domain vocabulary conformance baseline
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile domain-vocabulary-conformance -MaxParallel 1
 ```
 
 Profiles are defined in `automation/task-profiles.json` and currently include:
@@ -452,6 +455,7 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `coverage-pyramid-baseline`
 - `backend-standards-conformance`
 - `openapi-conformance-baseline`
+- `domain-vocabulary-conformance`
 
 Artifacts:
 - `output/task-runs/*.json`

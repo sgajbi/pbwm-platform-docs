@@ -39,6 +39,11 @@ while ($true) {
   } catch {
     $openApiConformanceOutput = "openapi_conformance_failed: $($_.ToString())"
   }
+  try {
+    $domainVocabularyOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-Domain-Vocabulary.ps1" 2>&1 | Out-String
+  } catch {
+    $domainVocabularyOutput = "domain_vocabulary_failed: $($_.ToString())"
+  }
 
   $lines = @()
   $lines += "# Platform Agent Status"
@@ -63,6 +68,11 @@ while ($true) {
   $lines += "## OpenAPI Conformance"
   $lines += '```text'
   $lines += $openApiConformanceOutput.TrimEnd()
+  $lines += '```'
+  $lines += ""
+  $lines += "## Domain Vocabulary Conformance"
+  $lines += '```text'
+  $lines += $domainVocabularyOutput.TrimEnd()
   $lines += '```'
 
   Write-Status -Path $OutputPath -Lines $lines
