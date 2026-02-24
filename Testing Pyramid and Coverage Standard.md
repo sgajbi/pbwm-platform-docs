@@ -58,6 +58,10 @@ Outputs:
 - `output/test-coverage-summary.md`
 - `output/test-coverage-summary.json`
 
+Interpretation note:
+
+- `Collect Errors` in the summary indicates bucket-level pytest collection failures. Counts are still extracted from pytest "collected N items" output, but non-zero `Collect Errors` means the bucket needs remediation before coverage posture can be considered reliable.
+
 ## 6. Governance
 
 - Any gate change requires RFC in owning repo or PPD if cross-cutting.
