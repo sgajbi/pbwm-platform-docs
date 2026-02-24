@@ -1,7 +1,7 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-24
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` standalone when needed, and keep standardized local gates for `performanceAnalytics`
+- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` and `reporting-aggregation-service` standalone when needed, and keep standardized local gates for `performanceAnalytics`
 - Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
 ## 1. Prerequisites
@@ -22,6 +22,7 @@ Expected:
 - PAS Ingestion API: `http://localhost:8200`
 - PAS Query API: `http://localhost:8201`
 - PA API: `http://localhost:8002`
+- RAS API: `http://localhost:8300`
 - Postgres (for DPM): `localhost:5432`
 - BFF API: `http://localhost:8100`
 - UI: `http://localhost:3000`
@@ -31,6 +32,7 @@ Dependency chain:
 - BFF -> DPM
 - BFF -> PAS Ingestion (for portfolio creation)
 - BFF -> PAS Query (for governed selectors)
+- BFF/UI -> RAS (reporting and aggregation views)
 - DPM -> Postgres (via its compose file)
 
 ## 3. One-Time Pull
@@ -194,6 +196,7 @@ docker compose logs --tail=200 demo_data_loader
 curl -sSf http://127.0.0.1:8200/health/ready >/dev/null && echo "pas-ingestion ok"
 curl -sSf http://127.0.0.1:8201/health/ready >/dev/null && echo "pas-query ok"
 curl -sSf http://127.0.0.1:8201/docs >/dev/null && echo "pas-swagger ok"
+curl -sSf http://127.0.0.1:8300/health >/dev/null && echo "ras ok"
 ```
 
 Support/lineage API smoke:
@@ -225,6 +228,9 @@ docker compose up -d --build demo_data_loader
 # BFF/UI targeted refresh examples
 cd /c/Users/sande/dev/advisor-experience-api && docker compose up -d --build advisor-experience-api
 cd /c/Users/sande/dev/advisor-workbench && docker compose up -d --build advisor-workbench
+
+# RAS targeted refresh example
+cd /c/Users/sande/dev/reporting-aggregation-service && docker compose up -d --build
 ```
 
 Use container logs first for debugging:
