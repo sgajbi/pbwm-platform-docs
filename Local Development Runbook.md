@@ -180,6 +180,14 @@ docker compose up -d --build
 docker compose ps
 ```
 
+PAS startup now includes automated demo dataset bootstrap (`demo_data_loader`).
+Validate bootstrap completion:
+
+```bash
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose logs --tail=200 demo_data_loader
+```
+
 ### 10.3 Health + API Smoke
 
 ```bash
@@ -200,6 +208,29 @@ curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 ```bash
 cd /c/Users/sande/dev/portfolio-analytics-system
 docker compose down
+```
+
+### 10.5 Targeted Refresh Standard (Fast Feedback)
+
+Do not restart the full platform by default. Rebuild only changed services:
+
+```bash
+# PAS: refresh only ingestion service after ingestion changes
+cd /c/Users/sande/dev/portfolio-analytics-system
+docker compose up -d --build ingestion_service
+
+# PAS: refresh only demo loader after demo pack script changes
+docker compose up -d --build demo_data_loader
+
+# BFF/UI targeted refresh examples
+cd /c/Users/sande/dev/advisor-experience-api && docker compose up -d --build advisor-experience-api
+cd /c/Users/sande/dev/advisor-workbench && docker compose up -d --build advisor-workbench
+```
+
+Use container logs first for debugging:
+
+```bash
+docker logs --tail=200 <container_name>
 ```
 
 ## 11. Live PAS + PA + DPM -> BFF Capabilities E2E (Docker)
