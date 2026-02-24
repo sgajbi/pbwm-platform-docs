@@ -12,29 +12,58 @@ if (-not (Test-Path $ConfigPath)) {
   throw "Config file not found: $ConfigPath"
 }
 
+function Invoke-GhJson {
+  param([string[]]$Args)
+  $raw = & gh @Args 2>$null
+  if ($LASTEXITCODE -ne 0) {
+    return ""
+  }
+  return ($raw | Out-String)
+}
+
 $repos = Get-Content $ConfigPath | ConvertFrom-Json
 $allResults = @()
 
 foreach ($repo in $repos) {
   $ghRepo = $repo.github
-  $itemsRaw = gh pr list --repo $ghRepo --search $PrSearch --json number,title,headRefName,baseRefName,mergeStateStatus,isDraft,url,updatedAt 2>$null
+  $itemsRaw = Invoke-GhJson -Args @(
+    "pr", "list", "--repo", $ghRepo, "--state", "open",
+    "--json", "number,title,headRefName,baseRefName,mergeStateStatus,isDraft,url,updatedAt"
+  )
 
   if ([string]::IsNullOrWhiteSpace($itemsRaw)) {
     $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = @() }
     continue
   }
 
-  $items = $itemsRaw | ConvertFrom-Json
+  try {
+    $items = $itemsRaw | ConvertFrom-Json
+  } catch {
+    $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = @() }
+    continue
+  }
 
   if ($IncludeChecks) {
     foreach ($pr in $items) {
-      $checksRaw = gh pr checks --repo $ghRepo $pr.number --json name,state,link 2>$null
+      $checksRaw = & gh pr checks --repo $ghRepo $pr.number 2>$null | Out-String
       if ([string]::IsNullOrWhiteSpace($checksRaw)) {
         $pr | Add-Member -NotePropertyName "checks" -NotePropertyValue @()
         $pr | Add-Member -NotePropertyName "hasFailingChecks" -NotePropertyValue $false
         continue
       }
-      $checks = $checksRaw | ConvertFrom-Json
+      $checks = @()
+      $checkLines = @($checksRaw -split "`r?`n" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+      foreach ($line in $checkLines) {
+        $parts = $line -split "`t"
+        if ($parts.Count -lt 2) {
+          continue
+        }
+        $checks += [pscustomobject]@{
+          name = $parts[0].Trim()
+          state = $parts[1].Trim().ToUpperInvariant()
+          link = if ($parts.Count -ge 4) { $parts[3].Trim() } else { "" }
+        }
+      }
       $pr | Add-Member -NotePropertyName "checks" -NotePropertyValue $checks
       $hasFailures = @($checks | Where-Object { $_.state -eq "FAILURE" -or $_.state -eq "ERROR" }).Count -gt 0
       $pr | Add-Member -NotePropertyName "hasFailingChecks" -NotePropertyValue $hasFailures
