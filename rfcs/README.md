@@ -80,6 +80,7 @@ Reference baseline:
 - `RFC-0049A-portfolio-360-and-live-proposal-sandbox.md`
 - `RFC-0050-core-data-analytics-and-reporting-service-boundaries.md`
 - `RFC-0051-cross-platform-vocabulary-normalization.md`
+- `RFC-0052-reporting-and-aggregation-service-v1-bootstrap.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
