@@ -396,6 +396,8 @@ powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1 -Once
 Output artifacts:
 - `output/pr-monitor.json`
 - `output/agent-status.md`
+- `output/backend-standards-conformance.json`
+- `output/backend-standards-conformance.md`
 
 ### 14.3 Targeted Service Refresh (No Full Stack Restart)
 
@@ -436,6 +438,9 @@ powershell -ExecutionPolicy Bypass -File automation\Check-Background-Runs.ps1 -W
 
 # summarize only actionable failures from latest runs
 powershell -ExecutionPolicy Bypass -File automation\Summarize-Task-Failures.ps1 -Latest 3
+
+# OpenAPI contract quality conformance baseline
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile openapi-conformance-baseline -MaxParallel 1
 ```
 
 Profiles are defined in `automation/task-profiles.json` and currently include:
@@ -444,6 +449,9 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `docker-build`
 - `ci-parity`
 - `pas-data-smoke`
+- `coverage-pyramid-baseline`
+- `backend-standards-conformance`
+- `openapi-conformance-baseline`
 
 Artifacts:
 - `output/task-runs/*.json`

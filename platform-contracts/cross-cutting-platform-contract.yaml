@@ -12,6 +12,15 @@ principles:
   - no_shared_database_between_services
   - domain_owned_service_boundaries
   - documentation_and_code_in_same_change_cycle
+api_contract:
+  openapi:
+    docs_endpoint: /docs
+    schema_endpoint: /openapi.json
+    required_controls:
+      - make_openapi_gate_target
+      - ci_openapi_gate_execution
+      - contract_tests_or_quality_gate
+      - endpoint_descriptions_and_examples_for_public_contracts
 observability:
   correlation:
     canonical_header: X-Correlation-Id
