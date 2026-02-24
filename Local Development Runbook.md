@@ -372,3 +372,50 @@ Example for PAS:
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
 ```
+
+Changed-files based (recommended):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -ChangedOnly -BaseRef origin/main
+```
+
+### 14.4 Offload Parallel Work Outside Chat
+
+Use these profiles to run repeatable, long-running tasks without consuming chat context:
+
+```powershell
+# fast development quality checks in parallel
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile fast-feedback -MaxParallel 3
+
+# one-time dependency bootstrap (run before fast-feedback on new machine)
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile bootstrap-env -MaxParallel 2
+
+# CI parity checks in parallel
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile ci-parity -MaxParallel 2
+
+# detached/background execution
+powershell -ExecutionPolicy Bypass -File automation\Start-Background-Run.ps1 -Profile docker-build -MaxParallel 2
+
+# check background status on demand
+powershell -ExecutionPolicy Bypass -File automation\Check-Background-Runs.ps1
+
+# live watch background status
+powershell -ExecutionPolicy Bypass -File automation\Check-Background-Runs.ps1 -Watch -IntervalSeconds 20
+
+# summarize only actionable failures from latest runs
+powershell -ExecutionPolicy Bypass -File automation\Summarize-Task-Failures.ps1 -Latest 3
+```
+
+Profiles are defined in `automation/task-profiles.json` and currently include:
+- `bootstrap-env`
+- `fast-feedback`
+- `docker-build`
+- `ci-parity`
+- `pas-data-smoke`
+
+Artifacts:
+- `output/task-runs/*.json`
+- `output/task-runs/*.md`
+- `output/task-runs/*.out.log`
+- `output/task-runs/*.err.log`
+- `output/background-runs.json`

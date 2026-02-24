@@ -1,0 +1,60 @@
+{
+  "profiles": [
+    {
+      "name": "bootstrap-env",
+      "description": "Install local dependencies across repositories before parallel checks",
+      "tasks": [
+        { "id": "bootstrap-awb", "repo": "advisor-workbench", "command": "npm ci" },
+        { "id": "bootstrap-aea", "repo": "advisor-experience-api", "command": "python -m pip install -e \".[dev]\"" },
+        { "id": "bootstrap-dpm", "repo": "dpm-rebalance-engine", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
+        { "id": "bootstrap-pa", "repo": "performanceAnalytics", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
+        { "id": "bootstrap-pas", "repo": "portfolio-analytics-system", "command": "python scripts/bootstrap_dev.py" }
+      ]
+    },
+    {
+      "name": "fast-feedback",
+      "description": "Fast parallel quality checks for active development loops",
+      "tasks": [
+        { "id": "awb-lint", "repo": "advisor-workbench", "command": "npm run lint" },
+        { "id": "awb-typecheck", "repo": "advisor-workbench", "command": "npm run typecheck" },
+        { "id": "aea-check", "repo": "advisor-experience-api", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract" },
+        { "id": "dpm-check", "repo": "dpm-rebalance-engine", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit" },
+        { "id": "pa-check", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit" },
+        { "id": "pas-check", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python -m pytest tests/unit/services/query_service -q" }
+      ]
+    },
+    {
+      "name": "docker-build",
+      "description": "Parallel docker image builds and service startup checks",
+      "tasks": [
+        { "id": "awb-docker-up", "repo": "advisor-workbench", "command": "docker compose up -d --build advisor-workbench" },
+        { "id": "aea-docker-up", "repo": "advisor-experience-api", "command": "docker compose up -d --build advisor-experience-api" },
+        { "id": "dpm-docker-up", "repo": "dpm-rebalance-engine", "command": "docker compose up -d --build dpm-rebalance-engine" },
+        { "id": "pa-docker-up", "repo": "performanceAnalytics", "command": "docker compose up -d --build performance-analytics" },
+        { "id": "pas-docker-up", "repo": "portfolio-analytics-system", "command": "docker compose up -d --build query_service ingestion_service demo_data_loader" }
+      ]
+    },
+    {
+      "name": "ci-parity",
+      "description": "Run CI parity targets locally in parallel",
+      "tasks": [
+        { "id": "aea-ci-local", "repo": "advisor-experience-api", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract && python -m pytest tests/integration" },
+        { "id": "dpm-ci-local", "repo": "dpm-rebalance-engine", "command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini" },
+        { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=95 && python -m mypy --config-file mypy.ini" },
+        { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python scripts/coverage_gate.py" },
+        { "id": "awb-test", "repo": "advisor-workbench", "command": "npm run test" }
+      ]
+    },
+    {
+      "name": "pas-data-smoke",
+      "description": "PAS data pipeline and UI-facing smoke checks",
+      "tasks": [
+        { "id": "pas-demo-loader", "repo": "portfolio-analytics-system", "command": "docker compose up -d --build demo_data_loader" },
+        { "id": "pas-query-health", "repo": "portfolio-analytics-system", "command": "curl -sSf http://127.0.0.1:8201/health/ready" },
+        { "id": "pas-ingestion-health", "repo": "portfolio-analytics-system", "command": "curl -sSf http://127.0.0.1:8200/health/ready" },
+        { "id": "bff-health", "repo": "advisor-experience-api", "command": "curl -sSf http://127.0.0.1:8100/health" },
+        { "id": "ui-health", "repo": "advisor-workbench", "command": "curl -sSf http://127.0.0.1:3000" }
+      ]
+    }
+  ]
+}
