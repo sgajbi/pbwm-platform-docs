@@ -18,6 +18,11 @@ This repository is the central documentation hub for:
 - cross-service configurability model,
 - ADR/RFC governance.
 
+PPD is also the cross-cutting platform application:
+- machine-readable cross-cutting contracts,
+- shared validation automation,
+- platform-wide runbooks and governance checks consumed by all apps.
+
 Documentation ownership model:
 
 1. Cross-cutting platform-wide decisions: maintain here.
@@ -113,3 +118,19 @@ Documentation must be kept aligned with implementation continuously:
 2. Cross-cutting changes are documented in `pbwm-platform-docs`; service-local behavior remains documented in each service repo.
 3. If docs and code diverge, release readiness is blocked until alignment is restored.
 4. API contract changes require synchronized updates to OpenAPI, integration docs, and RFC/ADR references.
+
+## 10. Centralized Runtime Standard
+
+Platform-level local orchestration must be maintained centrally in:
+
+- `platform-stack/docker-compose.yml`
+- `Local Development Runbook.md`
+- `Platform Observability Standards.md`
+- `platform-contracts/cross-cutting-platform-contract.yaml`
+- `automation/Validate-Platform-Contract.ps1`
+
+Mandatory constraints:
+
+1. Full-stack compose must start PAS, PA, DPM, RAS, BFF, and UI cohesively.
+2. Service-level compose files remain valid, but cross-platform startup behavior is governed by the centralized stack.
+3. Logging, metrics, and tracing settings in centralized stack must follow platform observability standards.

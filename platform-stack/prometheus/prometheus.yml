@@ -1,0 +1,28 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "bff"
+    static_configs:
+      - targets: ["bff:8100"]
+
+  - job_name: "pas-query"
+    static_configs:
+      - targets: ["pas-query:8001"]
+
+  - job_name: "pas-ingestion"
+    static_configs:
+      - targets: ["pas-ingestion:8000"]
+
+  - job_name: "dpm"
+    static_configs:
+      - targets: ["dpm:8000"]
+
+  - job_name: "pa"
+    static_configs:
+      - targets: ["pa:8000"]
+
+  - job_name: "ras"
+    static_configs:
+      - targets: ["ras:8300"]

@@ -1,0 +1,53 @@
+version: 1
+owner_repo: pbwm-platform-docs
+scope:
+  services:
+    - portfolio-analytics-system
+    - performanceAnalytics
+    - dpm-rebalance-engine
+    - reporting-aggregation-service
+    - advisor-experience-api
+principles:
+  - api_driven_integration_only
+  - no_shared_database_between_services
+  - domain_owned_service_boundaries
+  - documentation_and_code_in_same_change_cycle
+observability:
+  correlation:
+    canonical_header: X-Correlation-Id
+    accepted_aliases:
+      - X-Correlation-ID
+  request_id_header: X-Request-Id
+  trace:
+    required_headers:
+      - traceparent
+      - tracestate
+    fallback_trace_header: X-Trace-Id
+  health_endpoints:
+    liveness: /health/live
+    readiness: /health/ready
+    compatibility_endpoint: /health
+  metrics:
+    endpoint: /metrics
+    required_dimensions:
+      - service
+      - environment
+      - endpoint
+      - method
+      - status_code
+  logging:
+    format: structured_json
+    required_fields:
+      - timestamp
+      - level
+      - service
+      - environment
+      - correlation_id
+      - request_id
+      - trace_id
+      - message
+governance:
+  required_artifacts:
+    - rfc_for_cross_cutting_change
+    - runbook_update_for_operational_change
+    - architecture_bible_reference

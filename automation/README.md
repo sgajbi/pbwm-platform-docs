@@ -14,6 +14,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Check-Background-Runs.ps1`
 - `automation/Summarize-Task-Failures.ps1`
 - `automation/Bootstrap-Repo-Env.ps1`
+- `automation/Validate-Platform-Contract.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -112,6 +113,12 @@ Summarize recent failures only:
 powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 -Latest 3
 ```
 
+Validate cross-cutting platform contract compliance:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Platform-Contract.ps1
+```
+
 Profiles currently defined in `automation/task-profiles.json`:
 - `bootstrap-env`
 - `fast-feedback`
@@ -156,3 +163,5 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 
 This folder is the source of truth for platform-wide automation and agent workflows.
 Application repositories should reference or consume this toolkit instead of maintaining divergent copies.
+
+PPD acts as a cross-cutting platform application: standards, contracts, validation scripts, and operating conventions are maintained here and consumed by all service repositories.
