@@ -93,6 +93,13 @@
         { "id": "validate-platform-contract", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Platform-Contract.ps1" },
         { "id": "measure-test-pyramid", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -RunCoverage" }
       ]
+    },
+    {
+      "name": "backend-standards-conformance",
+      "description": "Validate backend repositories against shared foundation standards",
+      "tasks": [
+        { "id": "validate-backend-standards", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1" }
+      ]
     }
   ]
 }

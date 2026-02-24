@@ -43,9 +43,18 @@ All backend CI pipelines must enforce:
 - Auto-merge is enabled only after all required checks pass.
 - Branch protection requires all quality status checks and disallows bypass.
 
+## Automated Conformance
+
+- Run `powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1` to generate cross-repo conformance reports.
+- Artifacts are written to:
+  - `output/backend-standards-conformance.json`
+  - `output/backend-standards-conformance.md`
+- Add profile `backend-standards-conformance` to async loops for continuous drift detection.
+
 ## Related RFCs
 
 - `rfcs/RFC-0057-test-pyramid-and-meaningful-coverage-governance.md`
 - `rfcs/RFC-0058-coverage-policy-command-alignment-after-99-enforcement.md`
 - `rfcs/RFC-0059-backend-foundation-standardization-wave-1.md`
+- `rfcs/RFC-0060-phase-2-shared-standards-and-automated-conformance.md`
 

@@ -88,6 +88,7 @@ Reference baseline:
 - `RFC-0057-test-pyramid-and-meaningful-coverage-governance.md`
 - `RFC-0058-coverage-policy-command-alignment-after-99-enforcement.md`
 - `RFC-0059-backend-foundation-standardization-wave-1.md`
+- `RFC-0060-phase-2-shared-standards-and-automated-conformance.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
