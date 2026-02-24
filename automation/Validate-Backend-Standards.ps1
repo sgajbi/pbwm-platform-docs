@@ -19,8 +19,8 @@ $requiredCiPatterns = @(
     "make lint|ruff check",
     "make typecheck|mypy",
     "make security-audit|pip_audit|dependency",
-    "pytest|make test",
-    "coverage report|cov-fail-under|fail-under"
+    "pytest|make test|make check",
+    "coverage report|cov-fail-under|fail-under|make test-coverage|make coverage-gate"
 )
 
 function Get-MakeTargets {
