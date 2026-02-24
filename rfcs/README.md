@@ -84,6 +84,7 @@ Reference baseline:
 - `RFC-0053-pa-authoritative-advanced-analytics-cutover.md`
 - `RFC-0054-ras-reporting-endpoint-ownership-cutover.md`
 - `RFC-0055-api-driven-service-integration-and-dual-mode-execution.md`
+- `RFC-0056-ras-summary-review-phase2-orchestration.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
