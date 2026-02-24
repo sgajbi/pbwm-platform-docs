@@ -109,6 +109,9 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `pas-data-smoke`
 - `migration-quality`
 
+New repo included in shared automation:
+- `reporting-aggregation-service`
+
 Note: profiles are Windows-native and do not require `make`.
 For PAS, `bootstrap-env` intentionally installs a minimal local dependency set for query-service unit checks instead of full multi-service editable bootstrap.
 
