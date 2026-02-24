@@ -13,6 +13,8 @@ All repositories must align request/response models, service names, logs, and do
 - `valuation_point`: Daily valuation input row (`begin_mv`, flows, fees, `end_mv`).
 - `portfolio_timeseries`: Daily portfolio-level derived state.
 - `position_timeseries`: Daily position-level derived state.
+- `reporting_snapshot`: Report-ready aggregation output for one portfolio and one `as_of_date`.
+- `reporting_row`: Atomic reporting metric row (`bucket`, `metric`, `value`).
 
 ## Service Responsibilities
 
@@ -27,6 +29,9 @@ All repositories must align request/response models, service names, logs, and do
 - `BFF` (`advisor-experience-api`):
   - Orchestration contract for UI.
   - No domain reimplementation.
+- `RAS` (`reporting-aggregation-service`):
+  - Reporting/aggregation composition layer.
+  - Consumes PAS core data and PA analytics to emit report-ready rows.
 
 ## Contract Terms
 
@@ -38,6 +43,9 @@ All repositories must align request/response models, service names, logs, and do
   - Replaces ambiguous `pas-snapshot` analytics wording.
 - `analytics contract`:
   - Consumer-facing analytics payload owned by PA.
+- `reporting snapshot contract`:
+  - Report-ready row set returned by RAS for one portfolio/date.
+  - BFF/UI consume this for reporting tables and downstream report generation.
 
 ## Naming Rules
 
@@ -46,6 +54,7 @@ All repositories must align request/response models, service names, logs, and do
 3. Use `as_of_date` consistently for business-date anchors.
 4. Use `consumer_system` for calling system identity.
 5. Avoid overloaded terms (`snapshot` for analytics execution mode is prohibited).
+6. When term is reporting-specific, prefix with `reporting_` (`reporting_snapshot`, `reporting_row`).
 
 ## Change Control
 
