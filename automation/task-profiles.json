@@ -66,6 +66,18 @@
         { "id": "bff-health", "repo": "advisor-experience-api", "command": "curl -sSf http://127.0.0.1:8100/health" },
         { "id": "ui-health", "repo": "advisor-workbench", "command": "curl -sSf http://127.0.0.1:3000" }
       ]
+    },
+    {
+      "name": "migration-quality",
+      "description": "Strict migration quality checks with test-pyramid coverage focus",
+      "tasks": [
+        { "id": "aea-unit-contract", "repo": "advisor-experience-api", "command": "python -m pytest tests/unit tests/contract -q" },
+        { "id": "aea-integration", "repo": "advisor-experience-api", "command": "python -m pytest tests/integration -q" },
+        { "id": "pa-unit", "repo": "performanceAnalytics", "command": "python -m pytest tests/unit -q" },
+        { "id": "pa-integration", "repo": "performanceAnalytics", "command": "python -m pytest tests/integration -q" },
+        { "id": "pas-unit", "repo": "portfolio-analytics-system", "command": "python -m pytest tests/unit/services/query_service -q" },
+        { "id": "pas-integration-lite", "repo": "portfolio-analytics-system", "command": "python -m pytest tests/integration/services/query_service/test_integration_router_dependency.py tests/integration/services/query_service/test_position_analytics_router.py tests/integration/services/query_service/test_performance_router.py tests/integration/services/query_service/test_risk_router_dependency.py -q" }
+      ]
     }
   ]
 }
