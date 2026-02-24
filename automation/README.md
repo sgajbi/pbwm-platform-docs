@@ -70,6 +70,12 @@ Bootstrap local dependencies first:
 powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Profile bootstrap-env -MaxParallel 2
 ```
 
+Docker-first CI parity (recommended for stability):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Profile docker-ci-parity -MaxParallel 2
+```
+
 Start a detached background run:
 
 ```powershell
@@ -99,9 +105,11 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `fast-feedback`
 - `docker-build`
 - `ci-parity`
+- `docker-ci-parity`
 - `pas-data-smoke`
 
 Note: profiles are Windows-native and do not require `make`.
+For PAS, `bootstrap-env` intentionally installs a minimal local dependency set for query-service unit checks instead of full multi-service editable bootstrap.
 
 ## Output Artifacts
 
