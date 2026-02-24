@@ -59,7 +59,7 @@ All repositories must align request/response models, service names, logs, and do
 
 ## Naming Rules
 
-1. Use `snake_case` for JSON fields across services unless an approved legacy alias exists.
+1. Use `snake_case` for JSON fields across services; legacy aliases are not allowed.
 2. Use `portfolio_id`, never `portfolio_number`, in cross-service contracts.
 3. Use `as_of_date` consistently for business-date anchors.
 4. Use `consumer_system` for calling system identity.
