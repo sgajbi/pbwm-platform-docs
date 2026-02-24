@@ -40,6 +40,8 @@ One-shot PR health (with failing check detection):
 powershell -ExecutionPolicy Bypass -File automation/PR-Monitor.ps1 -IncludeChecks
 ```
 
+`PR-Monitor.ps1` now treats repositories without check-runs as non-fatal and records empty checks instead of failing the agent loop.
+
 PR monitor with custom search filter:
 
 ```powershell
