@@ -17,6 +17,9 @@ All repositories must align request/response models, service names, logs, and do
 - `reporting_row`: Atomic reporting metric row (`bucket`, `metric`, `value`).
 - `decision_readiness`: Backend-derived readiness state for advisory decisioning (`READY`, `PENDING`, `ATTENTION`).
 - `concentration_signal`: Portfolio concentration category derived from HHI (`LOW`, `MEDIUM`, `HIGH`, `UNKNOWN`).
+- `stateful_mode`: Execution mode where service fetches dependent inputs from upstream service APIs.
+- `stateless_mode`: Execution mode where caller provides required inputs directly in request payload.
+- `api_driven_integration`: Cross-service interaction model using only explicit service APIs/contracts.
 
 ## Service Responsibilities
 
@@ -26,14 +29,19 @@ All repositories must align request/response models, service names, logs, and do
 - `PA` (`performanceAnalytics`):
   - Advanced analytics ownership.
   - Performance, attribution, risk, and higher-order analytics.
+  - Sources core data from PAS via APIs; no direct PAS database coupling.
+  - Supports `stateful_mode` and `stateless_mode` execution patterns.
 - `DPM` (`dpm-rebalance-engine`):
   - Deterministic decisioning/rebalance simulation and policy gates.
+  - Sources core data from PAS via APIs for stateful flows.
+  - Supports `stateless_mode` for isolated simulation and testing.
 - `BFF` (`advisor-experience-api`):
   - Orchestration contract for UI.
   - No domain reimplementation.
 - `RAS` (`reporting-aggregation-service`):
   - Reporting/aggregation composition layer.
   - Consumes PAS core data and PA analytics to emit report-ready rows.
+  - Owns reporting and aggregation API endpoints.
 
 ## Contract Terms
 
@@ -57,6 +65,7 @@ All repositories must align request/response models, service names, logs, and do
 4. Use `consumer_system` for calling system identity.
 5. Avoid overloaded terms (`snapshot` for analytics execution mode is prohibited).
 6. When term is reporting-specific, prefix with `reporting_` (`reporting_snapshot`, `reporting_row`).
+7. Cross-service data access must be `api_driven_integration` (no shared databases).
 
 ## Change Control
 
