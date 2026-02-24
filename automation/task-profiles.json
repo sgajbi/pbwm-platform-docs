@@ -1,6 +1,17 @@
 {
   "profiles": [
     {
+      "name": "bootstrap-env",
+      "description": "Install local dependencies across repositories before parallel checks",
+      "tasks": [
+        { "id": "bootstrap-awb", "repo": "advisor-workbench", "command": "npm ci" },
+        { "id": "bootstrap-aea", "repo": "advisor-experience-api", "command": "python -m pip install -e \".[dev]\"" },
+        { "id": "bootstrap-dpm", "repo": "dpm-rebalance-engine", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
+        { "id": "bootstrap-pa", "repo": "performanceAnalytics", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
+        { "id": "bootstrap-pas", "repo": "portfolio-analytics-system", "command": "python scripts/bootstrap_dev.py" }
+      ]
+    },
+    {
       "name": "fast-feedback",
       "description": "Fast parallel quality checks for active development loops",
       "tasks": [

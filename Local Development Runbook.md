@@ -387,6 +387,9 @@ Use these profiles to run repeatable, long-running tasks without consuming chat 
 # fast development quality checks in parallel
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile fast-feedback -MaxParallel 3
 
+# one-time dependency bootstrap (run before fast-feedback on new machine)
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile bootstrap-env -MaxParallel 2
+
 # CI parity checks in parallel
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile ci-parity -MaxParallel 2
 
@@ -404,6 +407,7 @@ powershell -ExecutionPolicy Bypass -File automation\Summarize-Task-Failures.ps1 
 ```
 
 Profiles are defined in `automation/task-profiles.json` and currently include:
+- `bootstrap-env`
 - `fast-feedback`
 - `docker-build`
 - `ci-parity`

@@ -13,6 +13,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Start-Background-Run.ps1`
 - `automation/Check-Background-Runs.ps1`
 - `automation/Summarize-Task-Failures.ps1`
+- `automation/Bootstrap-Repo-Env.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -63,6 +64,12 @@ Run a profile in this terminal:
 powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Profile fast-feedback -MaxParallel 3
 ```
 
+Bootstrap local dependencies first:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Profile bootstrap-env -MaxParallel 2
+```
+
 Start a detached background run:
 
 ```powershell
@@ -88,6 +95,7 @@ powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 
 ```
 
 Profiles currently defined in `automation/task-profiles.json`:
+- `bootstrap-env`
 - `fast-feedback`
 - `docker-build`
 - `ci-parity`
