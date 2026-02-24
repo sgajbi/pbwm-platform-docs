@@ -1,0 +1,49 @@
+{
+  "profiles": [
+    {
+      "name": "fast-feedback",
+      "description": "Fast parallel quality checks for active development loops",
+      "tasks": [
+        { "id": "awb-lint", "repo": "advisor-workbench", "command": "npm run lint" },
+        { "id": "awb-typecheck", "repo": "advisor-workbench", "command": "npm run typecheck" },
+        { "id": "aea-check", "repo": "advisor-experience-api", "command": "make check" },
+        { "id": "dpm-check", "repo": "dpm-rebalance-engine", "command": "make check" },
+        { "id": "pa-check", "repo": "performanceAnalytics", "command": "make check" },
+        { "id": "pas-check", "repo": "portfolio-analytics-system", "command": "make check" }
+      ]
+    },
+    {
+      "name": "docker-build",
+      "description": "Parallel docker image builds and service startup checks",
+      "tasks": [
+        { "id": "awb-docker-up", "repo": "advisor-workbench", "command": "docker compose up -d --build advisor-workbench" },
+        { "id": "aea-docker-up", "repo": "advisor-experience-api", "command": "docker compose up -d --build advisor-experience-api" },
+        { "id": "dpm-docker-up", "repo": "dpm-rebalance-engine", "command": "docker compose up -d --build dpm-rebalance-engine" },
+        { "id": "pa-docker-up", "repo": "performanceAnalytics", "command": "docker compose up -d --build performance-analytics" },
+        { "id": "pas-docker-up", "repo": "portfolio-analytics-system", "command": "docker compose up -d --build query_service ingestion_service demo_data_loader" }
+      ]
+    },
+    {
+      "name": "ci-parity",
+      "description": "Run CI parity targets locally in parallel",
+      "tasks": [
+        { "id": "aea-ci-local", "repo": "advisor-experience-api", "command": "make ci-local" },
+        { "id": "dpm-ci-local", "repo": "dpm-rebalance-engine", "command": "make ci-local" },
+        { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "make ci-local" },
+        { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "make ci-local" },
+        { "id": "awb-test", "repo": "advisor-workbench", "command": "npm run test" }
+      ]
+    },
+    {
+      "name": "pas-data-smoke",
+      "description": "PAS data pipeline and UI-facing smoke checks",
+      "tasks": [
+        { "id": "pas-demo-loader", "repo": "portfolio-analytics-system", "command": "docker compose up -d --build demo_data_loader" },
+        { "id": "pas-query-health", "repo": "portfolio-analytics-system", "command": "curl -sSf http://127.0.0.1:8201/health/ready" },
+        { "id": "pas-ingestion-health", "repo": "portfolio-analytics-system", "command": "curl -sSf http://127.0.0.1:8200/health/ready" },
+        { "id": "bff-health", "repo": "advisor-experience-api", "command": "curl -sSf http://127.0.0.1:8100/health" },
+        { "id": "ui-health", "repo": "advisor-workbench", "command": "curl -sSf http://127.0.0.1:3000" }
+      ]
+    }
+  ]
+}

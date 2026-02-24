@@ -9,6 +9,12 @@ Canonical cross-cutting automation lives here.
 - `automation/Platform-Pulse.ps1`
 - `automation/Run-Agent.ps1`
 - `automation/Service-Refresh.ps1`
+- `automation/Run-Parallel-Tasks.ps1`
+- `automation/Start-Background-Run.ps1`
+- `automation/Check-Background-Runs.ps1`
+- `automation/Summarize-Task-Failures.ps1`
+- `automation/service-map.json`
+- `automation/task-profiles.json`
 - `automation/repos.json`
 
 ## Quick Start
@@ -37,10 +43,65 @@ Targeted PAS refresh:
 powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
 ```
 
+Changed-files based refresh (recommended):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -ChangedOnly -BaseRef origin/main
+```
+
+Dry run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/advisor-experience-api -ChangedOnly -DryRun
+```
+
+## Parallel Offload Profiles
+
+Run a profile in this terminal:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Profile fast-feedback -MaxParallel 3
+```
+
+Start a detached background run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Start-Background-Run.ps1 -Profile ci-parity -MaxParallel 2
+```
+
+Check background run status:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1
+```
+
+Watch mode (refresh every 20s):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -Watch -IntervalSeconds 20
+```
+
+Summarize recent failures only:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 -Latest 3
+```
+
+Profiles currently defined in `automation/task-profiles.json`:
+- `fast-feedback`
+- `docker-build`
+- `ci-parity`
+- `pas-data-smoke`
+
 ## Output Artifacts
 
 - `output/pr-monitor.json`
 - `output/agent-status.md`
+- `output/task-runs/*.json`
+- `output/task-runs/*.md`
+- `output/task-runs/*.out.log`
+- `output/task-runs/*.err.log`
+- `output/background-runs.json`
 
 ## Governance
 
