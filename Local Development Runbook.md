@@ -332,3 +332,43 @@ make docker-down
   - architecture/ownership changes
   - contract/error-handling behavior changes
 - Update this runbook whenever local commands, dependency flow, or smoke-check steps change.
+
+## 14. Shared Automation Toolkit (Cross-Repo)
+
+Canonical location: `pbwm-platform-docs/automation`
+
+### 14.1 One-Shot Platform Pulse
+
+```powershell
+cd C:\Users\Sandeep\projects\pbwm-platform-docs
+powershell -ExecutionPolicy Bypass -File automation\Platform-Pulse.ps1
+```
+
+This runs:
+- multi-repo sync (safe, no pull on dirty worktrees)
+- open PR monitor (`author:@me`)
+
+### 14.2 Continuous Agent Loop
+
+```powershell
+cd C:\Users\Sandeep\projects\pbwm-platform-docs
+powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1
+```
+
+One iteration only:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1 -Once
+```
+
+Output artifacts:
+- `output/pr-monitor.json`
+- `output/agent-status.md`
+
+### 14.3 Targeted Service Refresh (No Full Stack Restart)
+
+Example for PAS:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
+```
