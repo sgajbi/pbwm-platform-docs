@@ -34,6 +34,11 @@ while ($true) {
   } catch {
     $conformanceOutput = "backend_standards_failed: $($_.ToString())"
   }
+  try {
+    $openApiConformanceOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-OpenAPI-Conformance.ps1" 2>&1 | Out-String
+  } catch {
+    $openApiConformanceOutput = "openapi_conformance_failed: $($_.ToString())"
+  }
 
   $lines = @()
   $lines += "# Platform Agent Status"
@@ -53,6 +58,11 @@ while ($true) {
   $lines += "## Backend Standards Conformance"
   $lines += '```text'
   $lines += $conformanceOutput.TrimEnd()
+  $lines += '```'
+  $lines += ""
+  $lines += "## OpenAPI Conformance"
+  $lines += '```text'
+  $lines += $openApiConformanceOutput.TrimEnd()
   $lines += '```'
 
   Write-Status -Path $OutputPath -Lines $lines

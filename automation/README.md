@@ -17,6 +17,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Platform-Contract.ps1`
 - `automation/Measure-Test-Pyramid.ps1`
 - `automation/Validate-Backend-Standards.ps1`
+- `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -35,7 +36,7 @@ Continuous agent loop:
 powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 ```
 
-`Run-Agent.ps1` now executes three checks per iteration: repo sync, PR monitor, and backend standards conformance validation.
+`Run-Agent.ps1` now executes four checks per iteration: repo sync, PR monitor, backend standards conformance validation, and OpenAPI conformance validation.
 
 One-shot PR health (with failing check detection):
 
@@ -131,6 +132,12 @@ Validate backend standards conformance across all backend repositories:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1
 ```
 
+Validate OpenAPI contract quality conformance across backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-OpenAPI-Conformance.ps1
+```
+
 Generate test-pyramid and coverage baseline across backend services:
 
 ```powershell
@@ -147,6 +154,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `migration-quality`
 - `coverage-pyramid-baseline`
 - `backend-standards-conformance`
+- `openapi-conformance-baseline`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -182,6 +190,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/test-coverage-summary.md`
 - `output/backend-standards-conformance.json`
 - `output/backend-standards-conformance.md`
+- `output/openapi-conformance-summary.json`
+- `output/openapi-conformance-summary.md`
 
 ## Governance
 

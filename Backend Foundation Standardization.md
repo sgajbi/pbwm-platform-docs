@@ -8,6 +8,7 @@ Each backend repository must implement:
 
 - `make lint`
 - `make typecheck`
+- `make openapi-gate`
 - `make test`
 - `make ci`
 - `make security-audit` (or equivalent command invoked by `make ci`)
@@ -19,10 +20,11 @@ All backend CI pipelines must enforce:
 1. Workflow lint
 2. Lint and formatting checks
 3. Static type checking
-4. Unit, integration, and e2e buckets
-5. Coverage gate `>=99%`
-6. Dependency vulnerability scan
-7. Docker build validation
+4. OpenAPI/contract quality gate
+5. Unit, integration, and e2e buckets
+6. Coverage gate `>=99%`
+7. Dependency vulnerability scan
+8. Docker build validation
 
 ## Dependency Hygiene
 

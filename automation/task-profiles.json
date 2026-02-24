@@ -100,6 +100,13 @@
       "tasks": [
         { "id": "validate-backend-standards", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1" }
       ]
+    },
+    {
+      "name": "openapi-conformance-baseline",
+      "description": "Validate backend OpenAPI contract quality conformance baseline",
+      "tasks": [
+        { "id": "validate-openapi-conformance", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-OpenAPI-Conformance.ps1" }
+      ]
     }
   ]
 }
