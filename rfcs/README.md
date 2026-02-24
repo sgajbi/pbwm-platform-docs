@@ -73,6 +73,8 @@ Reference baseline:
 - `RFC-0047-domain-driven-product-experience-portfolio-advisory-dpm-lifecycles.md`
 - `RFC-0048-shared-automation-and-agent-toolkit.md`
 - `RFC-0049A-portfolio-360-and-live-proposal-sandbox.md`
+- `RFC-0050-core-data-analytics-and-reporting-service-boundaries.md`
+- `RFC-0051-cross-platform-vocabulary-normalization.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
