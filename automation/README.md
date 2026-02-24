@@ -15,6 +15,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Summarize-Task-Failures.ps1`
 - `automation/Bootstrap-Repo-Env.ps1`
 - `automation/Validate-Platform-Contract.ps1`
+- `automation/Measure-Test-Pyramid.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -119,6 +120,12 @@ Validate cross-cutting platform contract compliance:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Platform-Contract.ps1
 ```
 
+Generate test-pyramid and coverage baseline across backend services:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -RunCoverage
+```
+
 Profiles currently defined in `automation/task-profiles.json`:
 - `bootstrap-env`
 - `fast-feedback`
@@ -127,6 +134,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `docker-ci-parity`
 - `pas-data-smoke`
 - `migration-quality`
+- `coverage-pyramid-baseline`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -158,6 +166,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/task-runs/*.out.log`
 - `output/task-runs/*.err.log`
 - `output/background-runs.json`
+- `output/test-coverage-summary.json`
+- `output/test-coverage-summary.md`
 
 ## Governance
 
