@@ -13,14 +13,27 @@ function Invoke-CollectCount {
     )
 
     $count = 0
+    $collectErrors = 0
     foreach ($bucketPath in $BucketPaths) {
         if (-not (Test-Path $bucketPath)) { continue }
-        $output = & python -m pytest --collect-only -q $bucketPath 2>$null
-        if ($LASTEXITCODE -ne 0) { continue }
-        $lines = $output | Where-Object { $_ -match "::" }
-        $count += ($lines | Measure-Object).Count
+        $output = & python -m pytest --collect-only $bucketPath 2>&1
+        $joined = ($output -join "`n")
+        $joined = [regex]::Replace($joined, "\x1B\[[0-9;]*[A-Za-z]", "")
+
+        $match = [regex]::Match($joined, "collected\s+(\d+)\s+items?")
+        if ($match.Success) {
+            $count += [int]$match.Groups[1].Value
+        }
+
+        if ($LASTEXITCODE -ne 0) {
+            $collectErrors += 1
+        }
     }
-    return $count
+
+    return [pscustomobject]@{
+        count = $count
+        collect_errors = $collectErrors
+    }
 }
 
 function Get-CoveragePercent {
@@ -78,6 +91,7 @@ foreach ($service in $policy.services) {
             integration_percent = 0
             e2e_percent = 0
             pyramid_status = "missing-repo"
+            collect_errors = 0
             coverage_percent = $null
             coverage_status = "missing-repo"
         }
@@ -86,9 +100,14 @@ foreach ($service in $policy.services) {
 
     Push-Location $repoPath
     try {
-        $unitCount = Invoke-CollectCount -BucketPaths @($service.buckets.unit)
-        $integrationCount = Invoke-CollectCount -BucketPaths @($service.buckets.integration)
-        $e2eCount = Invoke-CollectCount -BucketPaths @($service.buckets.e2e)
+        $unitResult = Invoke-CollectCount -BucketPaths @($service.buckets.unit)
+        $integrationResult = Invoke-CollectCount -BucketPaths @($service.buckets.integration)
+        $e2eResult = Invoke-CollectCount -BucketPaths @($service.buckets.e2e)
+
+        $unitCount = [int]$unitResult.count
+        $integrationCount = [int]$integrationResult.count
+        $e2eCount = [int]$e2eResult.count
+        $collectErrors = [int]$unitResult.collect_errors + [int]$integrationResult.collect_errors + [int]$e2eResult.collect_errors
         $totalCount = $unitCount + $integrationCount + $e2eCount
 
         if ($totalCount -gt 0) {
@@ -134,6 +153,7 @@ foreach ($service in $policy.services) {
             integration_percent = $integrationPercent
             e2e_percent = $e2ePercent
             pyramid_status = $pyramidStatus
+            collect_errors = $collectErrors
             coverage_percent = $coveragePercent
             coverage_status = $coverageStatus
         }
@@ -170,11 +190,11 @@ $lines += "- Coverage run: $([bool]$RunCoverage)"
 $lines += "- Coverage target: >= $targetCoverage%"
 $lines += "- Pyramid targets: unit $rangeUnitMin-$rangeUnitMax, integration $rangeIntegrationMin-$rangeIntegrationMax, e2e $rangeE2EMin-$rangeE2EMax"
 $lines += ""
-$lines += "| Service | Unit | Integration | E2E | Unit % | Integration % | E2E % | Pyramid | Coverage % | Coverage |"
-$lines += "|---|---:|---:|---:|---:|---:|---:|---|---:|---|"
+$lines += "| Service | Unit | Integration | E2E | Unit % | Integration % | E2E % | Pyramid | Collect Errors | Coverage % | Coverage |"
+$lines += "|---|---:|---:|---:|---:|---:|---:|---|---:|---:|---|"
 foreach ($row in $results) {
     $coverageValue = if ($null -eq $row.coverage_percent) { "-" } else { "$($row.coverage_percent)" }
-    $lines += "| $($row.service) | $($row.unit_count) | $($row.integration_count) | $($row.e2e_count) | $($row.unit_percent) | $($row.integration_percent) | $($row.e2e_percent) | $($row.pyramid_status) | $coverageValue | $($row.coverage_status) |"
+    $lines += "| $($row.service) | $($row.unit_count) | $($row.integration_count) | $($row.e2e_count) | $($row.unit_percent) | $($row.integration_percent) | $($row.e2e_percent) | $($row.pyramid_status) | $($row.collect_errors) | $coverageValue | $($row.coverage_status) |"
 }
 
 Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
