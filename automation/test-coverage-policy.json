@@ -27,7 +27,7 @@
         "integration": ["tests/integration"],
         "e2e": ["tests/e2e"]
       },
-      "coverage_command": "python -m pytest --cov=src --cov-report=term --cov-fail-under=0"
+      "coverage_command": "python -m pytest --cov=src --cov-report=term --cov-fail-under=99"
     },
     {
       "name": "performanceAnalytics",
@@ -37,7 +37,7 @@
         "integration": ["tests/integration"],
         "e2e": ["tests/e2e"]
       },
-      "coverage_command": "python -m pytest --cov=app --cov=engine --cov=core --cov=adapters --cov-report=term"
+      "coverage_command": "python -m pytest --cov=app --cov=engine --cov=core --cov=adapters --cov-report=term --cov-fail-under=99"
     },
     {
       "name": "portfolio-analytics-system",
