@@ -6,7 +6,12 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$config = Get-Content -Raw -Path $ConfigPath | ConvertFrom-Json
+$configRaw = Get-Content -Raw -Path $ConfigPath | ConvertFrom-Json
+$config = if ($configRaw -is [System.Array]) {
+  [pscustomobject]@{ repositories = $configRaw }
+} else {
+  $configRaw
+}
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $results = @()
 $backendRepos = @(
