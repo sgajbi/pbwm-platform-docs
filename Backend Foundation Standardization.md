@@ -12,6 +12,8 @@ Each backend repository must implement:
 - `make test`
 - `make ci`
 - `make security-audit` (or equivalent command invoked by `make ci`)
+- `make migration-smoke`
+- `make migration-apply`
 
 ## Required CI Gates
 
@@ -25,12 +27,24 @@ All backend CI pipelines must enforce:
 6. Coverage gate `>=99%`
 7. Dependency vulnerability scan
 8. Docker build validation
+9. Migration contract smoke validation
 
 ## Dependency Hygiene
 
 - Keep dependencies current and secure.
 - No known high/critical vulnerabilities are acceptable.
 - Vulnerability checks run in CI and block merge on failure.
+- Rollup evidence is generated in `output/dependency-vulnerability-rollup.md`.
+
+## Data Model and Migration Contract
+
+- Each backend repo must include:
+  - `docs/standards/data-model-ownership.md`
+  - `docs/standards/migration-contract.md`
+- Migration framework may be service-native, but contract requirements are platform-uniform:
+  - versioned migrations or explicit no-schema declaration
+  - deterministic smoke gate in CI
+  - forward-fix rollback policy
 
 ## Local/CI Parity
 
@@ -51,6 +65,8 @@ All backend CI pipelines must enforce:
 - Artifacts are written to:
   - `output/backend-standards-conformance.json`
   - `output/backend-standards-conformance.md`
+  - `output/dependency-vulnerability-rollup.json`
+  - `output/dependency-vulnerability-rollup.md`
 - Add profile `backend-standards-conformance` to async loops for continuous drift detection.
 
 ## Related RFCs

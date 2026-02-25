@@ -14,11 +14,12 @@ $backendRepos = @(
     "reporting-aggregation-service"
 )
 
-$requiredMakeTargets = @("lint", "typecheck", "test", "ci", "security-audit")
+$requiredMakeTargets = @("lint", "typecheck", "test", "ci", "security-audit", "migration-smoke", "migration-apply")
 $requiredCiPatterns = @(
     "make lint|ruff check",
     "make typecheck|mypy",
     "make security-audit|pip_audit|dependency",
+    "make migration-smoke|migration contract smoke|postgres-migration-smoke",
     "pytest|make test|make check",
     "coverage report|cov-fail-under|fail-under|make test-coverage|make coverage-gate"
 )
@@ -89,6 +90,8 @@ foreach ($repo in $repos) {
 
     $hasMypyConfig = (Test-Path (Join-Path $repoPath "mypy.ini")) -or (Test-Path (Join-Path $repoPath "pyproject.toml"))
     $hasPreCommit = Test-Path (Join-Path $repoPath ".pre-commit-config.yaml")
+    $hasMigrationContractDoc = Test-Path (Join-Path $repoPath "docs/standards/migration-contract.md")
+    $hasDataModelOwnershipDoc = Test-Path (Join-Path $repoPath "docs/standards/data-model-ownership.md")
 
     $workflowDir = Join-Path $repoPath ".github/workflows"
     $ciWorkflow = $null
@@ -114,6 +117,8 @@ foreach ($repo in $repos) {
     if ($missingMakeTargets.Count -gt 0) { $missing.Add("make-targets: " + ($missingMakeTargets -join ", ")) }
     if (-not $hasMypyConfig) { $missing.Add("mypy-config") }
     if (-not $hasPreCommit) { $missing.Add(".pre-commit-config.yaml") }
+    if (-not $hasMigrationContractDoc) { $missing.Add("docs/standards/migration-contract.md") }
+    if (-not $hasDataModelOwnershipDoc) { $missing.Add("docs/standards/data-model-ownership.md") }
     if (-not $ciWorkflow) { $missing.Add("ci-workflow") }
     if (-not $prAutoMergeWorkflow) { $missing.Add("pr-auto-merge-workflow") }
     if (-not $ciGatesOk) { $missing.Add("ci-required-gates") }
@@ -128,6 +133,8 @@ foreach ($repo in $repos) {
         make_targets_ok = ($missingMakeTargets.Count -eq 0)
         mypy_config = $hasMypyConfig
         pre_commit = $hasPreCommit
+        migration_contract_doc = $hasMigrationContractDoc
+        data_model_ownership_doc = $hasDataModelOwnershipDoc
         ci_workflow = [bool]$ciWorkflow
         pr_auto_merge_workflow = [bool]$prAutoMergeWorkflow
         ci_gates_ok = $ciGatesOk
@@ -155,11 +162,11 @@ $lines += ""
 $lines += "- Generated: $($summary.generated_at)"
 $lines += "- Scope: $($backendRepos -join ', ')"
 $lines += ""
-$lines += "| Repo | Status | Make Targets | Mypy | Pre-commit | CI Workflow | PR Auto Merge | CI Gates | Missing |"
-$lines += "|---|---|---|---|---|---|---|---|---|"
+$lines += "| Repo | Status | Make Targets | Mypy | Pre-commit | Migration Contract Doc | Data Model Doc | CI Workflow | PR Auto Merge | CI Gates | Missing |"
+$lines += "|---|---|---|---|---|---|---|---|---|---|---|"
 foreach ($row in $results) {
     $missingText = if ($row.missing.Count -eq 0) { "-" } else { ($row.missing -join "; ") }
-    $lines += "| $($row.repo) | $($row.status) | $($row.make_targets_ok) | $($row.mypy_config) | $($row.pre_commit) | $($row.ci_workflow) | $($row.pr_auto_merge_workflow) | $($row.ci_gates_ok) | $missingText |"
+    $lines += "| $($row.repo) | $($row.status) | $($row.make_targets_ok) | $($row.mypy_config) | $($row.pre_commit) | $($row.migration_contract_doc) | $($row.data_model_ownership_doc) | $($row.ci_workflow) | $($row.pr_auto_merge_workflow) | $($row.ci_gates_ok) | $missingText |"
 }
 
 Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")

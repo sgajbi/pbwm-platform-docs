@@ -17,6 +17,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Platform-Contract.ps1`
 - `automation/Measure-Test-Pyramid.ps1`
 - `automation/Validate-Backend-Standards.ps1`
+- `automation/Generate-Dependency-Vulnerability-Rollup.ps1`
 - `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/Validate-Domain-Vocabulary.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
@@ -179,6 +180,12 @@ Generate test-pyramid and coverage baseline across backend services:
 powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -RunCoverage
 ```
 
+Generate dependency vulnerability rollup across backend services:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Generate-Dependency-Vulnerability-Rollup.ps1
+```
+
 Enforce backend governance policy (branch protection + auto-merge + no review requirement):
 
 ```powershell
@@ -198,6 +205,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `enforce-backend-governance`
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
+- `repo-metadata-validation`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -231,6 +239,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/background-runs.json`
 - `output/test-coverage-summary.json`
 - `output/test-coverage-summary.md`
+- `output/dependency-vulnerability-rollup.json`
+- `output/dependency-vulnerability-rollup.md`
 - `output/backend-standards-conformance.json`
 - `output/backend-standards-conformance.md`
 - `output/openapi-conformance-summary.json`
