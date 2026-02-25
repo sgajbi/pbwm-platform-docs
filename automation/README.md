@@ -117,6 +117,12 @@ Watch mode (refresh every 20s):
 powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -Watch -IntervalSeconds 20
 ```
 
+Prune completed runs from state while checking:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -PruneCompleted
+```
+
 Summarize recent failures only:
 
 ```powershell
