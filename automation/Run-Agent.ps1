@@ -62,6 +62,7 @@ while ($true) {
   $steps = @()
   $steps += Invoke-Step -Name "sync" -Action { powershell -ExecutionPolicy Bypass -File "automation/Sync-Repos.ps1" -ConfigPath $ConfigPath }
   $steps += Invoke-Step -Name "pr-monitor" -Action { powershell -ExecutionPolicy Bypass -File "automation/PR-Monitor.ps1" -ConfigPath $ConfigPath -OutputPath "output/pr-monitor.json" -IncludeChecks }
+  $steps += Invoke-Step -Name "stalled-pr-checks" -Action { powershell -ExecutionPolicy Bypass -File "automation/Detect-Stalled-PR-Checks.ps1" -ConfigPath $ConfigPath -StaleMinutes 20 }
   $steps += Invoke-Step -Name "background-runs" -Action { powershell -ExecutionPolicy Bypass -File "automation/Check-Background-Runs.ps1" }
   $steps += Invoke-Step -Name "backend-standards" -Action { powershell -ExecutionPolicy Bypass -File "automation/Validate-Backend-Standards.ps1" }
   $steps += Invoke-Step -Name "openapi-conformance" -Action { powershell -ExecutionPolicy Bypass -File "automation/Validate-OpenAPI-Conformance.ps1" }
