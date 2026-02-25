@@ -1,0 +1,69 @@
+{
+  "repos": [
+    {
+      "name": "advisor-experience-api",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint, Typecheck, Unit",
+        "Integration Tests"
+      ]
+    },
+    {
+      "name": "dpm-rebalance-engine",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint & Dependency Checks",
+        "Mypy (Full src)",
+        "Tests (unit)",
+        "Tests (integration)",
+        "Tests (e2e)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build",
+        "Postgres Migration Smoke",
+        "Production Profile Startup Smoke",
+        "Production Profile Guardrail Negatives"
+      ]
+    },
+    {
+      "name": "performanceAnalytics",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint & Dependency Checks",
+        "Mypy (Full src)",
+        "Tests (unit)",
+        "Tests (integration)",
+        "Tests (e2e)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    },
+    {
+      "name": "portfolio-analytics-system",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint, Typecheck, Unit Tests",
+        "Tests (unit)",
+        "Tests (integration-lite)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    },
+    {
+      "name": "reporting-aggregation-service",
+      "default_branch": "master",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint Typecheck Security",
+        "Tests (unit)",
+        "Tests (integration)",
+        "Tests (e2e)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    }
+  ]
+}

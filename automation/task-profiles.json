@@ -102,6 +102,13 @@
       ]
     },
     {
+      "name": "enforce-backend-governance",
+      "description": "Apply branch protection and auto-merge governance policy across backend repositories",
+      "tasks": [
+        { "id": "apply-backend-governance", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Enforce-Backend-Governance.ps1 -Apply" }
+      ]
+    },
+    {
       "name": "openapi-conformance-baseline",
       "description": "Validate backend OpenAPI contract quality conformance baseline",
       "tasks": [
