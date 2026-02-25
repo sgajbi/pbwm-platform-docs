@@ -20,7 +20,10 @@ function Get-LatestResult {
 }
 
 function Print-Status {
-  param([string]$RunStatePath)
+  param(
+    [string]$RunStatePath,
+    [switch]$Prune
+  )
 
   if (-not (Test-Path $RunStatePath)) {
     Write-Host "No background run state found at $RunStatePath"
@@ -69,22 +72,23 @@ function Print-Status {
     }
   }
 
-  $persisted = if ($PruneCompleted) {
+  $persisted = if ($Prune) {
     @($updated | Where-Object { $_.status -eq "running" })
   } else {
     $updated
   }
 
-  $persisted | ConvertTo-Json -Depth 5 | Set-Content $RunStatePath
+  $persistedJson = if (@($persisted).Count -eq 0) { "[]" } else { $persisted | ConvertTo-Json -Depth 5 }
+  $persistedJson | Set-Content $RunStatePath
   $updated | Sort-Object startedAt -Descending | Format-Table pid, profile, status, startedAt, latestResult -AutoSize
 }
 
 if ($Watch) {
   while ($true) {
     Clear-Host
-    Print-Status -RunStatePath $StatePath
+    Print-Status -RunStatePath $StatePath -Prune:$PruneCompleted
     Start-Sleep -Seconds $IntervalSeconds
   }
 } else {
-  Print-Status -RunStatePath $StatePath
+  Print-Status -RunStatePath $StatePath -Prune:$PruneCompleted
 }
