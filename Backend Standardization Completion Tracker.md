@@ -58,6 +58,7 @@ Checklist:
 - [x] RAS implementation + tests.
 - [x] AEA implementation + tests.
 - [x] Cross-service consistency golden validation.
+- [x] Monetary-float regression CI guard added across backend repos.
 
 | Repo | Status | Files Changed | Tests | Blocker |
 |---|---|---|---|---|

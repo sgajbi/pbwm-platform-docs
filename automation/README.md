@@ -22,6 +22,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/Validate-Domain-Vocabulary.ps1`
 - `automation/Validate-Rounding-Consistency.ps1`
+- `automation/Validate-Monetary-Float-Guard.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
@@ -171,6 +172,12 @@ Validate cross-service rounding and precision consistency:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Rounding-Consistency.ps1
 ```
 
+Validate monetary-float regression guard across backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Monetary-Float-Guard.ps1
+```
+
 Validate repository metadata (default branches and preflight command presence):
 
 ```powershell
@@ -274,6 +281,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/domain-vocabulary-conformance.md`
 - `output/rounding-consistency-report.json`
 - `output/rounding-consistency-report.md`
+- `output/monetary-float-guard-summary.json`
+- `output/monetary-float-guard-summary.md`
 - `output/backend-governance-enforcement.json`
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`
