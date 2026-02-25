@@ -20,6 +20,10 @@ All repositories must align request/response models, service names, logs, and do
 - `stateful_mode`: Execution mode where service fetches dependent inputs from upstream service APIs.
 - `stateless_mode`: Execution mode where caller provides required inputs directly in request payload.
 - `api_driven_integration`: Cross-service interaction model using only explicit service APIs/contracts.
+- `intermediate_precision`: High-precision `Decimal` representation used during internal calculations before output shaping.
+- `final_output_precision`: Canonical quantized precision applied at API/report/export boundaries.
+- `rounding_policy_version`: Versioned identifier of the active platform rounding and precision standard.
+- `financial_correctness`: Mandatory deterministic behavior for monetary and analytics outputs under equivalent input scenarios.
 
 ## Service Responsibilities
 

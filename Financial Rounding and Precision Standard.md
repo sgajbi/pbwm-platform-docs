@@ -1,0 +1,99 @@
+# Financial Rounding and Precision Standard
+
+Version: `1.0.0`  
+Status: `MANDATORY`  
+Owner: `PBWM Platform Governance (PPD)`  
+Change control: RFC required (see `rfcs/RFC-0063-platform-wide-rounding-and-precision-standard.md`)
+
+## Non-Negotiable Financial Correctness
+
+All monetary and financial calculations across PAS, PA, DPM, RAS, and AEA must be deterministic, reproducible, and consistent for equivalent inputs.  
+Service-local ad hoc rounding behavior is prohibited.
+
+## Canonical Rules
+
+1. Internal/intermediate calculations must use `Decimal` (or equivalent arbitrary precision).
+2. `float`/`double` is prohibited for monetary calculations and storage.
+3. Intermediate values must not be prematurely rounded.
+4. Rounding is allowed only at defined output boundaries (API response, report/export payload, persisted presentation snapshot).
+5. Canonical rounding mode is `ROUND_HALF_EVEN` unless explicitly overridden by this standard.
+
+## Precision Matrix
+
+| Data Type | Internal Precision | Final Output Scale | Rounding Mode |
+|---|---|---|---|
+| Price | Decimal high precision | 6 dp | HALF_EVEN |
+| FX rate | Decimal high precision | 8 dp | HALF_EVEN |
+| Units / quantity | Decimal high precision | 6 dp | HALF_EVEN |
+| Market value / money amount | Decimal high precision | 2 dp | HALF_EVEN |
+| Performance metric (return %) | Decimal high precision | 6 dp | HALF_EVEN |
+| Risk metric | Decimal high precision | 6 dp | HALF_EVEN |
+
+## Intermediate vs Final
+
+- Intermediate:
+  - Keep raw `Decimal` precision throughout domain calculations.
+  - Avoid API/model serialization before finishing all operations.
+- Final:
+  - Apply canonical quantization exactly once at output boundary per field type.
+  - All equivalent cross-service scenarios must emit equivalent rounded values.
+
+## Input Normalization
+
+1. Normalize inbound numeric payloads to `Decimal` at service boundaries.
+2. Validate scale and format by semantic type:
+   - Money: accept <= 8 dp input, normalize and preserve for intermediate calculation.
+   - Quantity: accept <= 12 dp input.
+   - FX/price/risk/performance inputs: accept <= 12 dp input.
+3. If external data has higher precision:
+   - preserve internally,
+   - round only at outbound boundary according to matrix.
+4. Reject malformed numeric payloads (`422`) with clear field-level message.
+
+## Configuration Model
+
+Central defaults are mandatory:
+
+- `rounding_mode = HALF_EVEN`
+- `money_scale = 2`
+- `price_scale = 6`
+- `fx_rate_scale = 8`
+- `quantity_scale = 6`
+- `performance_scale = 6`
+- `risk_scale = 6`
+
+Service-level overrides are allowed only for non-financial, explicitly documented use cases and must reference an approved RFC.
+
+## Implementation Standard
+
+1. Reuse shared precision helper module in each backend service:
+   - parse to decimal
+   - quantize by semantic type
+   - normalize outbound payloads
+2. Convert metrics/output values via helper before serialization.
+3. Observability latency values may remain float and are out of financial scope.
+
+## Testing and Validation Standard
+
+Minimum required tests per service:
+
+1. Unit:
+   - boundary rounding (`0.005`, midpoint, negative midpoint)
+   - invalid numeric parsing
+   - quantization by each semantic type
+2. Integration:
+   - API responses return canonical scales
+   - equivalent scenario consistency inside service boundaries
+3. Cross-service golden:
+   - same input vector across PAS/PA/DPM/RAS returns identical rounded outputs for shared fields.
+
+## Migration and Backward Compatibility
+
+1. Existing endpoints must preserve field names; only numeric normalization/precision changes are allowed.
+2. Any externally visible numeric precision change must be called out in release notes.
+3. Migration rollout order:
+   - PPD standard + RFC
+   - PAS/PA/DPM/RAS helpers + boundary wiring
+   - AEA response shaping alignment
+   - cross-service golden validation
+
