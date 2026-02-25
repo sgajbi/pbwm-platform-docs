@@ -57,7 +57,7 @@
         "integration": ["tests/integration"],
         "e2e": ["tests/e2e"]
       },
-      "coverage_command": "python -m pytest tests --cov=src/app --cov-report=term --cov-fail-under=0"
+      "coverage_command": "python -m pytest tests --cov=src/app --cov-report=term --cov-fail-under=99"
     }
   ]
 }
