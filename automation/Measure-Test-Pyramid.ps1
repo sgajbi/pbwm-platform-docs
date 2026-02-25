@@ -46,8 +46,9 @@ function Get-CoveragePercent {
     $joined = ($output -join "`n")
     $joined = [regex]::Replace($joined, "\x1B\[[0-9;]*[A-Za-z]", "")
     $regexes = @(
-        "TOTAL\s+\d+\s+\d+\s+(\d+)%",
-        "TOTAL\s+\d+\s+\d+\s+\d+\s+(\d+)%",
+        "TOTAL\s+\d+\s+\d+\s+(\d+(?:\.\d+)?)%",
+        "TOTAL\s+\d+\s+\d+\s+\d+\s+(\d+(?:\.\d+)?)%",
+        "TOTAL\s+\d+\s+\d+\s+\d+\s+\d+\s+(\d+(?:\.\d+)?)%",
         "Total coverage:\s+(\d+(?:\.\d+)?)%"
     )
     foreach ($pattern in $regexes) {
