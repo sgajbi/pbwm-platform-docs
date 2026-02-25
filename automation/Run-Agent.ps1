@@ -2,6 +2,8 @@ param(
   [int]$IntervalSeconds = 120,
   [string]$ConfigPath = "automation/repos.json",
   [string]$OutputPath = "output/agent-status.md",
+  [string]$JsonOutputPath = "output/agent-status.json",
+  [int]$FullAuditEvery = 5,
   [switch]$Once
 )
 
@@ -16,67 +18,100 @@ function Write-Status {
   $Lines | Set-Content $Path
 }
 
-while ($true) {
-  $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+function Invoke-Step {
+  param(
+    [string]$Name,
+    [scriptblock]$Action
+  )
 
+  $start = Get-Date
+  $ok = $true
+  $output = ""
+  $exitCode = 0
   try {
-    $syncOutput = & powershell -ExecutionPolicy Bypass -File "automation/Sync-Repos.ps1" -ConfigPath $ConfigPath 2>&1 | Out-String
+    $global:LASTEXITCODE = 0
+    $output = & $Action 2>&1 | Out-String
+    $exitCode = if ($null -eq $LASTEXITCODE) { 0 } else { [int]$LASTEXITCODE }
+    if ($exitCode -ne 0) {
+      $ok = $false
+    }
   } catch {
-    $syncOutput = "sync_failed: $($_.ToString())"
+    $ok = $false
+    $exitCode = 1
+    $output = $_.ToString()
   }
-  try {
-    $prOutput = & powershell -ExecutionPolicy Bypass -File "automation/PR-Monitor.ps1" -ConfigPath $ConfigPath -OutputPath "output/pr-monitor.json" -IncludeChecks 2>&1 | Out-String
-  } catch {
-    $prOutput = "pr_monitor_failed: $($_.ToString())"
+  $end = Get-Date
+
+  return [pscustomobject]@{
+    name = $Name
+    ok = $ok
+    started_at = $start.ToString("s")
+    finished_at = $end.ToString("s")
+    duration_sec = [Math]::Round(($end - $start).TotalSeconds, 2)
+    exit_code = $exitCode
+    output = $output.TrimEnd()
   }
-  try {
-    $conformanceOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-Backend-Standards.ps1" 2>&1 | Out-String
-  } catch {
-    $conformanceOutput = "backend_standards_failed: $($_.ToString())"
+}
+
+$iteration = 0
+while ($true) {
+  $iteration += 1
+  $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+  $runFullAudit = ($iteration % $FullAuditEvery -eq 0)
+
+  $steps = @()
+  $steps += Invoke-Step -Name "sync" -Action { powershell -ExecutionPolicy Bypass -File "automation/Sync-Repos.ps1" -ConfigPath $ConfigPath }
+  $steps += Invoke-Step -Name "pr-monitor" -Action { powershell -ExecutionPolicy Bypass -File "automation/PR-Monitor.ps1" -ConfigPath $ConfigPath -OutputPath "output/pr-monitor.json" -IncludeChecks }
+  $steps += Invoke-Step -Name "background-runs" -Action { powershell -ExecutionPolicy Bypass -File "automation/Check-Background-Runs.ps1" }
+  $steps += Invoke-Step -Name "backend-standards" -Action { powershell -ExecutionPolicy Bypass -File "automation/Validate-Backend-Standards.ps1" }
+  $steps += Invoke-Step -Name "openapi-conformance" -Action { powershell -ExecutionPolicy Bypass -File "automation/Validate-OpenAPI-Conformance.ps1" }
+  $steps += Invoke-Step -Name "domain-vocabulary" -Action { powershell -ExecutionPolicy Bypass -File "automation/Validate-Domain-Vocabulary.ps1" }
+  $steps += Invoke-Step -Name "repo-metadata" -Action { powershell -ExecutionPolicy Bypass -File "automation/Verify-Repo-Metadata.ps1" }
+
+  if ($runFullAudit) {
+    $steps += Invoke-Step -Name "test-pyramid-full" -Action { powershell -ExecutionPolicy Bypass -File "automation/Measure-Test-Pyramid.ps1" -RunCoverage }
+    $steps += Invoke-Step -Name "dependency-rollup" -Action { powershell -ExecutionPolicy Bypass -File "automation/Generate-Dependency-Vulnerability-Rollup.ps1" }
+  } else {
+    $steps += Invoke-Step -Name "test-pyramid" -Action { powershell -ExecutionPolicy Bypass -File "automation/Measure-Test-Pyramid.ps1" }
   }
-  try {
-    $openApiConformanceOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-OpenAPI-Conformance.ps1" 2>&1 | Out-String
-  } catch {
-    $openApiConformanceOutput = "openapi_conformance_failed: $($_.ToString())"
+
+  $steps += Invoke-Step -Name "summarize-failures" -Action { powershell -ExecutionPolicy Bypass -File "automation/Summarize-Task-Failures.ps1" -Latest 3 }
+
+  $failedSteps = @($steps | Where-Object { -not $_.ok })
+  $statusObj = [pscustomobject]@{
+    updated_at = (Get-Date).ToString("s")
+    iteration = $iteration
+    run_full_audit = $runFullAudit
+    failed_step_count = $failedSteps.Count
+    steps = $steps
   }
-  try {
-    $domainVocabularyOutput = & powershell -ExecutionPolicy Bypass -File "automation/Validate-Domain-Vocabulary.ps1" 2>&1 | Out-String
-  } catch {
-    $domainVocabularyOutput = "domain_vocabulary_failed: $($_.ToString())"
+
+  $jsonDir = Split-Path -Parent $JsonOutputPath
+  if ($jsonDir -and -not (Test-Path $jsonDir)) {
+    New-Item -ItemType Directory -Force $jsonDir | Out-Null
   }
+  $statusObj | ConvertTo-Json -Depth 8 | Set-Content $JsonOutputPath
 
   $lines = @()
   $lines += "# Platform Agent Status"
   $lines += ""
   $lines += "Updated: $timestamp"
+  $lines += "Iteration: $iteration"
+  $lines += "Full audit run: $runFullAudit"
+  $lines += "Failed steps: $($failedSteps.Count)"
   $lines += ""
-  $lines += "## Repo Sync"
-  $lines += '```text'
-  $lines += $syncOutput.TrimEnd()
-  $lines += '```'
-  $lines += ""
-  $lines += "## Open PRs (author:@me)"
-  $lines += '```text'
-  $lines += $prOutput.TrimEnd()
-  $lines += '```'
-  $lines += ""
-  $lines += "## Backend Standards Conformance"
-  $lines += '```text'
-  $lines += $conformanceOutput.TrimEnd()
-  $lines += '```'
-  $lines += ""
-  $lines += "## OpenAPI Conformance"
-  $lines += '```text'
-  $lines += $openApiConformanceOutput.TrimEnd()
-  $lines += '```'
-  $lines += ""
-  $lines += "## Domain Vocabulary Conformance"
-  $lines += '```text'
-  $lines += $domainVocabularyOutput.TrimEnd()
-  $lines += '```'
+
+  foreach ($step in $steps) {
+    $lines += "## $($step.name)"
+    $lines += "status: $(if ($step.ok) { 'ok' } else { 'failed' }) | duration: $($step.duration_sec)s | exit_code: $($step.exit_code)"
+    $lines += '```text'
+    $lines += $step.output
+    $lines += '```'
+    $lines += ""
+  }
 
   Write-Status -Path $OutputPath -Lines $lines
-  Write-Host "[$timestamp] agent iteration complete. Next run in $IntervalSeconds sec."
+  Write-Host "[$timestamp] agent iteration complete (failed_steps=$($failedSteps.Count)). Next run in $IntervalSeconds sec."
 
   if ($Once) {
     break

@@ -12,34 +12,36 @@ if (-not (Test-Path $ConfigPath)) {
   throw "Config file not found: $ConfigPath"
 }
 
-function Invoke-GhJson {
-  param([string[]]$Args)
-  $raw = & gh @Args 2>$null
-  if ($LASTEXITCODE -ne 0) {
-    return ""
-  }
-  return ($raw | Out-String)
-}
-
 $repos = Get-Content $ConfigPath | ConvertFrom-Json
 $allResults = @()
 
 foreach ($repo in $repos) {
   $ghRepo = $repo.github
-  $itemsRaw = Invoke-GhJson -Args @(
+  $itemsRaw = & gh @(
     "pr", "list", "--repo", $ghRepo, "--state", "open",
+    "--limit", "100",
     "--json", "number,title,headRefName,baseRefName,mergeStateStatus,isDraft,url,updatedAt"
-  )
+  ) 2>&1
 
-  if ([string]::IsNullOrWhiteSpace($itemsRaw)) {
-    $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = @() }
+  if ($LASTEXITCODE -ne 0) {
+    $allResults += [pscustomobject]@{
+      repo = $ghRepo
+      pulls = @()
+      query_error = ($itemsRaw | Out-String).Trim()
+    }
     continue
   }
+
+  $itemsRaw = ($itemsRaw | Out-String)
 
   try {
     $items = $itemsRaw | ConvertFrom-Json
   } catch {
-    $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = @() }
+    $allResults += [pscustomobject]@{
+      repo = $ghRepo
+      pulls = @()
+      query_error = "Failed to parse gh pr list JSON output."
+    }
     continue
   }
 
@@ -70,7 +72,7 @@ foreach ($repo in $repos) {
     }
   }
 
-  $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = $items }
+  $allResults += [pscustomobject]@{ repo = $ghRepo; pulls = $items; query_error = $null }
 }
 
 $dir = Split-Path -Parent $OutputPath
@@ -89,6 +91,11 @@ $summaryLines += ""
 
 foreach ($entry in $allResults) {
   $summaryLines += "## $($entry.repo)"
+  if ($entry.query_error) {
+    $summaryLines += "- Unable to query PRs: $($entry.query_error)"
+    $summaryLines += ""
+    continue
+  }
   if (-not $entry.pulls -or $entry.pulls.Count -eq 0) {
     $summaryLines += "- No open PRs."
     $summaryLines += ""
