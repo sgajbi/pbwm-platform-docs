@@ -21,6 +21,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Generate-Dependency-Vulnerability-Rollup.ps1`
 - `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/Validate-Domain-Vocabulary.ps1`
+- `automation/Validate-Rounding-Consistency.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
@@ -164,6 +165,12 @@ Validate domain vocabulary conformance across backend repositories:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1
 ```
 
+Validate cross-service rounding and precision consistency:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Rounding-Consistency.ps1
+```
+
 Validate repository metadata (default branches and preflight command presence):
 
 ```powershell
@@ -265,6 +272,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/openapi-conformance-summary.md`
 - `output/domain-vocabulary-conformance.json`
 - `output/domain-vocabulary-conformance.md`
+- `output/rounding-consistency-report.json`
+- `output/rounding-consistency-report.md`
 - `output/backend-governance-enforcement.json`
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`

@@ -45,3 +45,25 @@ powershell -ExecutionPolicy Bypass -File automation/Generate-Dependency-Vulnerab
 powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
 powershell -ExecutionPolicy Bypass -File automation/Enforce-Backend-Governance.ps1 -Apply
 ```
+
+## Active Cross-Cutting Rollout: Rounding and Precision Standard
+
+Checklist:
+
+- [x] Central standard defined and versioned in PPD.
+- [x] RFC created for change control.
+- [x] PAS implementation + tests.
+- [x] PA implementation + tests.
+- [x] DPM implementation + tests.
+- [x] RAS implementation + tests.
+- [x] AEA implementation + tests.
+- [x] Cross-service consistency golden validation.
+
+| Repo | Status | Files Changed | Tests | Blocker |
+|---|---|---|---|---|
+| pbwm-platform-docs | complete | standard/RFC/glossary/tracker + `automation/Validate-Rounding-Consistency.ps1` | `Validate-Rounding-Consistency.ps1` | none |
+| portfolio-analytics-system | complete | `app/precision_policy.py`, `summary_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/services/query_service/test_precision_policy.py tests/unit/services/query_service/services/test_summary_service.py -q` | none |
+| performanceAnalytics | complete | `app/precision_policy.py`, `engine/breakdown.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/app/test_precision_policy.py tests/unit/engine/test_breakdown.py -q` | none |
+| dpm-rebalance-engine | complete | `src/core/precision_policy.py`, `simulation_shared.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/core/test_precision_policy.py tests/unit/dpm/engine/test_engine_valuation_service.py -q` | none |
+| reporting-aggregation-service | complete | `src/app/precision_policy.py`, `aggregation_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_aggregation_service.py -q` | none |
+| advisor-experience-api | complete | `src/app/precision_policy.py`, `workbench_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_workbench_service.py tests/unit/test_workbench_service_additional.py -q` | none |
