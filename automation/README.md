@@ -23,6 +23,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Domain-Vocabulary.ps1`
 - `automation/Validate-Rounding-Consistency.ps1`
 - `automation/Validate-Monetary-Float-Guard.ps1`
+- `automation/Validate-Scalability-Availability.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
@@ -176,6 +177,12 @@ Validate monetary-float regression guard across backend repositories:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation/Validate-Monetary-Float-Guard.ps1
+```
+
+Validate scalability and availability compliance matrix across backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Scalability-Availability.ps1
 ```
 
 Validate repository metadata (default branches and preflight command presence):
