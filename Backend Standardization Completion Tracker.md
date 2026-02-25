@@ -68,3 +68,18 @@ Checklist:
 | dpm-rebalance-engine | complete | `src/core/precision_policy.py`, `simulation_shared.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/core/test_precision_policy.py tests/unit/dpm/engine/test_engine_valuation_service.py -q` | none |
 | reporting-aggregation-service | complete | `src/app/precision_policy.py`, `aggregation_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_aggregation_service.py -q` | none |
 | advisor-experience-api | complete | `src/app/precision_policy.py`, `workbench_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_workbench_service.py tests/unit/test_workbench_service_additional.py -q` | none |
+
+## Active Cross-Cutting Rollout: Scalability and Availability Standard
+
+Artifacts:
+
+- `Scalability and Availability Standard.md`
+- `Scalability and Availability Gap and Risk Report.md`
+- `output/scalability-availability-compliance.json`
+- `output/scalability-availability-compliance.md`
+
+Validation command:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Scalability-Availability.ps1
+```
