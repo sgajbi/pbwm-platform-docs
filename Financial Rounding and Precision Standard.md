@@ -87,6 +87,16 @@ Minimum required tests per service:
 3. Cross-service golden:
    - same input vector across PAS/PA/DPM/RAS returns identical rounded outputs for shared fields.
 
+## CI Guardrail: Monetary Float Usage
+
+To prevent drift, each backend repo must run a monetary-float guard in CI:
+
+1. Scan source files for monetary/analytics semantic fields typed as `float`.
+2. Fail CI on new findings not present in approved baseline allowlist.
+3. Baseline file location per repo:
+   - `docs/standards/monetary-float-allowlist.json`
+4. Baseline updates require dedicated PR and explicit review rationale.
+
 ## Migration and Backward Compatibility
 
 1. Existing endpoints must preserve field names; only numeric normalization/precision changes are allowed.
