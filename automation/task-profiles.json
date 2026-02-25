@@ -136,6 +136,7 @@
       "tasks": [
         { "id": "sync-repos", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Sync-Repos.ps1" },
         { "id": "pr-monitor-checks", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/PR-Monitor.ps1 -IncludeChecks" },
+        { "id": "detect-stalled-pr-checks", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Detect-Stalled-PR-Checks.ps1 -StaleMinutes 20" },
         { "id": "validate-backend-standards", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1" },
         { "id": "validate-openapi", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-OpenAPI-Conformance.ps1" },
         { "id": "validate-vocabulary", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1" },

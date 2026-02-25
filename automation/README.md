@@ -6,6 +6,7 @@ Canonical cross-cutting automation lives here.
 
 - `automation/Sync-Repos.ps1`
 - `automation/PR-Monitor.ps1`
+- `automation/Detect-Stalled-PR-Checks.ps1`
 - `automation/Platform-Pulse.ps1`
 - `automation/Run-Agent.ps1`
 - `automation/Service-Refresh.ps1`
@@ -169,6 +170,12 @@ Validate repository metadata (default branches and preflight command presence):
 powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
 ```
 
+Detect queued/in-progress PR checks that appear stalled:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Detect-Stalled-PR-Checks.ps1 -StaleMinutes 20
+```
+
 Run strict PR preflight for one repository before pushing:
 
 ```powershell
@@ -239,6 +246,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 
 - `output/pr-monitor.json`
 - `output/pr-monitor.md`
+- `output/stalled-pr-checks.json`
+- `output/stalled-pr-checks.md`
 - `output/agent-status.md`
 - `output/agent-status.json`
 - `output/task-runs/*.json`
