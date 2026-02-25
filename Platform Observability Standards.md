@@ -51,6 +51,12 @@ Minimum service metrics:
 - dependency latency/error counts
 - queue/background consumer lag or processing counters where applicable
 
+Scale-signal metrics required for capacity decisions:
+- CPU and memory usage for service containers
+- database query latency and connection pool saturation
+- queue depth / consumer lag for async workloads
+- throughput and p95/p99 response latency by endpoint
+
 Naming conventions:
 - snake_case metric names
 - stable labels: `service`, `env`, `endpoint`, `method`, `status_code`
@@ -88,3 +94,8 @@ Included observability baseline:
 - `prometheus`
 - `grafana`
 - `otel-collector`
+
+Infrastructure evidence links:
+- `platform-stack/prometheus/prometheus.yml`
+- `platform-stack/docker-compose.yml`
+- `platform-stack/grafana/provisioning/datasources/datasource.yml`

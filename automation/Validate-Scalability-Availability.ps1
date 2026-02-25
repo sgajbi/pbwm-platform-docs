@@ -30,7 +30,7 @@ function Test-Pattern {
   foreach ($target in $Targets) {
     $fullTarget = Join-Path $RepoPath $target
     if (-not (Test-Path $fullTarget)) { continue }
-    $matches = rg -n --glob '!**/.venv/**' --glob '!**/node_modules/**' --glob '!**/.git/**' $Pattern $fullTarget 2>$null
+    $matches = rg -n -i --hidden --glob '!**/.venv/**' --glob '!**/node_modules/**' --glob '!**/.git/**' --glob '!**/.next/**' --glob '!**/__pycache__/**' $Pattern $fullTarget 2>$null
     if ($LASTEXITCODE -eq 0 -and $matches) {
       return $matches | Select-Object -First 1
     }
@@ -39,16 +39,16 @@ function Test-Pattern {
 }
 
 $requirements = @(
-  @{ key = "stateless_baseline"; pattern = "redis|postgres|kafka|rabbitmq|queue|repository"; targets = @("src","app","docs") },
-  @{ key = "resilient_comm"; pattern = "max_retries|retry|backoff|timeout"; targets = @("src","app","docs") },
-  @{ key = "health_checks"; pattern = "health/live|health/ready|/health"; targets = @("src","app") },
-  @{ key = "api_pagination_guardrails"; pattern = "limit=|page_size|pagination|Query\(.*le="; targets = @("src","app") },
-  @{ key = "workload_isolation"; pattern = "BackgroundTasks|consumer|async|analyze/async|queue"; targets = @("src","app") },
-  @{ key = "db_scalability_docs"; pattern = "index|retention|archival|query plan|growth"; targets = @("docs") },
-  @{ key = "caching_policy"; pattern = "cache|ttl|invalidation"; targets = @("src","app","docs") },
-  @{ key = "observability_metrics"; pattern = "metrics|prometheus|otel|trace|latency|error rate"; targets = @("src","app","docs") },
-  @{ key = "availability_baseline"; pattern = "SLO|RTO|RPO|backup|restore"; targets = @("docs") },
-  @{ key = "load_concurrency_tests"; pattern = "asyncio.gather|benchmark|load|stress|concurrency"; targets = @("tests") }
+  @{ key = "stateless_baseline"; pattern = "redis|postgres|kafka|rabbitmq|queue|database_url|db_url"; targets = @("src","app","config") },
+  @{ key = "resilient_comm"; pattern = ""; targets = @() },
+  @{ key = "health_checks"; pattern = ""; targets = @() },
+  @{ key = "api_pagination_guardrails"; pattern = "Query\(.*(le=|lt=)|cursor|page_size|sectionLimit|featureLimit|workflowLimit|\blimit\b\s*:\s*int\s*=\s*Query"; targets = @("src","app") },
+  @{ key = "workload_isolation"; pattern = "BackgroundTasks|consumer|worker|queue|kafka|celery|analyze.*async|async.*operation"; targets = @("src","app") },
+  @{ key = "db_scalability_docs"; pattern = "index|retention|archival|query plan|growth"; targets = @("docs/standards/scalability-availability.md") },
+  @{ key = "caching_policy"; pattern = "cache|ttl|invalidation|stale-read|stale read"; targets = @("docs/standards/scalability-availability.md","src","app") },
+  @{ key = "observability_metrics"; pattern = "prometheus_fastapi_instrumentator|Instrumentator\(|/metrics|cpu|memory|queue lag|queue depth|db latency|connection pool"; targets = @("src","app","docs/standards/scalability-availability.md","docs/standards") },
+  @{ key = "availability_baseline"; pattern = "SLO|RTO|RPO|backup|restore"; targets = @("docs/standards/scalability-availability.md") },
+  @{ key = "load_concurrency_tests"; pattern = "ThreadPoolExecutor|asyncio\.gather|pytest\.mark\.benchmark|\bbenchmark\(|load_concurrency|concurrent_safe|stress"; targets = @("tests","tests/benchmarks",".benchmarks") }
 )
 
 $rows = @()
@@ -59,8 +59,45 @@ foreach ($repo in $config.repositories) {
 
   $path = Join-Path $repoRoot $name
   foreach ($req in $requirements) {
-    $evidence = Test-Pattern -RepoPath $path -Pattern $req.pattern -Targets $req.targets
-    $status = if ($null -eq $evidence) { "Missing" } else { "Implemented" }
+    $status = "Missing"
+    $evidence = $null
+
+    if ($req.key -eq "resilient_comm") {
+      $timeoutEvidence = Test-Pattern -RepoPath $path -Pattern "timeout|AbortController|ClientTimeout|requestTimeout|connectTimeout|readTimeout|asyncio\.timeout|wait_for\(" -Targets @("src","app")
+      $retryEvidence = Test-Pattern -RepoPath $path -Pattern "retry|backoff|max_retries|exponential" -Targets @("src","app")
+      $drainEvidence = Test-Pattern -RepoPath $path -Pattern "lifespan|on_shutdown|shutdown event|SIGTERM|graceful shutdown|is_draining" -Targets @("src","app")
+      if ($timeoutEvidence -and $drainEvidence -and $retryEvidence) {
+        $status = "Implemented"
+        $evidence = "$timeoutEvidence ; $retryEvidence ; $drainEvidence"
+      } elseif ($timeoutEvidence -and $drainEvidence) {
+        $status = "Implemented"
+        $evidence = "$timeoutEvidence ; $drainEvidence"
+      } elseif ($timeoutEvidence -or $retryEvidence -or $drainEvidence) {
+        $status = "Partial"
+        $evidence = @($timeoutEvidence, $retryEvidence, $drainEvidence) -ne $null | Select-Object -First 1
+      }
+    } elseif ($req.key -eq "health_checks") {
+      $liveEvidence = Test-Pattern -RepoPath $path -Pattern "health/live" -Targets @("src","app")
+      $readyEvidence = Test-Pattern -RepoPath $path -Pattern "health/ready" -Targets @("src","app")
+      if ($liveEvidence -and $readyEvidence) {
+        $status = "Implemented"
+        $evidence = "$liveEvidence ; $readyEvidence"
+      } elseif ($liveEvidence -or $readyEvidence) {
+        $status = "Partial"
+        $evidence = @($liveEvidence, $readyEvidence) -ne $null | Select-Object -First 1
+      }
+    } else {
+      if ($req.key -eq "stateless_baseline") {
+        $evidence = Test-Pattern -RepoPath $path -Pattern $req.pattern -Targets $req.targets
+        if (-not $evidence) {
+          $evidence = Test-Pattern -RepoPath $path -Pattern "stateless service behavior|externalized durable state|state must be externalized" -Targets @("docs/standards/scalability-availability.md")
+        }
+      } else {
+        $evidence = Test-Pattern -RepoPath $path -Pattern $req.pattern -Targets $req.targets
+      }
+      $status = if ($null -eq $evidence) { "Missing" } else { "Implemented" }
+    }
+
     $rows += [pscustomobject]@{
       repo = $name
       requirement = $req.key

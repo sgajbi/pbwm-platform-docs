@@ -5,15 +5,15 @@
 Status source: `output/scalability-availability-compliance.md`.
 
 Completed in this wave:
-- Resilient upstream communication with explicit timeout + bounded retries/backoff in AEA/PA/RAS.
-- Config-driven retry defaults in AEA/PA/RAS.
-- Health/readiness coverage retained and validated by scanner.
-- Cross-repo compliance validator added (`automation/Validate-Scalability-Availability.ps1`).
+- Graceful shutdown and drain-safe readiness behavior implemented in AEA, PA, and RAS.
+- Explicit cache policy sections added in AEA, PAS, and DPM scalability standards docs.
+- Explicit availability baseline added in PAS (SLO, RTO, RPO, backup/restore validation).
+- Real load/concurrency tests added for AEA and DPM health endpoints.
+- Scale-signal observability coverage documented with platform-shared evidence links.
+- Compliance validator hardened to reduce false positives from generic benchmark/doc matches.
 
 Open gaps from matrix (current):
-- AEA: availability baseline documentation.
-- PA: explicit health check evidence and API pagination guardrail evidence.
-- RAS: pagination guardrails, DB scalability docs, caching policy docs, availability baseline docs.
+- None in Do-Now controls (`Implemented` across all backend repos).
 
 ## B. Phase Next (Before First Client Go-Live)
 
@@ -33,17 +33,17 @@ Open gaps from matrix (current):
 
 | Repo | Next Action | Effort |
 |---|---|---|
-| advisor-experience-api | Add availability SLO/RTO/RPO + backup/restore runbook section and endpoint budgets | S |
-| performanceAnalytics | Add explicit health/readiness contract docs + list endpoint pagination/size constraints | S |
-| reporting-aggregation-service | Add pagination limits for report/aggregation endpoints + cache/retention/SLO docs | M |
-| portfolio-analytics-system | Keep baseline; add explicit benchmark/load evidence artifact references | M |
-| dpm-rebalance-engine | Keep baseline; add explicit capacity model section for async workloads | M |
+| advisor-experience-api | Completed Do-Now baseline; next: circuit-breaker/degradation policy and capacity modeling | M |
+| performanceAnalytics | Completed Do-Now baseline; next: HA deployment patterns and DR drill evidence | M |
+| reporting-aggregation-service | Completed Do-Now baseline; next: capacity model and restore drill evidence | M |
+| portfolio-analytics-system | Completed Do-Now baseline; next: bulkhead policy and HA deployment pattern hardening | M |
+| dpm-rebalance-engine | Completed Do-Now baseline; next: async workload capacity model and DR drill execution | M |
 
 ## E. Definition of Done + Evidence
 
 Done criteria for this standard:
 - Central standard exists and is referenced by backend repos.
-- Matrix is regenerated and no `Missing` in Do-Now controls for any backend repo.
+- Matrix is regenerated and no `Missing`/`Partial` in Do-Now controls for any backend repo.
 - Resilience controls validated by unit/integration tests.
 
 Evidence artifacts:
