@@ -477,3 +477,15 @@ Artifacts:
 - `output/dependency-vulnerability-rollup.json`
 - `output/dependency-vulnerability-rollup.md`
 - `output/agent-status.json`
+
+### 14.5 Local-CI Parity Evidence
+
+Generate explicit parity evidence between local standard commands and CI workflow gates:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation\Generate-Local-CI-Parity-Evidence.ps1
+```
+
+Artifacts:
+- `output/local-ci-parity-evidence.json`
+- `output/local-ci-parity-evidence.md`
