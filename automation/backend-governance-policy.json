@@ -54,7 +54,7 @@
     },
     {
       "name": "reporting-aggregation-service",
-      "default_branch": "master",
+      "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
         "Lint Typecheck Security",

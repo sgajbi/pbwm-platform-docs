@@ -19,6 +19,8 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Backend-Standards.ps1`
 - `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/Validate-Domain-Vocabulary.ps1`
+- `automation/Verify-Repo-Metadata.ps1`
+- `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
@@ -153,6 +155,24 @@ Validate domain vocabulary conformance across backend repositories:
 powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1
 ```
 
+Validate repository metadata (default branches and preflight command presence):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
+```
+
+Run strict PR preflight for one repository before pushing:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo reporting-aggregation-service -Mode full
+```
+
+Run fast PR preflight while iterating:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo reporting-aggregation-service -Mode fast
+```
+
 Generate test-pyramid and coverage baseline across backend services:
 
 ```powershell
@@ -219,6 +239,10 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/domain-vocabulary-conformance.md`
 - `output/backend-governance-enforcement.json`
 - `output/backend-governance-enforcement.md`
+- `output/repo-metadata-validation.json`
+- `output/repo-metadata-validation.md`
+- `output/preflight/*.json`
+- `output/preflight/*.md`
 
 ## Governance
 

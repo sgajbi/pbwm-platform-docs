@@ -121,6 +121,13 @@
       "tasks": [
         { "id": "validate-domain-vocabulary", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1" }
       ]
+    },
+    {
+      "name": "repo-metadata-validation",
+      "description": "Validate cross-repo metadata (default branch and preflight command definitions)",
+      "tasks": [
+        { "id": "verify-repo-metadata", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1" }
+      ]
     }
   ]
 }

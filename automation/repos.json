@@ -2,36 +2,55 @@
   {
     "name": "advisor-workbench",
     "github": "sgajbi/advisor-workbench",
-    "path": "C:/Users/Sandeep/projects/advisor-workbench"
+    "path": "C:/Users/Sandeep/projects/advisor-workbench",
+    "default_branch": "main",
+    "preflight_fast_command": "npm run lint && npm run typecheck",
+    "preflight_full_command": "npm run lint && npm run typecheck && npm run test"
   },
   {
     "name": "advisor-experience-api",
     "github": "sgajbi/advisor-experience-api",
-    "path": "C:/Users/Sandeep/projects/advisor-experience-api"
+    "path": "C:/Users/Sandeep/projects/advisor-experience-api",
+    "default_branch": "main",
+    "preflight_fast_command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract",
+    "preflight_full_command": "python -m ruff check . && python -m ruff format --check . && python -m mypy src && python -m pytest tests/unit tests/contract tests/integration"
   },
   {
     "name": "dpm-rebalance-engine",
     "github": "sgajbi/dpm-rebalance-engine",
-    "path": "C:/Users/Sandeep/projects/dpm-rebalance-engine"
+    "path": "C:/Users/Sandeep/projects/dpm-rebalance-engine",
+    "default_branch": "main",
+    "preflight_fast_command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit",
+    "preflight_full_command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini"
   },
   {
     "name": "pbwm-platform-docs",
     "github": "sgajbi/pbwm-platform-docs",
-    "path": "C:/Users/Sandeep/projects/pbwm-platform-docs"
+    "path": "C:/Users/Sandeep/projects/pbwm-platform-docs",
+    "default_branch": "main"
   },
   {
     "name": "performanceAnalytics",
     "github": "sgajbi/performanceAnalytics",
-    "path": "C:/Users/Sandeep/projects/performanceAnalytics"
+    "path": "C:/Users/Sandeep/projects/performanceAnalytics",
+    "default_branch": "main",
+    "preflight_fast_command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -m pytest tests/unit",
+    "preflight_full_command": "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini"
   },
   {
     "name": "portfolio-analytics-system",
     "github": "sgajbi/portfolio-analytics-system",
-    "path": "C:/Users/Sandeep/projects/portfolio-analytics-system"
+    "path": "C:/Users/Sandeep/projects/portfolio-analytics-system",
+    "default_branch": "main",
+    "preflight_fast_command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python -m pytest tests/unit/services/query_service -q",
+    "preflight_full_command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python scripts/coverage_gate.py"
   },
   {
     "name": "reporting-aggregation-service",
     "github": "sgajbi/reporting-aggregation-service",
-    "path": "C:/Users/Sandeep/projects/reporting-aggregation-service"
+    "path": "C:/Users/Sandeep/projects/reporting-aggregation-service",
+    "default_branch": "main",
+    "preflight_fast_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests/unit",
+    "preflight_full_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests --cov=src/app --cov-report=term --cov-fail-under=99"
   }
 ]
