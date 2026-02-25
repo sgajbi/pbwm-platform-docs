@@ -109,6 +109,8 @@ Check background run status:
 powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1
 ```
 
+`Start-Background-Run.ps1` now assigns a deterministic `runId` and expected result artifact paths, and `Check-Background-Runs.ps1` marks runs as completed based on artifact existence to avoid stale `running` status from PID reuse.
+
 Watch mode (refresh every 20s):
 
 ```powershell
@@ -151,6 +153,12 @@ Generate test-pyramid and coverage baseline across backend services:
 powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -RunCoverage
 ```
 
+Enforce backend governance policy (branch protection + auto-merge + no review requirement):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Enforce-Backend-Governance.ps1 -Apply
+```
+
 Profiles currently defined in `automation/task-profiles.json`:
 - `bootstrap-env`
 - `fast-feedback`
@@ -161,6 +169,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `migration-quality`
 - `coverage-pyramid-baseline`
 - `backend-standards-conformance`
+- `enforce-backend-governance`
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 
@@ -202,6 +211,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/openapi-conformance-summary.md`
 - `output/domain-vocabulary-conformance.json`
 - `output/domain-vocabulary-conformance.md`
+- `output/backend-governance-enforcement.json`
+- `output/backend-governance-enforcement.md`
 
 ## Governance
 

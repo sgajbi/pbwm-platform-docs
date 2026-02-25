@@ -40,16 +40,30 @@ function Print-Status {
   $updated = @()
   foreach ($entry in $entries) {
     $proc = Get-Process -Id $entry.pid -ErrorAction SilentlyContinue
-    $status = if ($proc) { "running" } else { "completed" }
-    $latestResult = Get-LatestResult -Profile $entry.profile
+    $expectedResultPath = $entry.expectedResultPath
+    $latestResult = if ($expectedResultPath -and (Test-Path $expectedResultPath)) {
+      $expectedResultPath
+    } else {
+      Get-LatestResult -Profile $entry.profile
+    }
+    $status = if ($expectedResultPath -and (Test-Path $expectedResultPath)) {
+      "completed"
+    } elseif ($proc) {
+      "running"
+    } else {
+      "completed_no_artifact"
+    }
     $updated += [pscustomobject]@{
       pid = $entry.pid
       profile = $entry.profile
       maxParallel = $entry.maxParallel
+      runId = $entry.runId
       startedAt = $entry.startedAt
       status = $status
       outLogPath = $entry.outLogPath
       errLogPath = $entry.errLogPath
+      expectedResultPath = $entry.expectedResultPath
+      expectedSummaryPath = $entry.expectedSummaryPath
       latestResult = $latestResult
     }
   }

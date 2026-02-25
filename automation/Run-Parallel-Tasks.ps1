@@ -3,7 +3,8 @@ param(
   [string]$ProfilesPath = "automation/task-profiles.json",
   [string]$ReposConfigPath = "automation/repos.json",
   [int]$MaxParallel = 3,
-  [string]$OutputDir = "output/task-runs"
+  [string]$OutputDir = "output/task-runs",
+  [string]$RunId = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -48,7 +49,7 @@ if (-not (Test-Path $OutputDir)) {
   New-Item -ItemType Directory -Force $OutputDir | Out-Null
 }
 
-$timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$timestamp = if ([string]::IsNullOrWhiteSpace($RunId)) { Get-Date -Format "yyyyMMdd-HHmmss" } else { $RunId }
 $results = @()
 
 Write-Host "Running profile '$Profile': $($profileConfig.description)"
