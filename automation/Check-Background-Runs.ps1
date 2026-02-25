@@ -1,7 +1,8 @@
 param(
   [string]$StatePath = "output/background-runs.json",
   [switch]$Watch,
-  [int]$IntervalSeconds = 20
+  [int]$IntervalSeconds = 20,
+  [switch]$PruneCompleted
 )
 
 $ErrorActionPreference = "Stop"
@@ -68,7 +69,13 @@ function Print-Status {
     }
   }
 
-  $updated | ConvertTo-Json -Depth 5 | Set-Content $RunStatePath
+  $persisted = if ($PruneCompleted) {
+    @($updated | Where-Object { $_.status -eq "running" })
+  } else {
+    $updated
+  }
+
+  $persisted | ConvertTo-Json -Depth 5 | Set-Content $RunStatePath
   $updated | Sort-Object startedAt -Descending | Format-Table pid, profile, status, startedAt, latestResult -AutoSize
 }
 
