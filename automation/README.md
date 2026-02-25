@@ -34,6 +34,12 @@ One-shot pulse:
 powershell -ExecutionPolicy Bypass -File automation/Platform-Pulse.ps1
 ```
 
+Pulse with conformance sweep:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Platform-Pulse.ps1 -IncludeConformance
+```
+
 Continuous agent loop:
 
 ```powershell
@@ -41,6 +47,7 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 ```
 
 `Run-Agent.ps1` now executes five checks per iteration: repo sync, PR monitor, backend standards conformance validation, OpenAPI conformance validation, and domain vocabulary conformance validation.
+It also emits machine-readable status to `output/agent-status.json`, runs metadata validation every iteration, and performs full coverage + dependency rollup every N iterations (`-FullAuditEvery`, default `5`).
 
 One-shot PR health (with failing check detection):
 
@@ -206,6 +213,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 - `repo-metadata-validation`
+- `autonomous-foundation`
 
 New repo included in shared automation:
 - `reporting-aggregation-service`
@@ -232,6 +240,7 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/pr-monitor.json`
 - `output/pr-monitor.md`
 - `output/agent-status.md`
+- `output/agent-status.json`
 - `output/task-runs/*.json`
 - `output/task-runs/*.md`
 - `output/task-runs/*.out.log`

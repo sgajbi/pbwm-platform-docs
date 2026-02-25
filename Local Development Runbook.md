@@ -445,6 +445,9 @@ powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Prof
 # Domain vocabulary conformance baseline
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile domain-vocabulary-conformance -MaxParallel 1
 
+# Autonomous full foundation governance sweep
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile autonomous-foundation -MaxParallel 1
+
 # Dependency vulnerability rollup baseline
 powershell -ExecutionPolicy Bypass -File automation\Generate-Dependency-Vulnerability-Rollup.ps1
 ```
@@ -463,6 +466,7 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 - `repo-metadata-validation`
+- `autonomous-foundation`
 
 Artifacts:
 - `output/task-runs/*.json`
@@ -472,3 +476,4 @@ Artifacts:
 - `output/background-runs.json`
 - `output/dependency-vulnerability-rollup.json`
 - `output/dependency-vulnerability-rollup.md`
+- `output/agent-status.json`
