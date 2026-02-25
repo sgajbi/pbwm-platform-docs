@@ -468,6 +468,9 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `repo-metadata-validation`
 - `autonomous-foundation`
 
+Windows note for `ci-parity`: coverage-scoped pytest commands in the profile use `set COVERAGE_FILE=... &&` because the task runner executes via `cmd /c`.
+`ci-parity` intentionally omits host `pip check` for DPM/PA due shared interpreter drift; run `docker-ci-parity` when you need strict isolated dependency parity.
+
 Artifacts:
 - `output/task-runs/*.json`
 - `output/task-runs/*.md`

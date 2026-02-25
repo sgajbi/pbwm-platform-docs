@@ -247,6 +247,8 @@ New repo included in shared automation:
 - `reporting-aggregation-service`
 
 Note: profiles are Windows-native and do not require `make`.
+For `ci-parity`, coverage-scoped pytest steps use `set COVERAGE_FILE=... &&` syntax so they run correctly under `cmd /c` on Windows.
+`ci-parity` also skips host-level `pip check` in DPM/PA to avoid shared-environment false failures; use `docker-ci-parity` for strict isolated parity.
 For PAS, `bootstrap-env` intentionally installs a minimal local dependency set for query-service unit checks instead of full multi-service editable bootstrap.
 
 ## Migration Quality Standard
