@@ -91,3 +91,4 @@ foreach ($repo in $repos) {
 }
 
 $results | Sort-Object repo | Format-Table -AutoSize
+

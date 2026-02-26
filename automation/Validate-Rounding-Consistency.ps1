@@ -17,11 +17,11 @@ projects_root = Path(sys.argv[1])
 vectors_path = Path(sys.argv[2])
 
 targets = {
-    "pas": ("portfolio-analytics-system", "src/services/query_service/app", "precision_policy"),
-    "pa": ("performanceAnalytics", "app", "precision_policy"),
-    "dpm": ("dpm-rebalance-engine", "src/core", "precision_policy"),
+    "pas": ("lotus-core", "src/services/query_service/app", "precision_policy"),
+    "pa": ("lotus-performance", "app", "precision_policy"),
+    "dpm": ("lotus-advise", "src/core", "precision_policy"),
     "ras": ("lotus-report", "src/app", "precision_policy"),
-    "aea": ("advisor-experience-api", "src/app", "precision_policy"),
+    "aea": ("lotus-gateway", "src/app", "precision_policy"),
 }
 
 vectors_payload = json.loads(vectors_path.read_text(encoding="utf-8"))
@@ -132,4 +132,5 @@ if (-not $outputObject.consistent) {
 }
 
 Write-Host "Generated $OutputJson and $OutputMarkdown"
+
 

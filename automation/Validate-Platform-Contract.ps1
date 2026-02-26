@@ -1,17 +1,28 @@
 param(
     [string]$WorkspaceRoot = "C:/Users/Sandeep/projects",
+    [string]$ReposConfigPath = "automation/repos.json",
     [string]$OutputPath = "output/platform-contract-validation.md"
 )
 
 $ErrorActionPreference = "Stop"
 
-$services = @(
-    @{ Name = "portfolio-analytics-system"; Path = "portfolio-analytics-system" },
-    @{ Name = "performanceAnalytics"; Path = "performanceAnalytics" },
-    @{ Name = "dpm-rebalance-engine"; Path = "dpm-rebalance-engine" },
-    @{ Name = "lotus-report"; Path = "lotus-report" },
-    @{ Name = "advisor-experience-api"; Path = "advisor-experience-api" }
-)
+$serviceIds = @("lotus-core", "lotus-performance", "lotus-advise", "lotus-report", "lotus-gateway")
+$repoConfig = Get-Content -Raw $ReposConfigPath | ConvertFrom-Json
+$services = @()
+foreach ($serviceId in $serviceIds) {
+    $repo = $repoConfig | Where-Object { $_.name -eq $serviceId } | Select-Object -First 1
+    if ($null -eq $repo) {
+        $services += @{ Name = $serviceId; Path = $serviceId }
+        continue
+    }
+    $repoPath = $repo.path
+    if ([string]::IsNullOrWhiteSpace($repoPath)) {
+        $services += @{ Name = $serviceId; Path = $serviceId }
+        continue
+    }
+    $resolvedPath = if ([System.IO.Path]::IsPathRooted($repoPath)) { $repoPath } else { Join-Path $WorkspaceRoot $repoPath }
+    $services += @{ Name = $serviceId; Path = $resolvedPath }
+}
 
 function Test-Pattern {
     param(
@@ -23,7 +34,7 @@ function Test-Pattern {
 
 $rows = @()
 foreach ($service in $services) {
-    $repoPath = Join-Path $WorkspaceRoot $service.Path
+    $repoPath = $service.Path
     if (-not (Test-Path $repoPath)) {
         $rows += [pscustomobject]@{
             Service = $service.Name
@@ -73,4 +84,5 @@ foreach ($row in $rows) {
 
 Set-Content -Path $OutputPath -Value ($lines -join "`n")
 Write-Host "Wrote contract validation report to $OutputPath"
+
 

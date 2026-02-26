@@ -14,18 +14,18 @@ $config = if ($configRaw -is [System.Array]) {
 }
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $backendRepos = @(
-  "advisor-experience-api",
-  "portfolio-analytics-system",
-  "performanceAnalytics",
-  "dpm-rebalance-engine",
+  "lotus-gateway",
+  "lotus-core",
+  "lotus-performance",
+  "lotus-advise",
   "lotus-report"
 )
 
 $workflowMap = @{
-  "advisor-experience-api" = "bff-write-orchestration"
-  "portfolio-analytics-system" = "core-portfolio-write-read"
-  "performanceAnalytics" = "advanced-analytics-read"
-  "dpm-rebalance-engine" = "decision-workflow-write"
+  "lotus-gateway" = "bff-write-orchestration"
+  "lotus-core" = "core-portfolio-write-read"
+  "lotus-performance" = "advanced-analytics-read"
+  "lotus-advise" = "decision-workflow-write"
   "lotus-report" = "reporting-aggregation-read"
 }
 
@@ -175,4 +175,5 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+
 
