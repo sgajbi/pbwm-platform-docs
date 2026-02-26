@@ -15,13 +15,14 @@ $config = if ($configRaw -is [System.Array]) {
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $results = @()
 $backendRepos = @(
-  "lotus-gateway",
-  "lotus-core",
-  "lotus-performance",
-  "lotus-advise",
-  "lotus-report"
+  $config.repositories |
+    Where-Object {
+      $_.name -like "lotus-*" -and
+      $_.name -ne "lotus-platform" -and
+      ((("" + $_.preflight_fast_command) -match "python|make") -or (("" + $_.preflight_full_command) -match "python|make"))
+    } |
+    ForEach-Object { [string]$_.name }
 )
-
 foreach ($repo in $config.repositories) {
   $name = [string]$repo.name
   if ($name -notin $backendRepos) { continue }
@@ -77,5 +78,4 @@ if ($results.status -contains "failed" -or $results.status -contains "missing-sc
 }
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
-
 

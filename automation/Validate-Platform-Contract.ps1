@@ -6,11 +6,20 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$serviceIds = @("lotus-core", "lotus-performance", "lotus-advise", "lotus-report", "lotus-gateway")
 $repoConfig = Get-Content -Raw $ReposConfigPath | ConvertFrom-Json
+$repoEntries = if ($repoConfig -is [System.Array]) { $repoConfig } elseif ($repoConfig.repositories) { $repoConfig.repositories } else { @() }
+$serviceIds = @(
+    $repoEntries |
+        Where-Object {
+            $_.name -like "lotus-*" -and
+            $_.name -ne "lotus-platform" -and
+            ((("" + $_.preflight_fast_command) -match "python|make") -or (("" + $_.preflight_full_command) -match "python|make"))
+        } |
+        ForEach-Object { [string]$_.name }
+)
 $services = @()
 foreach ($serviceId in $serviceIds) {
-    $repo = $repoConfig | Where-Object { $_.name -eq $serviceId } | Select-Object -First 1
+    $repo = $repoEntries | Where-Object { $_.name -eq $serviceId } | Select-Object -First 1
     if ($null -eq $repo) {
         $services += @{ Name = $serviceId; Path = $serviceId }
         continue
@@ -84,5 +93,8 @@ foreach ($row in $rows) {
 
 Set-Content -Path $OutputPath -Value ($lines -join "`n")
 Write-Host "Wrote contract validation report to $OutputPath"
+
+
+
 
 

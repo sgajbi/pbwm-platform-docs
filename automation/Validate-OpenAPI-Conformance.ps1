@@ -6,14 +6,17 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+$reposConfig = Get-Content -Raw $ReposPath | ConvertFrom-Json
+$repoEntries = if ($reposConfig -is [System.Array]) { $reposConfig } elseif ($reposConfig.repositories) { $reposConfig.repositories } else { @() }
 $backendRepos = @(
-    "lotus-gateway",
-    "lotus-advise",
-    "lotus-performance",
-    "lotus-core",
-    "lotus-report"
+    $repoEntries |
+        Where-Object {
+            $_.name -like "lotus-*" -and
+            $_.name -ne "lotus-platform" -and
+            ((("" + $_.preflight_fast_command) -match "python|make") -or (("" + $_.preflight_full_command) -match "python|make"))
+        } |
+        ForEach-Object { [string]$_.name }
 )
-
 function Get-MakeTargets {
     param([string]$MakefilePath)
     if (-not (Test-Path $MakefilePath)) { return @() }
@@ -45,7 +48,7 @@ if (-not (Test-Path $ReposPath)) {
     throw "Repos config not found: $ReposPath"
 }
 
-$repos = Get-Content -Raw $ReposPath | ConvertFrom-Json
+$repos = $repoEntries
 $results = @()
 
 foreach ($repo in $repos) {
@@ -155,5 +158,4 @@ foreach ($row in $results) {
 Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
 Write-Host "Wrote $OutputJsonPath"
 Write-Host "Wrote $OutputMarkdownPath"
-
 
