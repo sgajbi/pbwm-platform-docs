@@ -1,11 +1,11 @@
-﻿# RFC-0016: Standardization Principles and Engineering Baseline
+# RFC-0016: Standardization Principles and Engineering Baseline
 
 - Status: Proposed
 - Date: 2026-02-22
 
 ## Decision
 
-Replicate `dpm-rebalance-engine` engineering rigor across all services as minimum baseline.
+Replicate `lotus-advise` engineering rigor across all services as minimum baseline.
 
 ## Baseline
 
@@ -26,3 +26,4 @@ Replicate `dpm-rebalance-engine` engineering rigor across all services as minimu
 
 - Baseline checklist implemented in each repository.
 - CI parity established.
+

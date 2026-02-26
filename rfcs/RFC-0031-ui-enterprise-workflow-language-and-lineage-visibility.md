@@ -34,7 +34,7 @@ Implement two aligned improvements:
   - UI section: lineage chain with request/simulation/artifact hashes and timestamps.
 - Added/updated integration tests to include lineage fetch path and rendering behavior.
 
-### advisor-experience-api
+### lotus-gateway
 
 - Added BFF lineage parity endpoint:
   - `GET /api/v1/proposals/{proposal_id}/lineage`
@@ -47,10 +47,11 @@ Implement two aligned improvements:
 - `advisor-workbench`:
   - `npm run test`
   - `npm run build`
-- `advisor-experience-api`:
+- `lotus-gateway`:
   - `python -m pytest tests/integration/test_proposals_router.py`
 
 ## Notes
 
 - PAS/PA storyboard routes remain mock-backed in this phase.
 - DPM-backed advisory workflows remain live through BFF.
+

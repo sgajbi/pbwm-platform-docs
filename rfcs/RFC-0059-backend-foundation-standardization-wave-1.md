@@ -56,5 +56,6 @@ This wave standardizes repository-level mechanics and gates. It does not change 
 - Every backend repository exposes `make lint`, `make typecheck`, `make test`, and `make ci`.
 - Every backend CI includes dependency vulnerability audit and coverage gate `>=99%`.
 - No backend repository merges to protected branch without full required checks.
-- Platform coverage and pyramid summary remains green and published in `pbwm-platform-docs/output`.
+- Platform coverage and pyramid summary remains green and published in `lotus-platform/output`.
+
 

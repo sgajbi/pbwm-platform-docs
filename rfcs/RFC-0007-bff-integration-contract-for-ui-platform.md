@@ -1,4 +1,4 @@
-﻿# RFC-0007: BFF Integration Contract for Unified UI Platform
+# RFC-0007: BFF Integration Contract for Unified UI Platform
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -27,9 +27,9 @@ Implement a strict BFF contract layer as the only UI integration boundary.
 
 ## Composition Rules
 
-- `portfolio-analytics-system` provides foundational state and historical data.
-- `performanceAnalytics` provides advanced performance/attribution analytics.
-- `dpm-rebalance-engine` provides decision workflows and advisory lifecycle.
+- `lotus-core` provides foundational state and historical data.
+- `lotus-performance` provides advanced performance/attribution analytics.
+- `lotus-advise` provides decision workflows and advisory lifecycle.
 - BFF owns mapping, normalization, caching, and degradation handling.
 
 ## UX Rules
@@ -43,3 +43,4 @@ Implement a strict BFF contract layer as the only UI integration boundary.
 - BFF OpenAPI schema published and versioned.
 - BFF adapters and contract tests implemented for all 3 services.
 - MVP Advisor Workbench delivered via BFF-only integration.
+

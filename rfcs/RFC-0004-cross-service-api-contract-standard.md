@@ -1,4 +1,4 @@
-﻿# RFC-0004: Cross-Service API Contract Standard
+# RFC-0004: Cross-Service API Contract Standard
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -34,12 +34,13 @@ Adopt a single contract profile for all backend services and BFF.
 
 ## Pattern Reuse
 
-- From `dpm-rebalance-engine`: OpenAPI contract test rigor and idempotency conflict rules.
-- From `portfolio-analytics-system`: request correlation and metrics instrumentation.
-- From `performanceAnalytics`: deterministic reproducibility metadata.
+- From `lotus-advise`: OpenAPI contract test rigor and idempotency conflict rules.
+- From `lotus-core`: request correlation and metrics instrumentation.
+- From `lotus-performance`: deterministic reproducibility metadata.
 
 ## Acceptance Criteria
 
 - Shared OpenAPI lint and contract test suite active across all repos.
 - Uniform problem-details error envelope implemented in each service.
 - Correlation and idempotency behavior verified in integration tests.
+

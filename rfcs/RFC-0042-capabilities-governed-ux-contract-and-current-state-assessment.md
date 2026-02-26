@@ -53,7 +53,7 @@ Adopt a capabilities-governed UX contract where UI navigation and workflow avail
    - Capabilities are environment-governed at source services and reflected centrally via BFF.
    - BFF exposes partial failure and per-module health for operational diagnostics.
 4. Documentation-driven governance:
-   - Cross-cutting decision captured centrally in `pbwm-platform-docs`.
+   - Cross-cutting decision captured centrally in `lotus-platform`.
    - Service-level implementation details remain in service repositories.
 
 ## 5. Deviations and Disposition
@@ -85,3 +85,4 @@ Adopt a capabilities-governed UX contract where UI navigation and workflow avail
    - BFF normalized contract behavior (unit/integration/contract tests),
    - UI capability API behavior and fallback,
    - UI navigation gating behavior.
+

@@ -6,7 +6,7 @@ OpenAPI/Swagger quality expectations exist in architecture and migration standar
 
 ## Decision
 
-Establish a cross-repository OpenAPI conformance baseline and automate validation in `pbwm-platform-docs`.
+Establish a cross-repository OpenAPI conformance baseline and automate validation in `lotus-platform`.
 
 Baseline controls for backend repos (`PAS`, `PA`, `DPM`, `RAS`, `AEA/BFF`):
 
@@ -17,7 +17,7 @@ Baseline controls for backend repos (`PAS`, `PA`, `DPM`, `RAS`, `AEA/BFF`):
 
 ## Scope
 
-- `pbwm-platform-docs` standards and automation only.
+- `lotus-platform` standards and automation only.
 - No runtime service behavior changes in this increment.
 
 ## Out of Scope
@@ -47,3 +47,4 @@ Mitigation:
 - A single command produces platform-wide OpenAPI conformance status.
 - Agent/async automation can run OpenAPI conformance without chat interaction.
 - Conformance output highlights concrete repo-level gaps.
+

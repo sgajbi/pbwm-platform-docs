@@ -3,7 +3,7 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: `portfolio-analytics-system` (PAS), consumed by PA, DPM, BFF
+- Scope: `lotus-core` (PAS), consumed by PA, DPM, BFF
 
 ## 1. Problem Statement
 
@@ -54,3 +54,4 @@ PAS will expose a governed API product with strict domain ownership, policy-driv
 1. PAS API inventory is tagged by category: Business, Integration, Operations.
 2. PAS OpenAPI examples are present for all public endpoints.
 3. Any new PAS endpoint references owning bounded context and consumer persona.
+

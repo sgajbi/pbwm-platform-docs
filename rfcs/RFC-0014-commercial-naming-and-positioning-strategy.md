@@ -1,4 +1,4 @@
-﻿# RFC-0014: Commercial Naming and Positioning Strategy
+# RFC-0014: Commercial Naming and Positioning Strategy
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -16,10 +16,10 @@ Adopt a two-layer naming model:
 ## Proposed Mapping
 
 - Product umbrella: `Private Banking Wealth Platform`
-- `dpm-rebalance-engine` -> technical: `portfolio-decisioning-service`
-- `performanceAnalytics` -> technical: `performance-intelligence-service`
-- `portfolio-analytics-system` -> technical: `portfolio-data-platform`
-- New BFF: `advisor-experience-api`
+- `lotus-advise` -> technical: `portfolio-decisioning-service`
+- `lotus-performance` -> technical: `performance-intelligence-service`
+- `lotus-core` -> technical: `portfolio-data-platform`
+- New BFF: `lotus-gateway`
 - New UI: `advisor-workbench`
 - New reporting: `client-reporting-service`
 - Shared libs: `platform-foundations`
@@ -33,3 +33,4 @@ Adopt a two-layer naming model:
 
 - Naming map documented in architecture vision file.
 - Repo rename or alias plan defined.
+

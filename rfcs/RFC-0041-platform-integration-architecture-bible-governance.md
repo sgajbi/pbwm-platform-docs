@@ -19,7 +19,7 @@ Adopt `Platform Integration Architecture Bible.md` as the central guiding princi
 
 ## 2. Decision
 
-1. Cross-cutting architecture and multi-service alignment documents are maintained in `pbwm-platform-docs`.
+1. Cross-cutting architecture and multi-service alignment documents are maintained in `lotus-platform`.
 2. Service implementation RFCs remain in their respective service repositories.
 3. Any cross-service divergence requires central RFC/ADR updates and explicit disposition (`intentional`, `temporary`, `refactor-required`).
 
@@ -35,3 +35,4 @@ Adopt `Platform Integration Architecture Bible.md` as the central guiding princi
 2. Cleaner service repositories focused on implementation details.
 3. Better traceability for multi-service integration decisions.
 4. Documentation and implementation stay synchronized through same-cycle update discipline.
+

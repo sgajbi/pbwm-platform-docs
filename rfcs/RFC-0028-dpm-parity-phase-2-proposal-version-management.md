@@ -30,7 +30,7 @@ Implement proposal version management across BFF + UI:
 
 ## Implementation
 
-### advisor-experience-api
+### lotus-gateway
 
 - `src/app/clients/dpm_client.py`
 - `src/app/services/proposal_service.py`
@@ -47,7 +47,7 @@ Implement proposal version management across BFF + UI:
 
 ## Validation
 
-- `advisor-experience-api`:
+- `lotus-gateway`:
   - `python -m pytest tests/unit tests/contract -q`
   - `python -m pytest tests/integration -q`
 - `advisor-workbench`:
@@ -58,3 +58,4 @@ Implement proposal version management across BFF + UI:
 
 - New-version creation currently uses current-version `simulate_request` if present in proposal detail payload.
 - If backend payload omits `simulate_request`, UI surfaces an explicit warning and does not submit.
+

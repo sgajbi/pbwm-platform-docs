@@ -25,7 +25,7 @@ Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
 
 ## Scope Implemented
 
-### advisor-experience-api
+### lotus-gateway
 
 - Added PAS query client and lookup service/router
 - Added lookup contracts and endpoint tests
@@ -43,7 +43,7 @@ Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
 
 ## Validation
 
-- `advisor-experience-api`:
+- `lotus-gateway`:
   - `python -m ruff check .`
   - `python -m mypy src`
   - `python -m pytest tests/integration/test_lookups_router.py`
@@ -54,3 +54,4 @@ Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
 ## Notes
 
 - Selector coverage now supports private-banking operational control without blocking manual overrides.
+

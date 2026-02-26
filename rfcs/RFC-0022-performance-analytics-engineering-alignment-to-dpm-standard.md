@@ -3,12 +3,12 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Depends on: RFC-0005, RFC-0015, RFC-0016, RFC-0018, RFC-0019
-- Target repository: `performanceAnalytics`
-- Reference repository: `dpm-rebalance-engine`
+- Target repository: `lotus-performance`
+- Reference repository: `lotus-advise`
 
 ## Context
 
-`performanceAnalytics` is a strategic domain service in the target platform topology, but its engineering baseline is currently below the `dpm-rebalance-engine` standard.
+`lotus-performance` is a strategic domain service in the target platform topology, but its engineering baseline is currently below the `lotus-advise` standard.
 
 Observed gap summary (current snapshot):
 
@@ -23,7 +23,7 @@ At this stage there are no production consumers and no backward-compatibility co
 
 ## Decision
 
-Align `performanceAnalytics` to the DPM engineering standard as the minimum baseline, while preserving service-specific runtime and domain logic.
+Align `lotus-performance` to the DPM engineering standard as the minimum baseline, while preserving service-specific runtime and domain logic.
 
 This RFC is implementation-directive: the target state is not optional.
 
@@ -40,7 +40,7 @@ In scope:
 
 Out of scope:
 
-- business-domain API redesign in `performanceAnalytics`
+- business-domain API redesign in `lotus-performance`
 - immediate repository consolidation decisions
 - replacing service-specific analytics internals
 
@@ -56,7 +56,7 @@ Out of scope:
 
 ### 2. Makefile Command Surface
 
-`performanceAnalytics` must expose the same operator-facing commands (names and behavior shape):
+`lotus-performance` must expose the same operator-facing commands (names and behavior shape):
 
 - `install`
 - `lint`
@@ -93,7 +93,7 @@ Add auto-merge helper workflow:
 
 ### 4. Branch Protection Baseline
 
-For `main` branch in `performanceAnalytics`:
+For `main` branch in `lotus-performance`:
 
 - disallow direct pushes
 - require pull request before merge
@@ -168,24 +168,24 @@ Enforcement:
 2. Align README quickstart + QA commands.
 3. Add contribution standards and PR checklist.
 4. Add docs-sync checklist and examples to PR template and CONTRIBUTING guide.
-5. Record final baseline in `pbwm-platform-docs` status notes.
+5. Record final baseline in `lotus-platform` status notes.
 
 ## Quality and Coverage Policy
 
 Adopt DPM-style strictness with service-appropriate ramp:
 
-- final target: coverage gate >= 95% overall for `performanceAnalytics` (may move to 99% after stabilization)
+- final target: coverage gate >= 95% overall for `lotus-performance` (may move to 99% after stabilization)
 - suite split is mandatory even if integration/e2e initially minimal
 - contract tests required for public API endpoints
 - no merge to `main` without green CI
 
-Rationale: DPM currently enforces 99% and acts as the bar; `performanceAnalytics` may use a staged threshold but must converge upward.
+Rationale: DPM currently enforces 99% and acts as the bar; `lotus-performance` may use a staged threshold but must converge upward.
 
 ## Ownership and Non-Overlap Reminder
 
 This RFC changes engineering baseline only. It does not alter domain ownership:
 
-- `performanceAnalytics` remains owner of performance analytics (TWR/MWR/contribution/attribution)
+- `lotus-performance` remains owner of performance analytics (TWR/MWR/contribution/attribution)
 - no workflow/proposal lifecycle logic should move into this service
 - UI continues to consume through BFF contracts, not direct service coupling
 
@@ -193,7 +193,7 @@ This RFC changes engineering baseline only. It does not alter domain ownership:
 
 This RFC is complete only when all are true:
 
-1. `performanceAnalytics` has DPM-parity Make targets and CI workflows.
+1. `lotus-performance` has DPM-parity Make targets and CI workflows.
 2. Ruff, mypy, pytest, pre-commit are mandatory and green in CI.
 3. Branch protection on `main` enforces required checks.
 4. `ci-local` and `ci-local-docker` both succeed on a clean clone.
@@ -214,4 +214,5 @@ This RFC is complete only when all are true:
 
 ## Follow-on Work
 
-After this RFC implementation, replicate the same alignment wave to `portfolio-analytics-system` (service-specific adaptations allowed, standard surface unchanged).
+After this RFC implementation, replicate the same alignment wave to `lotus-core` (service-specific adaptations allowed, standard surface unchanged).
+

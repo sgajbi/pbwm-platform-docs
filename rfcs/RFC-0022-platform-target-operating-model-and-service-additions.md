@@ -3,7 +3,7 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: `portfolio-analytics-system` (PAS), `performanceAnalytics` (PA), `dpm-rebalance-engine` (DPM), BFF, UI
+- Scope: `lotus-core` (PAS), `lotus-performance` (PA), `lotus-advise` (DPM), BFF, UI
 
 ## 1. Decision Summary
 
@@ -130,4 +130,5 @@ Introduce only if:
 3. BFF contracts are versioned and traceable to backend contracts.
 4. PAS remains canonical source for core portfolio state.
 5. Introducing new service runtime requires an RFC with measurable trigger criteria.
+
 

@@ -23,7 +23,7 @@ Deliver one end-to-end vertical slice that proves the platform direction:
 ## Scope (Sprint 1)
 
 In scope:
-- New BFF repo scaffold (`advisor-experience-api`).
+- New BFF repo scaffold (`lotus-gateway`).
 - New UI repo scaffold (`advisor-workbench`).
 - One BFF endpoint: `GET /api/v1/workbench/{portfolio_id}/overview`.
 - One UI route: `/workbench/{portfolio_id}`.
@@ -102,10 +102,10 @@ If one dependency fails, still return 200 with degraded data when safe:
 
 ## Proposed Repo/File Scaffolds
 
-## A. `advisor-experience-api`
+## A. `lotus-gateway`
 
 ```text
-advisor-experience-api/
+lotus-gateway/
   src/
     app/
       main.py
@@ -220,3 +220,4 @@ advisor-workbench/
 - advisory simulation screen
 - submit simulation via BFF
 - status-driven result UX (`READY`, `PENDING_REVIEW`, `BLOCKED`)
+
