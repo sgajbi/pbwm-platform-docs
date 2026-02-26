@@ -48,6 +48,7 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 - `automation/Audit-RFC-Conformance.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Validate-Automation-Config.ps1`
+- `automation/Validate-Change-Test-Impact.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
@@ -269,6 +270,12 @@ Validate automation config integrity (repos/profiles/command file refs):
 powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1
 ```
 
+Validate change/test impact so source changes include test updates:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Change-Test-Impact.ps1
+```
+
 Validate Lotus naming conformance (legacy-name drift detector):
 
 ```powershell
@@ -333,6 +340,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `lotus-naming-conformance`
 - `repo-metadata-validation`
 - `automation-integrity`
+- `change-test-impact`
 - `durability-consistency-baseline`
 - `enterprise-readiness-baseline`
 - `rfc-conformance-baseline`
@@ -406,6 +414,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/repo-metadata-validation.md`
 - `output/automation-config-validation.json`
 - `output/automation-config-validation.md`
+- `output/change-test-impact.json`
+- `output/change-test-impact.md`
 - `output/qa/*/qa-summary.json`
 - `output/qa/*/qa-summary.md`
 - `output/qa/*/qa-issues.json`

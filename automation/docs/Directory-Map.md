@@ -46,6 +46,7 @@ This map organizes the automation directory by responsibility without changing s
 - `Validate-Enterprise-Readiness.ps1`
 - `Verify-Repo-Metadata.ps1`
 - `Validate-Automation-Config.ps1`
+- `Validate-Change-Test-Impact.ps1`
 
 ### Evidence and Analytics
 
