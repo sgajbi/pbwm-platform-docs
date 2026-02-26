@@ -12,7 +12,6 @@ $config = if ($configRaw -is [System.Array]) {
 } else {
   $configRaw
 }
-$repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $backendRepos = @(
   "lotus-gateway",
   "lotus-core",
@@ -61,7 +60,10 @@ $rows = @()
 foreach ($repo in $config.repositories) {
   $name = [string]$repo.name
   if ($name -notin $backendRepos) { continue }
-  $path = Join-Path $repoRoot $name
+  $path = [string]$repo.path
+  if (-not [System.IO.Path]::IsPathRooted($path)) {
+    $path = Join-Path (Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")) $path
+  }
   $workflow = $workflowMap[$name]
   $standardsDoc = "docs/standards/durability-consistency.md"
 

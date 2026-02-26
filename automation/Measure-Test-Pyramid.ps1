@@ -1,5 +1,6 @@
 param(
     [string]$PolicyPath = "automation/test-coverage-policy.json",
+    [string]$ReposConfigPath = "automation/repos.json",
     [string]$OutputJsonPath = "output/test-coverage-summary.json",
     [string]$OutputMarkdownPath = "output/test-coverage-summary.md",
     [switch]$RunCoverage
@@ -64,8 +65,12 @@ function Get-CoveragePercent {
 if (-not (Test-Path $PolicyPath)) {
     throw "Policy file not found: $PolicyPath"
 }
+if (-not (Test-Path $ReposConfigPath)) {
+    throw "Repos config file not found: $ReposConfigPath"
+}
 
 $policy = Get-Content -Raw -Path $PolicyPath | ConvertFrom-Json
+$reposConfig = Get-Content -Raw -Path $ReposConfigPath | ConvertFrom-Json
 $workspaceRoot = $policy.workspace_root
 $targetCoverage = [int]$policy.targets.coverage_percent_min
 
@@ -79,11 +84,20 @@ $rangeE2EMax = [int]$policy.targets.pyramid_percent.e2e.max
 $results = @()
 
 foreach ($service in $policy.services) {
-    $repoPath = Join-Path $workspaceRoot $service.repo
+    $repoName = [string]$service.repo
+    $repoConfig = $reposConfig | Where-Object { $_.name -eq $repoName } | Select-Object -First 1
+    if ($null -ne $repoConfig -and $repoConfig.path) {
+        $repoPath = [string]$repoConfig.path
+        if (-not [System.IO.Path]::IsPathRooted($repoPath)) {
+            $repoPath = Join-Path $workspaceRoot $repoPath
+        }
+    } else {
+        $repoPath = Join-Path $workspaceRoot $repoName
+    }
     if (-not (Test-Path $repoPath)) {
         $results += [pscustomobject]@{
             service = $service.name
-            repo = $service.repo
+            repo = $repoName
             exists = $false
             unit_count = 0
             integration_count = 0
