@@ -133,6 +133,12 @@ Start a detached background run:
 powershell -ExecutionPolicy Bypass -File automation/Start-Background-Run.ps1 -Profile ci-parity -MaxParallel 2
 ```
 
+Fast alignment background run (recommended for day-to-day platform sync):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Start-Background-Run.ps1 -Profile platform-alignment -MaxParallel 3
+```
+
 Check background run status:
 
 ```powershell
@@ -292,6 +298,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `enterprise-readiness-baseline`
 - `rfc-conformance-baseline`
 - `pr-lifecycle`
+- `platform-alignment`
 - `autonomous-foundation`
 
 New repo included in shared automation:
