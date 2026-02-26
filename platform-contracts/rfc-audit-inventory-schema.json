@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://lotus-platform/contracts/rfc-audit-inventory-schema.json",
+  "title": "RFC Audit Inventory",
+  "type": "object",
+  "required": ["generated_at", "schema", "model_version", "rows"],
+  "properties": {
+    "generated_at": { "type": "string", "format": "date-time" },
+    "schema": { "type": "string" },
+    "model_version": { "type": "string" },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "repo",
+          "repo_path",
+          "rfc_id",
+          "title",
+          "file",
+          "requirement_line_count",
+          "status",
+          "evidence",
+          "notes"
+        ],
+        "properties": {
+          "repo": { "type": "string" },
+          "repo_path": { "type": "string" },
+          "rfc_id": { "type": "string" },
+          "title": { "type": "string" },
+          "file": { "type": "string" },
+          "requirement_line_count": { "type": "integer", "minimum": 0 },
+          "status": {
+            "type": "string",
+            "enum": ["Implemented", "Partial", "Diverged", "NoLongerRelevant"]
+          },
+          "evidence": {
+            "type": "object",
+            "required": ["code_hits", "test_hits", "api_doc_hits"],
+            "properties": {
+              "code_hits": { "type": "integer", "minimum": 0 },
+              "test_hits": { "type": "integer", "minimum": 0 },
+              "api_doc_hits": { "type": "integer", "minimum": 0 }
+            }
+          },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

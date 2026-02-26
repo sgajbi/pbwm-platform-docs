@@ -445,6 +445,9 @@ powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Prof
 # Domain vocabulary conformance baseline
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile domain-vocabulary-conformance -MaxParallel 1
 
+# RFC conformance inventory + centralized backlog baseline
+powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile rfc-conformance-baseline -MaxParallel 1
+
 # PR lifecycle automation (monitor checks, queue auto-merge, cleanup merged branches)
 powershell -ExecutionPolicy Bypass -File automation\Close-PR-Loop.ps1
 
@@ -472,6 +475,7 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 - `repo-metadata-validation`
+- `rfc-conformance-baseline`
 - `pr-lifecycle`
 - `autonomous-foundation`
 
@@ -486,6 +490,10 @@ Artifacts:
 - `output/background-runs.json`
 - `output/pr-lifecycle.json`
 - `output/pr-lifecycle.md`
+- `output/rfc-conformance-inventory.json`
+- `output/rfc-conformance-inventory.md`
+- `output/rfc-conformance-backlog.json`
+- `output/rfc-conformance-backlog.md`
 - `output/dependency-vulnerability-rollup.json`
 - `output/dependency-vulnerability-rollup.md`
 - `output/agent-status.json`
