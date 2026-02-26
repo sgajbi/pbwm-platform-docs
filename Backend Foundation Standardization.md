@@ -62,6 +62,7 @@ All backend CI pipelines must enforce:
 ## Automated Conformance
 
 - Run `powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1` to generate cross-repo conformance reports.
+- Automation usage guide (what to run and when): `automation/docs/Automation-Guide.md`.
 - Artifacts are written to:
   - `output/backend-standards-conformance.json`
   - `output/backend-standards-conformance.md`

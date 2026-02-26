@@ -369,6 +369,11 @@ make docker-down
 
 Canonical location: `lotus-platform/automation`
 
+Reference docs:
+- `automation/docs/Automation-Guide.md` (what to run and when)
+- `automation/docs/Profile-Reference.md` (profile-by-profile usage)
+- `automation/docs/Directory-Map.md` (organized script/config map)
+
 ### 14.1 One-Shot Platform Pulse
 
 ```powershell

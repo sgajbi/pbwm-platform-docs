@@ -2,6 +2,23 @@
 
 Canonical cross-cutting automation lives here.
 
+## Start Here
+
+Use these docs first:
+- `automation/docs/Automation-Guide.md` (what exists, when to run what)
+- `automation/docs/Profile-Reference.md` (profile intent and defaults)
+- `automation/docs/Directory-Map.md` (organized script/config map)
+
+Quick baseline commands:
+
+```powershell
+# Fast daily alignment baseline
+powershell -ExecutionPolicy Bypass -File automation/Start-Background-Run.ps1 -Profile platform-alignment -MaxParallel 3
+
+# Continuous monitor loop
+powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
+```
+
 ## Scripts
 
 - `automation/Sync-Repos.ps1`
@@ -29,6 +46,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Enterprise-Readiness.ps1`
 - `automation/Audit-RFC-Conformance.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
+- `automation/Validate-Automation-Config.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
 - `automation/task-profiles.json`
@@ -231,6 +249,12 @@ Validate repository metadata (default branches and preflight command presence):
 powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
 ```
 
+Validate automation config integrity (repos/profiles/command file refs):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1
+```
+
 Validate Lotus naming conformance (legacy-name drift detector):
 
 ```powershell
@@ -294,6 +318,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `domain-vocabulary-conformance`
 - `lotus-naming-conformance`
 - `repo-metadata-validation`
+- `automation-integrity`
 - `durability-consistency-baseline`
 - `enterprise-readiness-baseline`
 - `rfc-conformance-baseline`
@@ -364,6 +389,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`
 - `output/repo-metadata-validation.md`
+- `output/automation-config-validation.json`
+- `output/automation-config-validation.md`
 - `output/lotus-naming-conformance.json`
 - `output/lotus-naming-conformance.md`
 - `output/preflight/*.json`
