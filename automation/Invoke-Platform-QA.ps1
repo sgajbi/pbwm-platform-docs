@@ -30,13 +30,24 @@ function Invoke-CommandCapture {
     return [pscustomobject]@{ exitCode = 0; output = "[dry-run] $Command" }
   }
 
-  Push-Location $RepoPath
+  $tmpOut = [System.IO.Path]::GetTempFileName()
+  $tmpErr = [System.IO.Path]::GetTempFileName()
   try {
-    $raw = cmd /c $Command 2>&1 | Out-String
-    $exit = if ($LASTEXITCODE -eq $null) { 0 } else { [int]$LASTEXITCODE }
-    return [pscustomobject]@{ exitCode = $exit; output = $raw.TrimEnd() }
+    $proc = Start-Process -FilePath "cmd.exe" `
+      -ArgumentList "/c", $Command `
+      -WorkingDirectory $RepoPath `
+      -NoNewWindow `
+      -Wait `
+      -PassThru `
+      -RedirectStandardOutput $tmpOut `
+      -RedirectStandardError $tmpErr
+
+    $stdout = if (Test-Path $tmpOut) { Get-Content -Raw $tmpOut } else { "" }
+    $stderr = if (Test-Path $tmpErr) { Get-Content -Raw $tmpErr } else { "" }
+    $combined = (($stdout + "`n" + $stderr).Trim())
+    return [pscustomobject]@{ exitCode = [int]$proc.ExitCode; output = $combined }
   } finally {
-    Pop-Location
+    Remove-Item $tmpOut,$tmpErr -ErrorAction SilentlyContinue
   }
 }
 
