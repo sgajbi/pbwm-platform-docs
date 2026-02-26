@@ -32,11 +32,11 @@ Current Do-Now status is derived from evidence matrix output.
 
 | Repo | Next Focus | Effort |
 |---|---|---|
-| advisor-experience-api | entitlement + data-scope policy enforcement | M |
-| portfolio-analytics-system | ingest quarantine + reconciliation automation hardening | M |
-| performanceAnalytics | entitlement-aware analytics access and SLI enforcement | M |
-| dpm-rebalance-engine | capability-to-workflow enforcement and conflict audit enhancements | M |
-| reporting-aggregation-service | report/export entitlements and workload SLO evidence | M |
+| lotus-gateway | entitlement + data-scope policy enforcement | M |
+| lotus-core | ingest quarantine + reconciliation automation hardening | M |
+| lotus-performance | entitlement-aware analytics access and SLI enforcement | M |
+| lotus-advise | capability-to-workflow enforcement and conflict audit enhancements | M |
+| lotus-report | report/export entitlements and workload SLO evidence | M |
 
 ## E. Definition of Done + Evidence
 
@@ -50,3 +50,4 @@ Evidence artifacts:
 - `output/enterprise-readiness-compliance.json`
 - `output/enterprise-readiness-compliance.md`
 - per-repo `docs/standards/enterprise-readiness.md`
+

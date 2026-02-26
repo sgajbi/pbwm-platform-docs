@@ -124,6 +124,13 @@
       ]
     },
     {
+      "name": "lotus-naming-conformance",
+      "description": "Validate cross-repo legacy naming drift against Lotus canonical naming",
+      "tasks": [
+        { "id": "validate-lotus-naming", "repo": "lotus-platform", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Lotus-Naming.ps1" }
+      ]
+    },
+    {
       "name": "repo-metadata-validation",
       "description": "Validate cross-repo metadata (default branch and preflight command definitions)",
       "tasks": [

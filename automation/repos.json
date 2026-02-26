@@ -52,6 +52,22 @@
     "default_branch": "main",
     "preflight_fast_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests/unit",
     "preflight_full_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests --cov=src/app --cov-report=term --cov-fail-under=99"
+  },
+  {
+    "name": "lotus-risk",
+    "github": "sgajbi/lotus-risk",
+    "path": "C:/Users/Sandeep/projects/lotus-risk",
+    "default_branch": "main",
+    "preflight_fast_command": "make lint && make typecheck && make test",
+    "preflight_full_command": "make ci"
+  },
+  {
+    "name": "lotus-manage",
+    "github": "sgajbi/lotus-manage",
+    "path": "C:/Users/Sandeep/projects/lotus-manage",
+    "default_branch": "main",
+    "preflight_fast_command": "make lint && make typecheck && make test",
+    "preflight_full_command": "make ci"
   }
 ]
 

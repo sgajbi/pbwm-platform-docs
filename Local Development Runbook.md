@@ -1,7 +1,7 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-24
-- Scope: run `dpm-rebalance-engine` + `advisor-experience-api` + `advisor-workbench` together with Docker, run `portfolio-analytics-system` and `reporting-aggregation-service` standalone when needed, and keep standardized local gates for `performanceAnalytics`
+- Scope: run `lotus-advise` + `lotus-gateway` + `advisor-workbench` together with Docker, run `lotus-core` and `lotus-report` standalone when needed, and keep standardized local gates for `lotus-performance`
 - Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
 ## 1. Prerequisites
@@ -19,12 +19,12 @@ Expected:
 ## 1.1 Centralized Full-Platform Compose (Recommended)
 
 Canonical centralized orchestration now lives in:
-- `pbwm-platform-docs/platform-stack/docker-compose.yml`
+- `lotus-platform/platform-stack/docker-compose.yml`
 
 Run end-to-end stack (PAS, PA, DPM, RAS, BFF, UI + observability):
 
 ```powershell
-cd C:\Users\Sandeep\projects\pbwm-platform-docs\platform-stack
+cd C:\Users\Sandeep\projects\lotus-platform\platform-stack
 Copy-Item .env.example .env
 docker compose up -d --build
 docker compose ps
@@ -63,8 +63,8 @@ Dependency chain:
 ## 3. One-Time Pull
 
 ```bash
-cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull --ff-only
-cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-advise && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-gateway && git checkout main && git pull --ff-only
 cd /c/Users/sande/dev/advisor-workbench && git checkout main && git pull --ff-only
 ```
 
@@ -75,7 +75,7 @@ Run these in 3 separate Git Bash terminals.
 ## 4.1 Start DPM (+ Postgres)
 
 ```bash
-cd /c/Users/sande/dev/dpm-rebalance-engine
+cd /c/Users/sande/dev/lotus-advise
 docker compose up -d --build
 docker compose ps
 ```
@@ -83,7 +83,7 @@ docker compose ps
 ## 4.2 Start BFF
 
 ```bash
-cd /c/Users/sande/dev/advisor-experience-api
+cd /c/Users/sande/dev/lotus-gateway
 export DECISIONING_SERVICE_BASE_URL="http://host.docker.internal:8000"
 export PORTFOLIO_DATA_INGESTION_BASE_URL="http://host.docker.internal:8200"
 export PORTFOLIO_DATA_PLATFORM_BASE_URL="http://host.docker.internal:8201"
@@ -130,15 +130,15 @@ Manual UI checks:
 Tail logs:
 
 ```bash
-cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose logs -f --tail=200
-cd /c/Users/sande/dev/advisor-experience-api && docker compose logs -f --tail=200
+cd /c/Users/sande/dev/lotus-advise && docker compose logs -f --tail=200
+cd /c/Users/sande/dev/lotus-gateway && docker compose logs -f --tail=200
 cd /c/Users/sande/dev/advisor-workbench && docker compose logs -f --tail=200
 ```
 
 Restart a single stack:
 
 ```bash
-cd /c/Users/sande/dev/advisor-experience-api
+cd /c/Users/sande/dev/lotus-gateway
 docker compose down
 docker compose up -d --build
 ```
@@ -147,14 +147,14 @@ docker compose up -d --build
 
 ```bash
 cd /c/Users/sande/dev/advisor-workbench && docker compose down
-cd /c/Users/sande/dev/advisor-experience-api && docker compose down
-cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down
+cd /c/Users/sande/dev/lotus-gateway && docker compose down
+cd /c/Users/sande/dev/lotus-advise && docker compose down
 ```
 
 If you need clean volumes (destructive for local DB data):
 
 ```bash
-cd /c/Users/sande/dev/dpm-rebalance-engine && docker compose down -v
+cd /c/Users/sande/dev/lotus-advise && docker compose down -v
 ```
 
 ## 8. Common Failure Cases
@@ -194,7 +194,7 @@ PAS host ports:
 ### 10.1 Pull Latest
 
 ```bash
-cd /c/Users/sande/dev/portfolio-analytics-system
+cd /c/Users/sande/dev/lotus-core
 git checkout main
 git pull --ff-only
 ```
@@ -202,7 +202,7 @@ git pull --ff-only
 ### 10.2 Start PAS
 
 ```bash
-cd /c/Users/sande/dev/portfolio-analytics-system
+cd /c/Users/sande/dev/lotus-core
 docker compose up -d --build
 docker compose ps
 ```
@@ -211,7 +211,7 @@ PAS startup now includes automated demo dataset bootstrap (`demo_data_loader`).
 Validate bootstrap completion:
 
 ```bash
-cd /c/Users/sande/dev/portfolio-analytics-system
+cd /c/Users/sande/dev/lotus-core
 docker compose logs --tail=200 demo_data_loader
 ```
 
@@ -234,7 +234,7 @@ curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 ### 10.4 Stop PAS
 
 ```bash
-cd /c/Users/sande/dev/portfolio-analytics-system
+cd /c/Users/sande/dev/lotus-core
 docker compose down
 ```
 
@@ -244,18 +244,18 @@ Do not restart the full platform by default. Rebuild only changed services:
 
 ```bash
 # PAS: refresh only ingestion service after ingestion changes
-cd /c/Users/sande/dev/portfolio-analytics-system
+cd /c/Users/sande/dev/lotus-core
 docker compose up -d --build ingestion_service
 
 # PAS: refresh only demo loader after demo pack script changes
 docker compose up -d --build demo_data_loader
 
 # BFF/UI targeted refresh examples
-cd /c/Users/sande/dev/advisor-experience-api && docker compose up -d --build advisor-experience-api
+cd /c/Users/sande/dev/lotus-gateway && docker compose up -d --build lotus-gateway
 cd /c/Users/sande/dev/advisor-workbench && docker compose up -d --build advisor-workbench
 
 # RAS targeted refresh example
-cd /c/Users/sande/dev/reporting-aggregation-service && docker compose up -d --build
+cd /c/Users/sande/dev/lotus-report && docker compose up -d --build
 ```
 
 Use container logs first for debugging:
@@ -266,7 +266,7 @@ docker logs --tail=200 <container_name>
 
 ## 11. Live PAS + PA + DPM + RAS -> BFF Capabilities E2E (Docker)
 
-This path validates `advisor-experience-api` aggregation endpoint against live upstream containers:
+This path validates `lotus-gateway` aggregation endpoint against live upstream containers:
 - PAS query service
 - PA service
 - DPM service
@@ -275,26 +275,26 @@ This path validates `advisor-experience-api` aggregation endpoint against live u
 ### 11.1 Pull Latest
 
 ```bash
-cd /c/Users/sande/dev/dpm-rebalance-engine && git checkout main && git pull --ff-only
-cd /c/Users/sande/dev/portfolio-analytics-system && git checkout main && git pull --ff-only
-cd /c/Users/sande/dev/performanceAnalytics && git checkout main && git pull --ff-only
-cd /c/Users/sande/dev/advisor-experience-api && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-advise && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-core && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-performance && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-gateway && git checkout main && git pull --ff-only
 ```
 
 ### 11.2 Start Stack From BFF Repo
 
 ```bash
-cd /c/Users/sande/dev/advisor-experience-api
-export DPM_REPO_PATH=/c/Users/sande/dev/dpm-rebalance-engine
-export PAS_REPO_PATH=/c/Users/sande/dev/portfolio-analytics-system
-export PA_REPO_PATH=/c/Users/sande/dev/performanceAnalytics
+cd /c/Users/sande/dev/lotus-gateway
+export DPM_REPO_PATH=/c/Users/sande/dev/lotus-advise
+export PAS_REPO_PATH=/c/Users/sande/dev/lotus-core
+export PA_REPO_PATH=/c/Users/sande/dev/lotus-performance
 make e2e-up
 ```
 
 ### 11.3 Run Live E2E Assertion
 
 ```bash
-cd /c/Users/sande/dev/advisor-experience-api
+cd /c/Users/sande/dev/lotus-gateway
 make test-e2e-live
 ```
 
@@ -317,18 +317,18 @@ Response should include:
 ### 11.5 Teardown
 
 ```bash
-cd /c/Users/sande/dev/advisor-experience-api
+cd /c/Users/sande/dev/lotus-gateway
 make e2e-down
 ```
 
 ## 12. Performance Analytics Local Workflow (Aligned Baseline)
 
-Repository: `performanceAnalytics`
+Repository: `lotus-performance`
 
 ### 12.1 Setup
 
 ```bash
-cd /c/Users/sande/dev/performanceAnalytics
+cd /c/Users/sande/dev/lotus-performance
 python -m venv .venv
 source .venv/Scripts/activate
 make install
@@ -367,12 +367,12 @@ make docker-down
 
 ## 14. Shared Automation Toolkit (Cross-Repo)
 
-Canonical location: `pbwm-platform-docs/automation`
+Canonical location: `lotus-platform/automation`
 
 ### 14.1 One-Shot Platform Pulse
 
 ```powershell
-cd C:\Users\Sandeep\projects\pbwm-platform-docs
+cd C:\Users\Sandeep\projects\lotus-platform
 powershell -ExecutionPolicy Bypass -File automation\Platform-Pulse.ps1
 ```
 
@@ -383,7 +383,7 @@ This runs:
 ### 14.2 Continuous Agent Loop
 
 ```powershell
-cd C:\Users\Sandeep\projects\pbwm-platform-docs
+cd C:\Users\Sandeep\projects\lotus-platform
 powershell -ExecutionPolicy Bypass -File automation\Run-Agent.ps1
 ```
 
@@ -404,13 +404,13 @@ Output artifacts:
 Example for PAS:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-core -Services query_service demo_data_loader
 ```
 
 Changed-files based (recommended):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -ChangedOnly -BaseRef origin/main
+powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-core -ChangedOnly -BaseRef origin/main
 ```
 
 ### 14.4 Offload Parallel Work Outside Chat
@@ -501,3 +501,4 @@ powershell -ExecutionPolicy Bypass -File automation\Generate-Local-CI-Parity-Evi
 Artifacts:
 - `output/local-ci-parity-evidence.json`
 - `output/local-ci-parity-evidence.md`
+

@@ -20,3 +20,21 @@ This folder is the reusable standards package for backend repositories.
 powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1
 ```
 
+## One-Command Lotus Service Scaffold
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/New-Lotus-Service.ps1 `
+  -ServiceName lotus-risk `
+  -Description "Risk and exposure analytics service" `
+  -Port 8130
+```
+
+This generates a production-grade backend baseline with:
+
+- CI and auto-merge workflows
+- Makefile + lint/typecheck/test/coverage/security gates
+- FastAPI app with health/readiness and metrics
+- OpenAPI gate script
+- Unit/integration/e2e tests
+- standards docs (`docs/standards/*`)
+

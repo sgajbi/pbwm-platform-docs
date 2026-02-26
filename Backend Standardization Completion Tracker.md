@@ -10,12 +10,12 @@ Completion gate:
 
 Scope:
 
-- `advisor-experience-api`
-- `portfolio-analytics-system`
-- `performanceAnalytics`
-- `dpm-rebalance-engine`
-- `reporting-aggregation-service`
-- `pbwm-platform-docs` (cross-cutting standards and automation)
+- `lotus-gateway`
+- `lotus-core`
+- `lotus-performance`
+- `lotus-advise`
+- `lotus-report`
+- `lotus-platform` (cross-cutting standards and automation)
 
 ## Item Status
 
@@ -63,12 +63,12 @@ Checklist:
 
 | Repo | Status | Files Changed | Tests | Blocker |
 |---|---|---|---|---|
-| pbwm-platform-docs | complete | standard/RFC/glossary/tracker + `automation/Validate-Rounding-Consistency.ps1` | `Validate-Rounding-Consistency.ps1` | none |
-| portfolio-analytics-system | complete | `app/precision_policy.py`, `summary_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/services/query_service/test_precision_policy.py tests/unit/services/query_service/services/test_summary_service.py -q` | none |
-| performanceAnalytics | complete | `app/precision_policy.py`, `engine/breakdown.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/app/test_precision_policy.py tests/unit/engine/test_breakdown.py -q` | none |
-| dpm-rebalance-engine | complete | `src/core/precision_policy.py`, `simulation_shared.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/core/test_precision_policy.py tests/unit/dpm/engine/test_engine_valuation_service.py -q` | none |
-| reporting-aggregation-service | complete | `src/app/precision_policy.py`, `aggregation_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_aggregation_service.py -q` | none |
-| advisor-experience-api | complete | `src/app/precision_policy.py`, `workbench_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_workbench_service.py tests/unit/test_workbench_service_additional.py -q` | none |
+| lotus-platform | complete | standard/RFC/glossary/tracker + `automation/Validate-Rounding-Consistency.ps1` | `Validate-Rounding-Consistency.ps1` | none |
+| lotus-core | complete | `app/precision_policy.py`, `summary_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/services/query_service/test_precision_policy.py tests/unit/services/query_service/services/test_summary_service.py -q` | none |
+| lotus-performance | complete | `app/precision_policy.py`, `engine/breakdown.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/app/test_precision_policy.py tests/unit/engine/test_breakdown.py -q` | none |
+| lotus-advise | complete | `src/core/precision_policy.py`, `simulation_shared.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/core/test_precision_policy.py tests/unit/dpm/engine/test_engine_valuation_service.py -q` | none |
+| lotus-report | complete | `src/app/precision_policy.py`, `aggregation_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_aggregation_service.py -q` | none |
+| lotus-gateway | complete | `src/app/precision_policy.py`, `workbench_service.py`, tests, `docs/standards/rounding-precision.md` | `python -m pytest tests/unit/test_precision_policy.py tests/unit/test_workbench_service.py tests/unit/test_workbench_service_additional.py -q` | none |
 
 ## Active Cross-Cutting Rollout: Scalability and Availability Standard
 
@@ -99,3 +99,4 @@ Validation command:
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation/Validate-Durability-Consistency.ps1
 ```
+

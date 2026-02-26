@@ -2,7 +2,7 @@
 
 - Status: Active Guiding Principle
 - Effective date: 2026-02-23
-- Repository authority: `pbwm-platform-docs`
+- Repository authority: `lotus-platform`
 
 ## 1. Governance Boundary
 
@@ -124,7 +124,7 @@ If implementation in any service diverges from this document:
 Documentation must be kept aligned with implementation continuously:
 
 1. Every architecture-impacting code change updates relevant docs in the same PR cycle.
-2. Cross-cutting changes are documented in `pbwm-platform-docs`; service-local behavior remains documented in each service repo.
+2. Cross-cutting changes are documented in `lotus-platform`; service-local behavior remains documented in each service repo.
 3. If docs and code diverge, release readiness is blocked until alignment is restored.
 4. API contract changes require synchronized updates to OpenAPI, integration docs, and RFC/ADR references.
 
@@ -143,4 +143,5 @@ Mandatory constraints:
 1. Full-stack compose must start PAS, PA, DPM, RAS, BFF, and UI cohesively.
 2. Service-level compose files remain valid, but cross-platform startup behavior is governed by the centralized stack.
 3. Logging, metrics, and tracing settings in centralized stack must follow platform observability standards.
+
 

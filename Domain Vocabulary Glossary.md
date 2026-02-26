@@ -27,22 +27,22 @@ All repositories must align request/response models, service names, logs, and do
 
 ## Service Responsibilities
 
-- `PAS` (`portfolio-analytics-system`):
+- `PAS` (`lotus-core`):
   - Core data processing and serving.
   - Ledger/reference/market/position/valuation/time-series ownership.
-- `PA` (`performanceAnalytics`):
+- `PA` (`lotus-performance`):
   - Advanced analytics ownership.
   - Performance, attribution, risk, and higher-order analytics.
   - Sources core data from PAS via APIs; no direct PAS database coupling.
   - Supports `stateful_mode` and `stateless_mode` execution patterns.
-- `DPM` (`dpm-rebalance-engine`):
+- `DPM` (`lotus-advise`):
   - Deterministic decisioning/rebalance simulation and policy gates.
   - Sources core data from PAS via APIs for stateful flows.
   - Supports `stateless_mode` for isolated simulation and testing.
-- `BFF` (`advisor-experience-api`):
+- `BFF` (`lotus-gateway`):
   - Orchestration contract for UI.
   - No domain reimplementation.
-- `RAS` (`reporting-aggregation-service`):
+- `RAS` (`lotus-report`):
   - Reporting/aggregation composition layer.
   - Consumes PAS core data and PA analytics to emit report-ready rows.
   - Owns reporting and aggregation API endpoints.
@@ -73,7 +73,7 @@ All repositories must align request/response models, service names, logs, and do
 
 ## Change Control
 
-1. New shared terms require an RFC entry in `pbwm-platform-docs/rfcs`.
+1. New shared terms require an RFC entry in `lotus-platform/rfcs`.
 2. Any contract rename must update:
    - API models
    - OpenAPI docs
@@ -81,3 +81,4 @@ All repositories must align request/response models, service names, logs, and do
    - this glossary
 3. Run vocabulary baseline validation after glossary or contract changes:
    - `powershell -ExecutionPolicy Bypass -File automation/Validate-Domain-Vocabulary.ps1`
+

@@ -2,16 +2,16 @@
 
 This folder contains architecture RFCs to align:
 
-- `lotus-advise` (current `dpm-rebalance-engine`)
-- `lotus-performance` (current `performanceAnalytics`)
-- `lotus-core` (current `portfolio-analytics-system`)
-- `lotus-gateway` (current `advisor-experience-api`)
+- `lotus-advise` (current `lotus-advise`)
+- `lotus-performance` (current `lotus-performance`)
+- `lotus-core` (current `lotus-core`)
+- `lotus-gateway` (current `lotus-gateway`)
 - `lotus-report` (current `lotus-report`)
 - `lotus-workbench` (current `advisor-workbench`)
-- `lotus-platform` (current `pbwm-platform-docs`)
+- `lotus-platform` (current `lotus-platform`)
 
 Reference baseline:
-- `dpm-rebalance-engine` is the primary engineering standard for automation, testing, and architecture discipline.
+- `lotus-advise` is the primary engineering standard for automation, testing, and architecture discipline.
 - Advanced patterns from the other repositories are absorbed where they improve platform quality.
 
 ## RFC Index
@@ -109,5 +109,6 @@ Reference baseline:
 - `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
 - `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
 - `RFC-0030-adr-governance-and-decision-traceability.md`
+
 
 

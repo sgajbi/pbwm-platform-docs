@@ -3,7 +3,7 @@
 - Version: 1.0.0
 - Status: Active
 - Scope: PAS, PA, DPM, RAS, AEA (BFF), advisor-workbench integration surface
-- Change control: Any change to mandatory rules requires an RFC in `pbwm-platform-docs/rfcs`.
+- Change control: Any change to mandatory rules requires an RFC in `lotus-platform/rfcs`.
 
 ## A. Do Now (Pre-Launch Must-Haves)
 
@@ -58,12 +58,12 @@
 
 ## D. Per-Repo Plan
 
-- `advisor-experience-api`: resilient upstream clients (PAS/PA/DPM/RAS), pagination guardrails, concurrency tests, SLO notes.
-- `performanceAnalytics`: PAS input resilience, async-heavy workloads isolated, load tests for analytics APIs.
-- `reporting-aggregation-service`: PAS/PA resilient ingestion, aggregation path performance budgets, report-path concurrency tests.
-- `portfolio-analytics-system`: enforce stateless query APIs, index and retention documentation, queue depth observability.
-- `dpm-rebalance-engine`: async batch isolation, bounded retries for dependencies, policy-based degradation behavior.
-- `pbwm-platform-docs`: central policy, compliance matrix, validation automation and evidence artifacts.
+- `lotus-gateway`: resilient upstream clients (PAS/PA/DPM/RAS), pagination guardrails, concurrency tests, SLO notes.
+- `lotus-performance`: PAS input resilience, async-heavy workloads isolated, load tests for analytics APIs.
+- `lotus-report`: PAS/PA resilient ingestion, aggregation path performance budgets, report-path concurrency tests.
+- `lotus-core`: enforce stateless query APIs, index and retention documentation, queue depth observability.
+- `lotus-advise`: async batch isolation, bounded retries for dependencies, policy-based degradation behavior.
+- `lotus-platform`: central policy, compliance matrix, validation automation and evidence artifacts.
 
 ## E. Definition of Done + Evidence
 
@@ -84,3 +84,4 @@ Required evidence artifacts:
 2. No silent or infinite retries.
 3. Scaling/availability claims must map to metrics/tests.
 4. Deviations require ADR with remediation timeline.
+

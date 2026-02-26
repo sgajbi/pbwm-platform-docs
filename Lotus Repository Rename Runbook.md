@@ -4,39 +4,39 @@
 - Owner: lotus-platform
 - Scope: pre-production naming reset (no backward compatibility required)
 
-## 1. Canonical Target Map
+## 1. Canonical Lotus Topology
 
-- `pbwm-platform-docs` -> `lotus-platform`
-- `portfolio-analytics-system` -> `lotus-core`
-- `advisor-experience-api` -> `lotus-gateway`
-- `performanceAnalytics` -> `lotus-performance` (then split to add `lotus-risk`)
-- `dpm-rebalance-engine` -> `lotus-advise` (then split to add `lotus-manage`)
-- `lotus-report` -> `lotus-report`
-- `advisor-workbench` -> `lotus-workbench`
+- `lotus-platform`
+- `lotus-core`
+- `lotus-gateway`
+- `lotus-performance` (then split to add `lotus-risk`)
+- `lotus-advise` (then split to add `lotus-manage`)
+- `lotus-report`
+- `lotus-workbench`
 
-## 2. GitHub Rename Commands
+## 2. GitHub Metadata Commands
 
-Run from an authenticated shell:
+Run from an authenticated shell to verify canonical naming and descriptions:
 
 ```powershell
-gh repo edit sgajbi/pbwm-platform-docs --name lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
-gh repo edit sgajbi/portfolio-analytics-system --name lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
-gh repo edit sgajbi/advisor-experience-api --name lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
-gh repo edit sgajbi/performanceAnalytics --name lotus-performance --description "Advanced performance and attribution analytics."
-gh repo edit sgajbi/dpm-rebalance-engine --name lotus-advise --description "Advisory proposal and decision workflow engine."
-gh repo edit sgajbi/reporting-aggregation-service --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
+gh repo edit sgajbi/lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
+gh repo edit sgajbi/lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
+gh repo edit sgajbi/lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
+gh repo edit sgajbi/lotus-performance --description "Advanced performance and attribution analytics."
+gh repo edit sgajbi/lotus-advise --description "Advisory proposal and decision workflow engine."
+gh repo edit sgajbi/lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
 gh repo edit sgajbi/advisor-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
 ```
 
 ## 3. Local Remote Rewrite
 
 ```powershell
-git -C C:\Users\Sandeep\projects\pbwm-platform-docs remote set-url origin https://github.com/sgajbi/lotus-platform.git
-git -C C:\Users\Sandeep\projects\portfolio-analytics-system remote set-url origin https://github.com/sgajbi/lotus-core.git
-git -C C:\Users\Sandeep\projects\advisor-experience-api remote set-url origin https://github.com/sgajbi/lotus-gateway.git
-git -C C:\Users\Sandeep\projects\performanceAnalytics remote set-url origin https://github.com/sgajbi/lotus-performance.git
-git -C C:\Users\Sandeep\projects\dpm-rebalance-engine remote set-url origin https://github.com/sgajbi/lotus-advise.git
-git -C C:\Users\Sandeep\projects\reporting-aggregation-service remote set-url origin https://github.com/sgajbi/lotus-report.git
+git -C C:\Users\Sandeep\projects\lotus-platform remote set-url origin https://github.com/sgajbi/lotus-platform.git
+git -C C:\Users\Sandeep\projects\lotus-core remote set-url origin https://github.com/sgajbi/lotus-core.git
+git -C C:\Users\Sandeep\projects\lotus-gateway remote set-url origin https://github.com/sgajbi/lotus-gateway.git
+git -C C:\Users\Sandeep\projects\lotus-performance remote set-url origin https://github.com/sgajbi/lotus-performance.git
+git -C C:\Users\Sandeep\projects\lotus-advise remote set-url origin https://github.com/sgajbi/lotus-advise.git
+git -C C:\Users\Sandeep\projects\lotus-report remote set-url origin https://github.com/sgajbi/lotus-report.git
 git -C C:\Users\Sandeep\projects\advisor-workbench remote set-url origin https://github.com/sgajbi/lotus-workbench.git
 ```
 
@@ -66,4 +66,5 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Parallel-Tasks.ps1 -Prof
 - Create `lotus-risk` from scoped extraction of risk ownership out of `lotus-performance`.
 - Create `lotus-manage` from scoped extraction of discretionary ownership out of `lotus-advise`.
 - Track split execution using dedicated RFCs and ADRs.
+
 

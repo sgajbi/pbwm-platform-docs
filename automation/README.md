@@ -218,6 +218,12 @@ Validate repository metadata (default branches and preflight command presence):
 powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
 ```
 
+Validate Lotus naming conformance (legacy-name drift detector):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Lotus-Naming.ps1
+```
+
 Detect queued/in-progress PR checks that appear stalled:
 
 ```powershell
@@ -267,6 +273,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `enforce-backend-governance`
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
+- `lotus-naming-conformance`
 - `repo-metadata-validation`
 - `durability-consistency-baseline`
 - `enterprise-readiness-baseline`
@@ -332,6 +339,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`
 - `output/repo-metadata-validation.md`
+- `output/lotus-naming-conformance.json`
+- `output/lotus-naming-conformance.md`
 - `output/preflight/*.json`
 - `output/preflight/*.md`
 
