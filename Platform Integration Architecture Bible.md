@@ -1,4 +1,4 @@
-# Platform Integration Architecture Bible (PAS, PA, DPM, BFF)
+# Platform Integration Architecture Bible (Lotus Platform)
 
 - Status: Active Guiding Principle
 - Effective date: 2026-02-23
@@ -39,10 +39,19 @@ Documentation ownership model:
 
 ## 3. Target Responsibility Model
 
-1. PAS: system of record and canonical data/snapshot owner.
-2. PA: advanced analytics and insights owner.
-3. DPM: decisioning/recommendation and workflow owner.
-4. BFF: channel orchestration owner; no business-rule duplication.
+1. `lotus-core` (current PAS): system of record and canonical data/snapshot owner.
+2. `lotus-performance` and `lotus-risk` (split from PA): advanced analytics and insights owners.
+3. `lotus-advise` and `lotus-manage` (split from DPM): decisioning/workflow owners by advisory vs discretionary lifecycle.
+4. `lotus-gateway` (current BFF/AEA): channel orchestration owner; no business-rule duplication.
+5. `lotus-reporting` (current RAS): reporting and aggregation outputs owner.
+6. `lotus-platform` (current PPD): cross-cutting governance and contract authority.
+
+## 3A. Canonical Naming Policy (Mandatory)
+
+1. All new and existing repositories, services, Docker images, and compose service IDs must follow `lotus-*` naming.
+2. API titles, metrics labels, logs `service` field, and dashboards must use the same canonical names.
+3. Pre-live rule: no backward compatibility requirement for legacy naming.
+4. Legacy names are allowed only in historical RFC references.
 
 ## 4. Required Integration Model
 
