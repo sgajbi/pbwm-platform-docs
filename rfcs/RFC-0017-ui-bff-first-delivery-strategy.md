@@ -1,11 +1,11 @@
-﻿# RFC-0017: UI + BFF First Delivery Strategy
+﻿# RFC-0017: UI + lotus-gateway First Delivery Strategy
 
 - Status: Proposed
 - Date: 2026-02-22
 
 ## Decision
 
-Start implementation with BFF and UI, enforcing backend standardization incrementally as each integration boundary is used.
+Start implementation with lotus-gateway and UI, enforcing backend standardization incrementally as each integration boundary is used.
 
 ## First Workflow
 
@@ -23,7 +23,7 @@ Includes:
 - Immediate visible progress.
 - Integrates all three core backend domains.
 - Forces early contract/auth/config decisions.
-- Creates reusable BFF and UI architecture patterns.
+- Creates reusable lotus-gateway and UI architecture patterns.
 
 ## Non-Goals for First Slice
 
@@ -33,6 +33,6 @@ Includes:
 
 ## Acceptance Criteria
 
-- End-to-end demo through UI + BFF + all 3 services.
+- End-to-end demo through UI + lotus-gateway + all 3 services.
 - Correlation IDs propagated across all calls.
-- Contract tests for BFF adapters in place.
+- Contract tests for lotus-gateway adapters in place.

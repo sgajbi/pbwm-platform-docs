@@ -27,39 +27,39 @@ All repositories must align request/response models, service names, logs, and do
 
 ## Service Responsibilities
 
-- `PAS` (`lotus-core`):
+- `lotus-core` (`lotus-core`):
   - Core data processing and serving.
   - Ledger/reference/market/position/valuation/time-series ownership.
-- `PA` (`lotus-performance`):
+- `lotus-performance` (`lotus-performance`):
   - Advanced analytics ownership.
   - Performance, attribution, risk, and higher-order analytics.
-  - Sources core data from PAS via APIs; no direct PAS database coupling.
+  - Sources core data from lotus-core via APIs; no direct lotus-core database coupling.
   - Supports `stateful_mode` and `stateless_mode` execution patterns.
-- `DPM` (`lotus-advise`):
+- `lotus-manage` (`lotus-advise`):
   - Deterministic decisioning/rebalance simulation and policy gates.
-  - Sources core data from PAS via APIs for stateful flows.
+  - Sources core data from lotus-core via APIs for stateful flows.
   - Supports `stateless_mode` for isolated simulation and testing.
-- `BFF` (`lotus-gateway`):
+- `lotus-gateway` (`lotus-gateway`):
   - Orchestration contract for UI.
   - No domain reimplementation.
-- `RAS` (`lotus-report`):
+- `lotus-report` (`lotus-report`):
   - Reporting/aggregation composition layer.
-  - Consumes PAS core data and PA analytics to emit report-ready rows.
+  - Consumes lotus-core core data and lotus-performance analytics to emit report-ready rows.
   - Owns reporting and aggregation API endpoints.
 
 ## Contract Terms
 
 - `core-snapshot`:
-  - PAS data-serving integration contract.
+  - lotus-core data-serving integration contract.
   - Use only for core snapshot sections (non-advanced analytics).
 - `pas-input`:
-  - PAS raw input contract consumed by PA analytics engines.
+  - lotus-core raw input contract consumed by lotus-performance analytics engines.
   - Replaces ambiguous `pas-snapshot` analytics wording.
 - `analytics contract`:
-  - Consumer-facing analytics payload owned by PA.
+  - Consumer-facing analytics payload owned by lotus-performance.
 - `reporting snapshot contract`:
-  - Report-ready row set returned by RAS for one portfolio/date.
-  - BFF/UI consume this for reporting tables and downstream report generation.
+  - Report-ready row set returned by lotus-report for one portfolio/date.
+  - lotus-gateway/UI consume this for reporting tables and downstream report generation.
 
 ## Naming Rules
 

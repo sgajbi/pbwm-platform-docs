@@ -53,11 +53,11 @@ Checklist:
 
 - [x] Central standard defined and versioned in PPD.
 - [x] RFC created for change control.
-- [x] PAS implementation + tests.
-- [x] PA implementation + tests.
-- [x] DPM implementation + tests.
-- [x] RAS implementation + tests.
-- [x] AEA implementation + tests.
+- [x] lotus-core implementation + tests.
+- [x] lotus-performance implementation + tests.
+- [x] lotus-manage implementation + tests.
+- [x] lotus-report implementation + tests.
+- [x] lotus-gateway implementation + tests.
 - [x] Cross-service consistency golden validation.
 - [x] Monetary-float regression CI guard added across backend repos.
 

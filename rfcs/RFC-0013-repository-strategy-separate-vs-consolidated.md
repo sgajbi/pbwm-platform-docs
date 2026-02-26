@@ -5,7 +5,7 @@
 
 ## Decision
 
-Maintain separate repositories by bounded context, with shared platform libraries and a unified BFF/UI layer.
+Maintain separate repositories by bounded context, with shared platform libraries and a unified lotus-gateway/UI layer.
 
 ## Rationale
 
@@ -18,7 +18,7 @@ Maintain separate repositories by bounded context, with shared platform librarie
 - `portfolio-data-platform` (current `lotus-core`)
 - `performance-intelligence-service` (current `lotus-performance`)
 - `portfolio-decisioning-service` (current `lotus-advise`)
-- `lotus-gateway` (new BFF)
+- `lotus-gateway` (new lotus-gateway)
 - `lotus-workbench` (new UI)
 - `platform-foundations` (new shared libs)
 - `client-reporting-service` (new)
@@ -26,6 +26,6 @@ Maintain separate repositories by bounded context, with shared platform librarie
 ## Acceptance Criteria
 
 - Repository role matrix approved.
-- New repos (BFF/UI/shared/reporting) scheduled and scaffolded in roadmap.
+- New repos (lotus-gateway/UI/shared/reporting) scheduled and scaffolded in roadmap.
 
 

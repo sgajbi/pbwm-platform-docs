@@ -2,7 +2,7 @@
 
 - Version: 1.0.0
 - Status: Active
-- Scope: PAS, PA, DPM, RAS, AEA (BFF)
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway (lotus-gateway)
 - Change control: Any change to mandatory rules requires an RFC in `lotus-platform/rfcs` and ADR for exceptions.
 
 ## A. Do Now (Pre-Launch Must-Haves)
@@ -75,7 +75,7 @@
   - publish explicit as-of/version metadata contracts
 - `lotus-performance`:
   - preserve deterministic analytics runs for identical inputs/as-of
-  - classify eventual vs strong boundaries for PAS-sourced inputs
+  - classify eventual vs strong boundaries for lotus-core-sourced inputs
   - enforce import/schema validation for stateless mode payloads
 - `lotus-advise`:
   - enforce idempotent workflow writes and durable run/proposal persistence

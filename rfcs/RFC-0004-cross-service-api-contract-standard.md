@@ -9,7 +9,7 @@ API behavior differs by service in error shape, metadata, pagination, and observ
 
 ## Decision
 
-Adopt a single contract profile for all backend services and BFF.
+Adopt a single contract profile for all backend services and lotus-gateway.
 
 ## Contract Standard
 

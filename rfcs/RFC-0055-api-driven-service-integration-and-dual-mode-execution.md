@@ -8,11 +8,11 @@ Accepted
 
 ## Owners
 - Platform Architecture
-- PAS
-- PA
-- RAS
-- DPM
-- AEA (BFF)
+- lotus-core
+- lotus-performance
+- lotus-report
+- lotus-manage
+- lotus-gateway (lotus-gateway)
 
 ## Problem Statement
 Service boundaries are defined, but execution and integration rules need explicit enforcement across all applications:
@@ -27,26 +27,26 @@ Adopt a strict platform-wide integration and execution model.
 
 ## Target Service Responsibilities
 
-### PAS (Portfolio Analytics System)
+### lotus-core (Portfolio Analytics System)
 - Authoritative owner of core portfolio processing and core portfolio/reference data.
 - Serves positions, transactions, valuations, costs, P&L, portfolio/position time-series, and related foundational data via REST APIs.
 
-### PA (Performance & Advanced Analytics)
+### lotus-performance (Performance & Advanced Analytics)
 - Owner of advanced analytics via REST APIs.
-- Must source required core inputs from PAS via API (no direct PAS database access).
+- Must source required core inputs from lotus-core via API (no direct lotus-core database access).
 - Must support stateless mode for isolated testing/external integration via request-supplied data (separate or unified endpoint pattern).
 
-### RAS (Reporting & Aggregation Service)
+### lotus-report (Reporting & Aggregation Service)
 - Owner of reporting and aggregation endpoints.
-- Must consume PAS and PA through REST APIs and expose presentation-ready/report-ready outputs.
+- Must consume lotus-core and lotus-performance through REST APIs and expose presentation-ready/report-ready outputs.
 
-### DPM (Advisory & Discretionary Portfolio Management)
-- Must source required core data from PAS via REST APIs.
-- May consume PA and/or RAS APIs when advanced analytics/reporting outputs are required.
+### lotus-manage (Advisory & Discretionary Portfolio Management)
+- Must source required core data from lotus-core via REST APIs.
+- May consume lotus-performance and/or lotus-report APIs when advanced analytics/reporting outputs are required.
 - Must support stateless mode for simulation and isolated testing via request-supplied data (separate or unified endpoint pattern).
 
-### BFF (Backend for Frontend)
-- Consumes PAS, PA, RAS, and DPM APIs.
+### lotus-gateway (Backend for Frontend)
+- Consumes lotus-core, lotus-performance, lotus-report, and lotus-manage APIs.
 - Owns orchestration, aggregation, and response shaping for UI contracts.
 - Must not own core business logic or reimplement domain engines.
 
@@ -76,22 +76,22 @@ Adopt a strict platform-wide integration and execution model.
 
 ## Mitigations
 - Contract versioning and explicit schema validation.
-- Caching/aggregation at BFF/RAS where appropriate.
+- Caching/aggregation at lotus-gateway/lotus-report where appropriate.
 - Integration and E2E tests for both execution modes.
 
 ## High-Level Implementation Direction
-1. PAS:
+1. lotus-core:
    - Continue exposing canonical core data APIs for downstream services.
-2. PA:
-   - Keep PAS-sourced mode and standardize stateless mode contracts.
-3. DPM:
-   - Keep PAS-sourced mode and standardize stateless simulation contracts.
-4. RAS:
-   - Centralize reporting/aggregation endpoints and consume PAS/PA APIs only.
-5. BFF:
+2. lotus-performance:
+   - Keep lotus-core-sourced mode and standardize stateless mode contracts.
+3. lotus-manage:
+   - Keep lotus-core-sourced mode and standardize stateless simulation contracts.
+4. lotus-report:
+   - Centralize reporting/aggregation endpoints and consume lotus-core/lotus-performance APIs only.
+5. lotus-gateway:
    - Maintain orchestration-only role and UI-specific contract shaping.
 
 ## Test Strategy
 - Unit tests per service mode (stateful/stateless where applicable).
 - Integration tests validating API-only dependencies (no direct DB coupling).
-- End-to-end tests validating PAS -> PA/RAS/DPM -> BFF flows.
+- End-to-end tests validating lotus-core -> lotus-performance/lotus-report/lotus-manage -> lotus-gateway flows.

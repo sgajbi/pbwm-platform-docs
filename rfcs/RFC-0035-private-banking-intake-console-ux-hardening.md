@@ -2,14 +2,14 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
   - `RFC-0033-advisor-workflow-shell-phase-2-role-based-operating-views.md`
 
 ## Context
 
-The initial PAS intake integration worked functionally but UI quality was below enterprise/private-banking standards:
+The initial lotus-core intake integration worked functionally but UI quality was below enterprise/private-banking standards:
 
 - weak workflow guidance
 - low operational visibility
@@ -35,7 +35,7 @@ In `lotus-workbench`:
   - CSV batch upload section with required-column guidance
   - ingestion queue table layout
 - `src/features/intake/csv-parser.ts`
-  - added CSV-to-PAS-bundle parser with header and numeric validation
+  - added CSV-to-lotus-core-bundle parser with header and numeric validation
 - `tests/unit/intake-csv-parser.test.ts`
   - parser success/failure coverage
 
@@ -46,6 +46,6 @@ In `lotus-workbench`:
 
 ## Notes
 
-- CSV flow now submits real PAS portfolio-bundle payloads.
+- CSV flow now submits real lotus-core portfolio-bundle payloads.
 - Excel upload remains a planned follow-up.
 

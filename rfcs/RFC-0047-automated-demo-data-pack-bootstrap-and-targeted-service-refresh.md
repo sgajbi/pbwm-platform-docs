@@ -4,8 +4,8 @@
 - Date: 2026-02-24
 - Repositories impacted:
   - `lotus-core`
-  - `lotus-gateway` (consumes PAS outputs)
-  - `lotus-workbench` (renders PAS-backed views through BFF)
+  - `lotus-gateway` (consumes lotus-core outputs)
+  - `lotus-workbench` (renders lotus-core-backed views through lotus-gateway)
 
 ## Context
 
@@ -19,8 +19,8 @@ Platform startup required manual or inconsistent dataset loading, creating unsta
 
 ## Decision
 
-1. PAS owns a deterministic automated demo data pack bootstrap run during compose startup.
-2. Bootstrap verifies downstream PAS outputs required by BFF/UI workflows.
+1. lotus-core owns a deterministic automated demo data pack bootstrap run during compose startup.
+2. Bootstrap verifies downstream lotus-core outputs required by lotus-gateway/UI workflows.
 3. Development workflow standardizes targeted refresh:
    - Rebuild/restart only modified services.
    - Keep unaffected services running to preserve stability and speed.
@@ -28,24 +28,24 @@ Platform startup required manual or inconsistent dataset loading, creating unsta
 ## Architectural Impact
 
 1. Improves integration readiness by guaranteeing baseline portfolios/transactions/analytics data after startup.
-2. Makes BFF/UI validation repeatable without manual ingestion.
-3. Reinforces PAS as canonical data/snapshot lifecycle provider.
+2. Makes lotus-gateway/UI validation repeatable without manual ingestion.
+3. Reinforces lotus-core as canonical data/snapshot lifecycle provider.
 
 ## Risks and Trade-offs
 
 1. Bootstrap adds startup time.
 2. Verification gates may need tuning if pipelines are temporarily degraded.
-3. Some demo portfolios may have sparse/zero positions in current PAS behavior; verification must remain realistic while still guarding data quality.
+3. Some demo portfolios may have sparse/zero positions in current lotus-core behavior; verification must remain realistic while still guarding data quality.
 
 ## Mitigations
 
 1. Configurable demo loader enable/disable and timeout.
 2. Container logs as first-line diagnostics for all startup/verification issues.
-3. Iterative tightening of verification thresholds as PAS processing correctness improves.
+3. Iterative tightening of verification thresholds as lotus-core processing correctness improves.
 
 ## Implementation Notes
 
-1. PAS includes `demo_data_loader` one-shot service.
+1. lotus-core includes `demo_data_loader` one-shot service.
 2. Local runbook includes commands for:
    - loader logs,
    - manual re-run,

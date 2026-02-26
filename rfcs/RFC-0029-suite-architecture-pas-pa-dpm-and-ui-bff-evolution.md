@@ -1,4 +1,4 @@
-# RFC-0029: Suite Architecture for PAS, PA, DPM and UI/BFF Evolution
+# RFC-0029: Suite Architecture for lotus-core, lotus-performance, lotus-manage and UI/lotus-gateway Evolution
 
 - Status: Accepted
 - Date: 2026-02-23
@@ -12,16 +12,16 @@
 
 The wealth suite must behave as one connected platform while preserving strict responsibility boundaries:
 
-- PAS (Portfolio Analytics System) as core platform system of record and processing engine.
-- PA (Performance Analytics) as advanced analytics engine built on PAS data and outputs.
-- DPM as advisory/discretionary decisioning and workflow engine.
-- UI + BFF as unified interaction and aggregation layer.
+- lotus-core (Portfolio Analytics System) as core platform system of record and processing engine.
+- lotus-performance (Performance Analytics) as advanced analytics engine built on lotus-core data and outputs.
+- lotus-manage as advisory/discretionary decisioning and workflow engine.
+- UI + lotus-gateway as unified interaction and aggregation layer.
 
 ## Decision
 
 ## 1. Clear Service Responsibilities (Non-Overlapping)
 
-### PAS (Core Platform)
+### lotus-core (Core Platform)
 
 Owns:
 - Portfolio master and holdings state
@@ -35,7 +35,7 @@ Must not own:
 - Proposal workflow approvals and advisory lifecycle orchestration
 - Performance attribution/risk analytics beyond core calculation primitives
 
-### PA (Advanced Analytics)
+### lotus-performance (Advanced Analytics)
 
 Owns:
 - Performance measurement and attribution
@@ -43,13 +43,13 @@ Owns:
 - Higher-order analytics services and derived insights
 
 Must depend on:
-- PAS canonical portfolio/market/valuation outputs
+- lotus-core canonical portfolio/market/valuation outputs
 
 Must not duplicate:
-- PAS transactional/book-of-record engines
-- DPM advisory workflow lifecycle logic
+- lotus-core transactional/book-of-record engines
+- lotus-manage advisory workflow lifecycle logic
 
-### DPM (Advisory/Discretionary Management)
+### lotus-manage (Advisory/Discretionary Management)
 
 Owns:
 - Portfolio construction and rebalance/proposal recommendation logic
@@ -57,38 +57,38 @@ Owns:
 - Workflow decisioning and execution-readiness outcomes
 
 May consume:
-- PAS data snapshots directly or via BFF orchestration APIs
+- lotus-core data snapshots directly or via lotus-gateway orchestration APIs
 
 Must not become:
 - Primary system of record for portfolio books/transactions/market history
-- Performance attribution/risk analytics platform (PA scope)
+- Performance attribution/risk analytics platform (lotus-performance scope)
 
 ## 2. Integration Contract Pattern
 
-BFF must support two request modes for decisioning and analytics:
+lotus-gateway must support two request modes for decisioning and analytics:
 
 1. Direct payload mode:
    - API accepts explicit portfolio+market payload in request body.
-2. PAS-connected mode:
-   - API accepts identifiers (portfolio_id, as_of, model_id, etc.) and fetches canonical inputs from PAS.
+2. lotus-core-connected mode:
+   - API accepts identifiers (portfolio_id, as_of, model_id, etc.) and fetches canonical inputs from lotus-core.
 
-All UI workflows should use BFF contracts, not direct service-to-browser integration.
+All UI workflows should use lotus-gateway contracts, not direct service-to-browser integration.
 
-## 3. UI + BFF Evolution Direction
+## 3. UI + lotus-gateway Evolution Direction
 
-UI and BFF must evolve from DPM-only vertical slice to full-suite gateway:
+UI and lotus-gateway must evolve from lotus-manage-only vertical slice to full-suite gateway:
 
-- Unified portfolio workspace spanning PAS, PA, DPM modules.
+- Unified portfolio workspace spanning lotus-core, lotus-performance, lotus-manage modules.
 - Shared identity, authorization, and client-tenant context.
 - Shared navigation and reusable domain vocabulary.
 - Cross-module drilldowns:
-  - PAS data health and snapshot views
-  - PA performance/risk insights
-  - DPM proposal/rebalance workflows
+  - lotus-core data health and snapshot views
+  - lotus-performance performance/risk insights
+  - lotus-manage proposal/rebalance workflows
 
 ## 4. Portfolio Data Ingestion Capability
 
-UI/BFF must provide portfolio ingestion through:
+UI/lotus-gateway must provide portfolio ingestion through:
 
 - Manual forms for positions, transactions, instruments, and metadata.
 - File upload pipelines (CSV/Excel), with:
@@ -98,8 +98,8 @@ UI/BFF must provide portfolio ingestion through:
   - staged import and commit workflow
 
 Target ownership:
-- PAS owns persistence and canonicalization of ingested data.
-- BFF orchestrates upload lifecycle and progress/status APIs.
+- lotus-core owns persistence and canonicalization of ingested data.
+- lotus-gateway orchestrates upload lifecycle and progress/status APIs.
 - UI provides guided import UX and reconciliation feedback.
 
 ## 5. Configurability and Productization Constraints
@@ -109,19 +109,19 @@ All cross-service behavior should be configuration-driven:
 - Tenant/client-specific policy packs and workflow switches
 - Feature toggles by module and jurisdiction
 - Cloud and on-prem deployment parity
-- Environment-independent BFF routing and service discovery
+- Environment-independent lotus-gateway routing and service discovery
 
-## 6. Delivery Plan for UI/BFF
+## 6. Delivery Plan for UI/lotus-gateway
 
-1. Finish DPM parity roadmap already in progress (RFC-0027 phases).
-2. Introduce PAS integration endpoints in BFF (direct + PAS-connected modes).
+1. Finish lotus-manage parity roadmap already in progress (RFC-0027 phases).
+2. Introduce lotus-core integration endpoints in lotus-gateway (direct + lotus-core-connected modes).
 3. Add UI portfolio ingestion module (manual + file upload).
-4. Expose PA analytics pages fed from PAS canonical outputs.
+4. Expose lotus-performance analytics pages fed from lotus-core canonical outputs.
 5. Add cross-module portfolio timeline and end-to-end traceability view.
 
 ## Validation and Governance
 
-- Any new UI/BFF capability must declare owning backend (PAS/PA/DPM) in RFC and API docs.
+- Any new UI/lotus-gateway capability must declare owning backend (lotus-core/lotus-performance/lotus-manage) in RFC and API docs.
 - Reject changes that duplicate domain ownership across services.
 - Keep docs + code in sync in the same PR cycle.
 

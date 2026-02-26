@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
   - `RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
@@ -21,14 +21,14 @@ The target operating model is a workflow-first enterprise UI where backend servi
 Implement two aligned improvements:
 
 - Shift suite-facing UI copy and navigation labels to enterprise workflow language.
-- Add proposal lineage explorer capability in BFF and UI.
+- Add proposal lineage explorer capability in lotus-gateway and UI.
 
 ## Scope Implemented
 
 ### lotus-workbench
 
 - Updated shell/home/suite/intake/analytics user-facing labels to workflow-first wording.
-- Removed direct PAS/PA/DPM framing from primary route titles and action labels.
+- Removed direct lotus-core/lotus-performance/lotus-manage framing from primary route titles and action labels.
 - Added proposal lineage retrieval in proposal detail:
   - API: `getProposalLineage(proposalId)`
   - UI section: lineage chain with request/simulation/artifact hashes and timestamps.
@@ -36,9 +36,9 @@ Implement two aligned improvements:
 
 ### lotus-gateway
 
-- Added BFF lineage parity endpoint:
+- Added lotus-gateway lineage parity endpoint:
   - `GET /api/v1/proposals/{proposal_id}/lineage`
-- Wired client and service layers to DPM lineage endpoint passthrough.
+- Wired client and service layers to lotus-manage lineage endpoint passthrough.
 - Added integration test coverage for lineage endpoint behavior.
 - Updated README endpoint inventory.
 
@@ -52,7 +52,7 @@ Implement two aligned improvements:
 
 ## Notes
 
-- PAS/PA storyboard routes remain mock-backed in this phase.
-- DPM-backed advisory workflows remain live through BFF.
+- lotus-core/lotus-performance storyboard routes remain mock-backed in this phase.
+- lotus-manage-backed advisory workflows remain live through lotus-gateway.
 
 

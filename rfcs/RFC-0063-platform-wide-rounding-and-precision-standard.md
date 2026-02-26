@@ -24,8 +24,8 @@ Key decisions:
 
 ## Scope
 
-- In scope: PAS, PA, DPM, RAS, AEA, platform governance docs.
-- Out of scope: UI rendering precision behavior (consumes BFF payload as-is).
+- In scope: lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway, platform governance docs.
+- Out of scope: UI rendering precision behavior (consumes lotus-gateway payload as-is).
 
 ## Architectural Impact
 

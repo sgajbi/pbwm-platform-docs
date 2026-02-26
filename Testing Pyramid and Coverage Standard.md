@@ -1,6 +1,6 @@
 # Testing Pyramid and Coverage Standard
 
-- Scope: PAS, PA, DPM, RAS, AEA (BFF), and any new backend services.
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway (lotus-gateway), and any new backend services.
 - Objective: sustain `99%+` meaningful coverage while preserving fast feedback and high signal tests.
 
 ## 1. Pyramid Distribution

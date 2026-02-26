@@ -1,19 +1,19 @@
-# RFC-0024 PAS PA DPM Integration and Boundary Model
+# RFC-0024 lotus-core lotus-performance lotus-manage Integration and Boundary Model
 
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: PAS, PA, DPM, BFF
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-gateway
 
 ## 1. Problem Statement
 
-PA and DPM must consume PAS as the system of record while still supporting isolated stateless execution for testability and external model validation.
+lotus-performance and lotus-manage must consume lotus-core as the system of record while still supporting isolated stateless execution for testability and external model validation.
 
 ## 2. Decision
 
-Adopt PAS as canonical data owner and define dual-mode execution for PA and DPM:
+Adopt lotus-core as canonical data owner and define dual-mode execution for lotus-performance and lotus-manage:
 
-1. Connected mode: source required inputs via PAS integration APIs.
+1. Connected mode: source required inputs via lotus-core integration APIs.
 2. Stateless mode: accept explicit input payload bundles for isolated runs.
 
 ## 3. Integration Rules
@@ -26,14 +26,14 @@ Adopt PAS as canonical data owner and define dual-mode execution for PA and DPM:
 
 ## 4. Data Ownership
 
-1. PAS owns:
+1. lotus-core owns:
 - portfolios, positions, transactions, instruments, prices, FX, business dates, valuation state, lineage state.
-2. PA owns:
+2. lotus-performance owns:
 - advanced analytics outputs and explainability artifacts.
-3. DPM owns:
+3. lotus-manage owns:
 - proposals, rebalancing runs, recommendation lifecycle, advisory decision artifacts.
 
-## 5. Required PAS Improvements for PA and DPM
+## 5. Required lotus-core Improvements for lotus-performance and lotus-manage
 
 1. Integration snapshot APIs with stable contract versions:
 - portfolio core snapshot
@@ -45,10 +45,10 @@ Adopt PAS as canonical data owner and define dual-mode execution for PA and DPM:
 3. Bulk ingestion and validation APIs for onboarding:
 - preview/commit upload flows.
 
-## 6. Stateless Mode Contract (PA and DPM)
+## 6. Stateless Mode Contract (lotus-performance and lotus-manage)
 
 1. Every analytical/decision run endpoint supports:
-- `input_mode=pas_ref` (retrieve from PAS)
+- `input_mode=pas_ref` (retrieve from lotus-core)
 - `input_mode=inline_bundle` (portfolio + market data supplied in request)
 2. Output metadata must include:
 - `input_mode`
@@ -57,6 +57,6 @@ Adopt PAS as canonical data owner and define dual-mode execution for PA and DPM:
 
 ## 7. Acceptance Criteria
 
-1. PA and DPM each expose one stateless run endpoint and one PAS-connected run endpoint.
-2. PAS integration APIs are the only connected data path used by PA and DPM.
+1. lotus-performance and lotus-manage each expose one stateless run endpoint and one lotus-core-connected run endpoint.
+2. lotus-core integration APIs are the only connected data path used by lotus-performance and lotus-manage.
 3. No cross-service DB credentials or direct read paths exist.

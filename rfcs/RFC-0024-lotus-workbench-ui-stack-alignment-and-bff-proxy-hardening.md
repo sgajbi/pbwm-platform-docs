@@ -1,4 +1,4 @@
-# RFC-0024: Advisor Workbench UI Stack Alignment and BFF Proxy Hardening
+# RFC-0024: Advisor Workbench UI Stack Alignment and lotus-gateway Proxy Hardening
 
 - Status: Proposed
 - Date: 2026-02-23
@@ -10,7 +10,7 @@
 Current UI implementation quality was below enterprise expectations:
 
 - minimal visual system and inconsistent UX states
-- weak failure visibility when BFF connectivity breaks
+- weak failure visibility when lotus-gateway connectivity breaks
 - uneven adoption of documented frontend stack
 
 Documented target stack for `lotus-workbench`:
@@ -35,7 +35,7 @@ In scope:
 - use RHF + Zod for proposal simulation form validation
 - use AG Grid for positions table presentation
 - use ECharts for performance snapshot visualization
-- add Next.js BFF proxy route for browser API reliability
+- add Next.js lotus-gateway proxy route for browser API reliability
 - preserve route behavior and existing integration tests
 
 Out of scope:
@@ -70,6 +70,6 @@ Out of scope:
 1. `npm run typecheck` passes.
 2. `npm run test` passes.
 3. proposal/workbench flows render with MUI-based UI and explicit loading/error states.
-4. browser-side API requests use BFF proxy path and avoid direct cross-origin dependency.
+4. browser-side API requests use lotus-gateway proxy path and avoid direct cross-origin dependency.
 5. docs are updated in the same PR (RFC + runbook note if operational behavior changes).
 

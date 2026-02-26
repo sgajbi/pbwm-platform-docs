@@ -25,7 +25,7 @@ Execute standardization in phased waves with explicit completion criteria.
 - Implement RFC-0006.
 - Migrate at least one endpoint family per service.
 
-4. Phase 3: BFF vertical slice
+4. Phase 3: lotus-gateway vertical slice
 - Implement RFC-0007.
 - Ship portfolio overview + performance snapshot + rebalance summary.
 

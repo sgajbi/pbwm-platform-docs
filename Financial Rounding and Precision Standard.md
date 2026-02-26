@@ -7,7 +7,7 @@ Change control: RFC required (see `rfcs/RFC-0063-platform-wide-rounding-and-prec
 
 ## Non-Negotiable Financial Correctness
 
-All monetary and financial calculations across PAS, PA, DPM, RAS, and AEA must be deterministic, reproducible, and consistent for equivalent inputs.  
+All monetary and financial calculations across lotus-core, lotus-performance, lotus-manage, lotus-report, and lotus-gateway must be deterministic, reproducible, and consistent for equivalent inputs.  
 Service-local ad hoc rounding behavior is prohibited.
 
 ## Canonical Rules
@@ -97,7 +97,7 @@ Minimum required tests per service:
    - API responses return canonical scales
    - equivalent scenario consistency inside service boundaries
 3. Cross-service golden:
-   - same input vector across PAS/PA/DPM/RAS returns identical rounded outputs for shared fields.
+   - same input vector across lotus-core/lotus-performance/lotus-manage/lotus-report returns identical rounded outputs for shared fields.
 
 ## CI Guardrail: Monetary Float Usage
 
@@ -125,7 +125,7 @@ Deviation handling:
 2. Any externally visible numeric precision change must be called out in release notes.
 3. Migration rollout order:
    - PPD standard + RFC
-   - PAS/PA/DPM/RAS helpers + boundary wiring
-   - AEA response shaping alignment
+   - lotus-core/lotus-performance/lotus-manage/lotus-report helpers + boundary wiring
+   - lotus-gateway response shaping alignment
    - cross-service golden validation
 

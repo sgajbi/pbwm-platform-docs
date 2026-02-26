@@ -1,4 +1,4 @@
-# RFC-0022: Performance Analytics Engineering Alignment to DPM Standard
+# RFC-0022: Performance Analytics Engineering Alignment to lotus-manage Standard
 
 - Status: Proposed
 - Date: 2026-02-23
@@ -23,7 +23,7 @@ At this stage there are no production consumers and no backward-compatibility co
 
 ## Decision
 
-Align `lotus-performance` to the DPM engineering standard as the minimum baseline, while preserving service-specific runtime and domain logic.
+Align `lotus-performance` to the lotus-manage engineering standard as the minimum baseline, while preserving service-specific runtime and domain logic.
 
 This RFC is implementation-directive: the target state is not optional.
 
@@ -44,7 +44,7 @@ Out of scope:
 - immediate repository consolidation decisions
 - replacing service-specific analytics internals
 
-## Target Baseline (Must Match DPM Pattern)
+## Target Baseline (Must Match lotus-manage Pattern)
 
 ### 1. Python and Toolchain
 
@@ -78,7 +78,7 @@ Out of scope:
 
 ### 3. CI Workflow Baseline
 
-Add `.github/workflows/ci.yml` modeled on DPM with service-specific paths:
+Add `.github/workflows/ci.yml` modeled on lotus-manage with service-specific paths:
 
 - workflow lint (`actionlint`)
 - lint + dependency checks (`pip check`, dependency freshness/security script)
@@ -89,7 +89,7 @@ Add `.github/workflows/ci.yml` modeled on DPM with service-specific paths:
 
 Add auto-merge helper workflow:
 
-- `.github/workflows/pr-auto-merge.yml` (same behavior as DPM for non-fork PRs)
+- `.github/workflows/pr-auto-merge.yml` (same behavior as lotus-manage for non-fork PRs)
 
 ### 4. Branch Protection Baseline
 
@@ -172,14 +172,14 @@ Enforcement:
 
 ## Quality and Coverage Policy
 
-Adopt DPM-style strictness with service-appropriate ramp:
+Adopt lotus-manage-style strictness with service-appropriate ramp:
 
 - final target: coverage gate >= 95% overall for `lotus-performance` (may move to 99% after stabilization)
 - suite split is mandatory even if integration/e2e initially minimal
 - contract tests required for public API endpoints
 - no merge to `main` without green CI
 
-Rationale: DPM currently enforces 99% and acts as the bar; `lotus-performance` may use a staged threshold but must converge upward.
+Rationale: lotus-manage currently enforces 99% and acts as the bar; `lotus-performance` may use a staged threshold but must converge upward.
 
 ## Ownership and Non-Overlap Reminder
 
@@ -187,13 +187,13 @@ This RFC changes engineering baseline only. It does not alter domain ownership:
 
 - `lotus-performance` remains owner of performance analytics (TWR/MWR/contribution/attribution)
 - no workflow/proposal lifecycle logic should move into this service
-- UI continues to consume through BFF contracts, not direct service coupling
+- UI continues to consume through lotus-gateway contracts, not direct service coupling
 
 ## Acceptance Criteria
 
 This RFC is complete only when all are true:
 
-1. `lotus-performance` has DPM-parity Make targets and CI workflows.
+1. `lotus-performance` has lotus-manage-parity Make targets and CI workflows.
 2. Ruff, mypy, pytest, pre-commit are mandatory and green in CI.
 3. Branch protection on `main` enforces required checks.
 4. `ci-local` and `ci-local-docker` both succeed on a clean clone.

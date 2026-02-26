@@ -6,7 +6,7 @@ Backend repositories currently meet functional goals but still differ in tooling
 
 ## Decision
 
-Adopt a mandatory Wave 1 baseline across all backend services (`PAS`, `PA`, `DPM`, `RAS`, `AEA/BFF`):
+Adopt a mandatory Wave 1 baseline across all backend services (`lotus-core`, `lotus-performance`, `lotus-manage`, `lotus-report`, `lotus-gateway/lotus-gateway`):
 
 1. Dependency hygiene and security scanning as a required CI gate.
 2. Standard engineering commands across repos:

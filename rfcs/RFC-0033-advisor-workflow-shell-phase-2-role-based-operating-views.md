@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
   - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
@@ -30,7 +30,7 @@ In `lotus-workbench`:
 - `src/features/suite/mock-data.ts`
   - introduced `OperatingRole` type
   - added role ownership metadata for priority items
-  - added role metadata for DPM action playbook entries
+  - added role metadata for lotus-manage action playbook entries
 - `src/app/suite/page.tsx`
   - added role selector panel
   - added role-scoped priority board
@@ -44,7 +44,7 @@ In `lotus-workbench`:
 
 ## Notes
 
-- PAS and PA remain storyboard-only in this phase.
-- DPM remains the live workflow backend path via BFF.
+- lotus-core and lotus-performance remain storyboard-only in this phase.
+- lotus-manage remains the live workflow backend path via lotus-gateway.
 - Next phase should add persisted saved views and role-based routing defaults.
 

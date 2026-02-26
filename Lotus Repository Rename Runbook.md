@@ -21,7 +21,7 @@ Run from an authenticated shell to verify canonical naming and descriptions:
 ```powershell
 gh repo edit sgajbi/lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
 gh repo edit sgajbi/lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
-gh repo edit sgajbi/lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
+gh repo edit sgajbi/lotus-gateway --description "Channel/lotus-gateway orchestration APIs for Lotus clients."
 gh repo edit sgajbi/lotus-performance --description "Advanced performance and attribution analytics."
 gh repo edit sgajbi/lotus-advise --description "Advisory proposal and decision workflow engine."
 gh repo edit sgajbi/lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."

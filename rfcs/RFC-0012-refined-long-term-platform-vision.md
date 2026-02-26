@@ -11,7 +11,7 @@ Define a durable platform vision that balances startup velocity with enterprise-
 
 Build a configurable Private Banking Wealth Platform that:
 - delivers one unified Advisor Workbench UI
-- composes independent backend domain services through a BFF
+- composes independent backend domain services through a lotus-gateway
 - supports SaaS and client-hosted deployment modes
 - is productizable for banks and wealth firms
 

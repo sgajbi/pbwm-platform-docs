@@ -3,7 +3,7 @@
 - Status: Accepted
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: PAS, PA, DPM, BFF, cross-service platform governance
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-gateway, cross-service platform governance
 - Depends On:
   - `RFC-0015-domain-boundaries-and-service-ownership.md`
   - `RFC-0016-standardization-principles-and-engineering-baseline.md`
@@ -27,7 +27,7 @@ Adopt `Platform Integration Architecture Bible.md` as the central guiding princi
 
 1. Keeps platform governance decoupled from any single service codebase.
 2. Improves ownership clarity between platform-level and service-level decisions.
-3. Reduces ambiguity during PAS/PA/DPM/BFF parallel evolution.
+3. Reduces ambiguity during lotus-core/lotus-performance/lotus-manage/lotus-gateway parallel evolution.
 
 ## 4. Expected Outcomes
 

@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
   - `RFC-0025-lotus-workbench-proposal-workflow-ux-hardening.md`

@@ -14,7 +14,7 @@ Platform Engineering
 
 ## Problem Statement
 
-Backend services currently use inconsistent test distributions and non-uniform coverage expectations. This creates uneven confidence, slower defect detection, and weak comparability across PAS, PA, DPM, RAS, and AEA.
+Backend services currently use inconsistent test distributions and non-uniform coverage expectations. This creates uneven confidence, slower defect detection, and weak comparability across lotus-core, lotus-performance, lotus-manage, lotus-report, and lotus-gateway.
 
 ## Decision
 

@@ -7,7 +7,7 @@
 
 ## Context
 
-RFC-0022 aligned `lotus-performance` to the DPM engineering baseline.  
+RFC-0022 aligned `lotus-performance` to the lotus-manage engineering baseline.  
 During implementation, additional hardening opportunities were identified:
 
 - strengthen CI Docker validation from build-only to build + runtime smoke

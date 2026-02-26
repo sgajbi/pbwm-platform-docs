@@ -5,10 +5,10 @@
 Status source: `output/scalability-availability-compliance.md`.
 
 Completed in this wave:
-- Graceful shutdown and drain-safe readiness behavior implemented in AEA, PA, and RAS.
-- Explicit cache policy sections added in AEA, PAS, and DPM scalability standards docs.
-- Explicit availability baseline added in PAS (SLO, RTO, RPO, backup/restore validation).
-- Real load/concurrency tests added for AEA and DPM health endpoints.
+- Graceful shutdown and drain-safe readiness behavior implemented in lotus-gateway, lotus-performance, and lotus-report.
+- Explicit cache policy sections added in lotus-gateway, lotus-core, and lotus-manage scalability standards docs.
+- Explicit availability baseline added in lotus-core (SLO, RTO, RPO, backup/restore validation).
+- Real load/concurrency tests added for lotus-gateway and lotus-manage health endpoints.
 - Scale-signal observability coverage documented with platform-shared evidence links.
 - Compliance validator hardened to reduce false positives from generic benchmark/doc matches.
 

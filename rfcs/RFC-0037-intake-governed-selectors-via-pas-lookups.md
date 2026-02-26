@@ -1,8 +1,8 @@
-# RFC-0037: Intake Governed Selectors via PAS Lookups
+# RFC-0037: Intake Governed Selectors via lotus-core Lookups
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`
   - `RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
@@ -14,20 +14,20 @@ Enterprise operations require governed selectors for existing entities and stand
 
 ## Decision
 
-Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
+Introduce lotus-gateway-backed lookup endpoints and wire intake UI selectors to them:
 
-- BFF adds lookup contract endpoints:
+- lotus-gateway adds lookup contract endpoints:
   - `GET /api/v1/lookups/portfolios`
   - `GET /api/v1/lookups/instruments`
   - `GET /api/v1/lookups/currencies`
-- BFF resolves portfolio and instrument options from PAS query service.
+- lotus-gateway resolves portfolio and instrument options from lotus-core query service.
 - UI intake fields consume these lookups while keeping manual fallback when lookups are unavailable.
 
 ## Scope Implemented
 
 ### lotus-gateway
 
-- Added PAS query client and lookup service/router
+- Added lotus-core query client and lookup service/router
 - Added lookup contracts and endpoint tests
 - Added query service base URL config/env:
   - `PAS_QUERY_SERVICE_BASE_URL`

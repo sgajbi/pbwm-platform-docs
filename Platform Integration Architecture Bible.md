@@ -39,11 +39,11 @@ Documentation ownership model:
 
 ## 3. Target Responsibility Model
 
-1. `lotus-core` (current PAS): system of record and canonical data/snapshot owner.
-2. `lotus-performance` and `lotus-risk` (split from PA): advanced analytics and insights owners.
-3. `lotus-advise` and `lotus-manage` (split from DPM): decisioning/workflow owners by advisory vs discretionary lifecycle.
-4. `lotus-gateway` (current BFF/AEA): channel orchestration owner; no business-rule duplication.
-5. `lotus-report` (current RAS): reporting and aggregation outputs owner.
+1. `lotus-core` (current lotus-core): system of record and canonical data/snapshot owner.
+2. `lotus-performance` and `lotus-risk` (split from lotus-performance): advanced analytics and insights owners.
+3. `lotus-advise` and `lotus-manage` (split from lotus-manage): decisioning/workflow owners by advisory vs discretionary lifecycle.
+4. `lotus-gateway` (current lotus-gateway/lotus-gateway): channel orchestration owner; no business-rule duplication.
+5. `lotus-report` (current lotus-report): reporting and aggregation outputs owner.
 6. `lotus-platform` (current PPD): cross-cutting governance and contract authority.
 
 ## 3A. Canonical Naming Policy (Mandatory)
@@ -56,10 +56,10 @@ Documentation ownership model:
 ## 4. Required Integration Model
 
 1. Native platform mode:
-- PA and DPM source canonical data from PAS via stable contracts.
+- lotus-performance and lotus-manage source canonical data from lotus-core via stable contracts.
 
 2. Independent product mode:
-- PA and DPM must operate with external core platforms through canonical adapter contracts.
+- lotus-performance and lotus-manage must operate with external core platforms through canonical adapter contracts.
 
 3. Multi-model input support:
 - reference mode (`pas_ref`/connected),
@@ -80,7 +80,7 @@ Documentation ownership model:
 
 ## 6. Canonical Vocabulary
 
-Use shared terms across PAS/PA/DPM/BFF:
+Use shared terms across lotus-core/lotus-performance/lotus-manage/lotus-gateway:
 
 - `portfolio_snapshot`
 - `market_data_snapshot`
@@ -140,7 +140,7 @@ Platform-level local orchestration must be maintained centrally in:
 
 Mandatory constraints:
 
-1. Full-stack compose must start PAS, PA, DPM, RAS, BFF, and UI cohesively.
+1. Full-stack compose must start lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway, and UI cohesively.
 2. Service-level compose files remain valid, but cross-platform startup behavior is governed by the centralized stack.
 3. Logging, metrics, and tracing settings in centralized stack must follow platform observability standards.
 
