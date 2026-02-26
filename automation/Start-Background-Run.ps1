@@ -70,3 +70,4 @@ $state | ConvertTo-Json -Depth 5 | Set-Content $StatePath
 
 Write-Host ("Started background run. PID={0}, Profile={1}" -f $process.Id, $Profile)
 Write-Host "Monitor status with: powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1"
+

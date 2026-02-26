@@ -1,7 +1,7 @@
 {
   "repos": [
     {
-      "name": "advisor-experience-api",
+      "name": "lotus-gateway",
       "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "name": "dpm-rebalance-engine",
+      "name": "lotus-advise",
       "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
@@ -27,7 +27,7 @@
       ]
     },
     {
-      "name": "performanceAnalytics",
+      "name": "lotus-performance",
       "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
@@ -41,7 +41,7 @@
       ]
     },
     {
-      "name": "portfolio-analytics-system",
+      "name": "lotus-core",
       "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
@@ -67,4 +67,5 @@
     }
   ]
 }
+
 

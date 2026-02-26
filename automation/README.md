@@ -91,19 +91,19 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1 -Once
 Targeted PAS refresh:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -Services query_service demo_data_loader
+powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-core -Services query_service demo_data_loader
 ```
 
 Changed-files based refresh (recommended):
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/portfolio-analytics-system -ChangedOnly -BaseRef origin/main
+powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-core -ChangedOnly -BaseRef origin/main
 ```
 
 Dry run:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/advisor-experience-api -ChangedOnly -DryRun
+powershell -ExecutionPolicy Bypass -File automation/Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-gateway -ChangedOnly -DryRun
 ```
 
 ## Parallel Offload Profiles
@@ -341,4 +341,5 @@ This folder is the source of truth for platform-wide automation and agent workfl
 Application repositories should reference or consume this toolkit instead of maintaining divergent copies.
 
 PPD acts as a cross-cutting platform application: standards, contracts, validation scripts, and operating conventions are maintained here and consumed by all service repositories.
+
 

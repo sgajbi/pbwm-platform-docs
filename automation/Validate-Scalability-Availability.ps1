@@ -14,10 +14,10 @@ $config = if ($configRaw -is [System.Array]) {
 }
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $backendRepos = @(
-  "advisor-experience-api",
-  "portfolio-analytics-system",
-  "performanceAnalytics",
-  "dpm-rebalance-engine",
+  "lotus-gateway",
+  "lotus-core",
+  "lotus-performance",
+  "lotus-advise",
   "lotus-report"
 )
 
@@ -129,4 +129,5 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+
 

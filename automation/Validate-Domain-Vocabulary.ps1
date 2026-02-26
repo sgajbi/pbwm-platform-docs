@@ -7,10 +7,10 @@ param(
 $ErrorActionPreference = "Stop"
 
 $backendRepos = @(
-    "advisor-experience-api",
-    "dpm-rebalance-engine",
-    "performanceAnalytics",
-    "portfolio-analytics-system",
+    "lotus-gateway",
+    "lotus-advise",
+    "lotus-performance",
+    "lotus-core",
     "lotus-report"
 )
 
@@ -138,4 +138,5 @@ foreach ($row in $results) {
 Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
 Write-Host "Wrote $OutputJsonPath"
 Write-Host "Wrote $OutputMarkdownPath"
+
 

@@ -10,8 +10,8 @@
   },
   "services": [
     {
-      "name": "advisor-experience-api",
-      "repo": "advisor-experience-api",
+      "name": "lotus-gateway",
+      "repo": "lotus-gateway",
       "buckets": {
         "unit": ["tests/unit", "tests/contract"],
         "integration": ["tests/integration"],
@@ -20,8 +20,8 @@
       "coverage_command": "python -m pytest tests/unit tests/contract tests/integration --cov=src/app --cov-branch --cov-report=term --cov-fail-under=99"
     },
     {
-      "name": "dpm-rebalance-engine",
-      "repo": "dpm-rebalance-engine",
+      "name": "lotus-advise",
+      "repo": "lotus-advise",
       "buckets": {
         "unit": ["tests/unit"],
         "integration": ["tests/integration"],
@@ -30,8 +30,8 @@
       "coverage_command": "python -m pytest --cov=src --cov-report=term --cov-fail-under=99"
     },
     {
-      "name": "performanceAnalytics",
-      "repo": "performanceAnalytics",
+      "name": "lotus-performance",
+      "repo": "lotus-performance",
       "buckets": {
         "unit": ["tests/unit"],
         "integration": ["tests/integration"],
@@ -40,8 +40,8 @@
       "coverage_command": "python -m pytest --cov=app --cov=engine --cov=core --cov=adapters --cov-report=term --cov-fail-under=99"
     },
     {
-      "name": "portfolio-analytics-system",
-      "repo": "portfolio-analytics-system",
+      "name": "lotus-core",
+      "repo": "lotus-core",
       "buckets": {
         "unit": ["tests/unit"],
         "integration": ["tests/integration"],
@@ -61,4 +61,5 @@
     }
   ]
 }
+
 

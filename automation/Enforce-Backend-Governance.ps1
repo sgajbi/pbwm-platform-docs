@@ -84,3 +84,4 @@ $lines -join "`n" | Set-Content -Path $outputMd
 
 Write-Output "Wrote $outputJson"
 Write-Output "Wrote $outputMd"
+

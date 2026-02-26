@@ -12,40 +12,40 @@
       ]
     },
     {
-      "name": "advisor-experience-api",
+      "name": "lotus-gateway",
       "pathHint": "advisor-experience-api",
-      "defaultServices": ["advisor-experience-api"],
+      "defaultServices": ["lotus-gateway"],
       "rules": [
         {
           "pathPrefixes": ["src/", "package.json", "package-lock.json", "Dockerfile"],
-          "services": ["advisor-experience-api"]
+          "services": ["lotus-gateway"]
         }
       ]
     },
     {
-      "name": "dpm-rebalance-engine",
+      "name": "lotus-advise",
       "pathHint": "dpm-rebalance-engine",
-      "defaultServices": ["dpm-rebalance-engine"],
+      "defaultServices": ["lotus-advise"],
       "rules": [
         {
           "pathPrefixes": ["src/", "app/", "requirements.txt", "Dockerfile", "alembic/"],
-          "services": ["dpm-rebalance-engine"]
+          "services": ["lotus-advise"]
         }
       ]
     },
     {
-      "name": "performanceAnalytics",
+      "name": "lotus-performance",
       "pathHint": "performanceAnalytics",
-      "defaultServices": ["performance-analytics"],
+      "defaultServices": ["lotus-performance"],
       "rules": [
         {
           "pathPrefixes": ["src/", "app/", "requirements.txt", "Dockerfile", "pyproject.toml"],
-          "services": ["performance-analytics"]
+          "services": ["lotus-performance"]
         }
       ]
     },
     {
-      "name": "portfolio-analytics-system",
+      "name": "lotus-core",
       "pathHint": "portfolio-analytics-system",
       "defaultServices": ["query_service", "ingestion_service"],
       "rules": [
@@ -97,4 +97,6 @@
     }
   ]
 }
+
+
 

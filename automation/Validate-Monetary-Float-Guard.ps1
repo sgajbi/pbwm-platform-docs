@@ -15,10 +15,10 @@ $config = if ($configRaw -is [System.Array]) {
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
 $results = @()
 $backendRepos = @(
-  "advisor-experience-api",
-  "portfolio-analytics-system",
-  "performanceAnalytics",
-  "dpm-rebalance-engine",
+  "lotus-gateway",
+  "lotus-core",
+  "lotus-performance",
+  "lotus-advise",
   "lotus-report"
 )
 
@@ -77,4 +77,5 @@ if ($results.status -contains "failed" -or $results.status -contains "missing-sc
 }
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+
 

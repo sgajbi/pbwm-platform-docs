@@ -14,7 +14,7 @@ $config = if ($configRaw -is [System.Array]) {
 }
 
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
-$repos = @("advisor-experience-api", "portfolio-analytics-system", "performanceAnalytics", "dpm-rebalance-engine", "lotus-report", "pbwm-platform-docs")
+$repos = @("lotus-gateway", "lotus-core", "lotus-performance", "lotus-advise", "lotus-report", "pbwm-platform-docs")
 
 $clauses = @(
   @{ id = "canonical_rules"; patterns = @("ROUND_HALF_EVEN", "quantize_", "Decimal"); targets = @(".","src","app","docs","automation") },
@@ -93,4 +93,5 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+
 

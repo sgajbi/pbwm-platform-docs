@@ -55,3 +55,4 @@ foreach ($file in $runFiles) {
 if (-not $anyFailures) {
   Write-Host "No failures found in latest runs."
 }
+
