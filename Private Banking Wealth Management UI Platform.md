@@ -10,7 +10,7 @@ Build a production-grade wealth management platform that can be sold as SaaS and
 
 ## 2. Product Goal
 
-Deliver a Unified Advisor Workbench backed by independent domain services and composed through a Python BFF.
+Deliver a Unified Advisor Workbench backed by independent domain services and composed through a Python lotus-gateway.
 
 Current repositories:
 - `lotus-advise`
@@ -95,7 +95,7 @@ Planned repositories:
 - Advisory and compliance report generation
 - Template-driven rendering and artifact lineage
 
-### 5.5 BFF
+### 5.5 lotus-gateway
 - Canonical UI contracts
 - Cross-service composition and normalization
 - Partial failure handling
@@ -140,7 +140,7 @@ Working external product umbrella:
 - `Private Banking Wealth Platform` (working)
 
 Recommended service/product-facing names:
-- `DPM Rebalance Engine` -> `Portfolio Decisioning Service`
+- `lotus-manage Rebalance Engine` -> `Portfolio Decisioning Service`
 - `lotus-performance` -> `Performance Intelligence Service`
 - `lotus-core` -> `Portfolio Data Platform`
 - `advisor-bff` -> `Advisor Experience API`
@@ -200,10 +200,10 @@ Evolution:
 - Deployable into client infrastructure
 - Environment and security integration adapters
 
-## 11. Start Strategy: BFF + UI First (Recommended)
+## 11. Start Strategy: lotus-gateway + UI First (Recommended)
 
 Recommendation:
-- Start with BFF and UI now, while applying backend standardization incrementally as each integration surface is touched.
+- Start with lotus-gateway and UI now, while applying backend standardization incrementally as each integration surface is touched.
 
 Why:
 - fastest visible product progress
@@ -224,7 +224,7 @@ Why this first workflow:
 
 ### Now (must do before/with first slice)
 - lock canonical naming for new contracts
-- implement BFF canonical DTOs for first workflow
+- implement lotus-gateway canonical DTOs for first workflow
 - add correlation/idempotency propagation standards
 - align minimum CI/tooling baseline across repos
 

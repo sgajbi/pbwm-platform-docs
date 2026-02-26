@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0037-intake-governed-selectors-via-pas-lookups.md`
   - `RFC-0036-intake-entity-list-operations-and-enterprise-ux-structure.md`

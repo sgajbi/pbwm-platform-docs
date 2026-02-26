@@ -2,7 +2,7 @@
 
 - Status: Proposed
 - Date: 2026-02-23
-- Owner: UI/BFF Engineering
+- Owner: UI/lotus-gateway Engineering
 - Related: RFC-0034, RFC-0035, RFC-0036, RFC-0038, RFC-0039
 
 ## 1. Context
@@ -33,9 +33,9 @@ The current UI passes basic smoke checks but does not meet production enterprise
 
 ## 4. Non-Goals
 
-- No PAS/PA deep backend contract redesign in this RFC.
+- No lotus-core/lotus-performance deep backend contract redesign in this RFC.
 - No re-platforming UI framework.
-- No domain workflow expansion beyond existing DPM/PAS-integrated screens.
+- No domain workflow expansion beyond existing lotus-manage/lotus-core-integrated screens.
 
 ## 5. Scope
 

@@ -1,9 +1,9 @@
-# RFC-0029 Phased Integration Roadmap for PAS PA DPM
+# RFC-0029 Phased Integration Roadmap for lotus-core lotus-performance lotus-manage
 
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: PAS, PA, DPM, BFF, UI
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-gateway, UI
 
 ## 1. Objective
 
@@ -17,22 +17,22 @@ Deliver visible product progress while converging architecture, contracts, and g
 2. Freeze canonical vocabulary and ownership map.
 3. Define ADR process and mandatory decision topics.
 
-## Phase 1 - Vertical Slice (DPM + BFF + UI + PAS)
+## Phase 1 - Vertical Slice (lotus-manage + lotus-gateway + UI + lotus-core)
 
 1. Advisor Workbench first workflow:
 - portfolio overview
 - positions
 - rebalance status summary
-2. PAS provides canonical snapshots and support/lineage APIs.
-3. BFF exposes single workflow contract to UI.
+2. lotus-core provides canonical snapshots and support/lineage APIs.
+3. lotus-gateway exposes single workflow contract to UI.
 
-## Phase 2 - PA Connected + Stateless Dual Mode
+## Phase 2 - lotus-performance Connected + Stateless Dual Mode
 
-1. PA connected mode consumes PAS integration snapshots.
-2. PA stateless mode accepts explicit input bundle.
-3. BFF integrates PA outputs into advisor workbench analytics tabs.
+1. lotus-performance connected mode consumes lotus-core integration snapshots.
+2. lotus-performance stateless mode accepts explicit input bundle.
+3. lotus-gateway integrates lotus-performance outputs into advisor workbench analytics tabs.
 
-## Phase 3 - DPM Expanded Decision Workflows
+## Phase 3 - lotus-manage Expanded Decision Workflows
 
 1. Policy-driven proposal lifecycle and recommendation surfaces.
 2. Entitlement-aware workflow gates from backend policy configuration.

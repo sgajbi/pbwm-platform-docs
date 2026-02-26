@@ -34,7 +34,7 @@ This report tracks closure state for mandatory durability/consistency controls:
 |---|---|---|
 | lotus-gateway | Harden idempotency propagation + write-workflow consistency evidence | M |
 | lotus-core | Extend atomicity + late-arrival regression coverage in ingestion/recompute paths | M |
-| lotus-performance | Expand deterministic replay and PAS-input validation evidence for stateless mode | M |
+| lotus-performance | Expand deterministic replay and lotus-core-input validation evidence for stateless mode | M |
 | lotus-advise | Harden conflict and replay telemetry evidence for workflow actions | M |
 | lotus-report | Expand deterministic report-output replay coverage and provenance metadata evidence | S |
 

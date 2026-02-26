@@ -3,7 +3,7 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: PAS, PA, DPM, BFF
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-gateway
 
 ## 1. Problem Statement
 
@@ -41,7 +41,7 @@ Use synchronous APIs for request/response business queries and commands requirin
 
 1. Shared database integration.
 2. Hidden async side effects with no job tracking endpoint.
-3. UI polling direct backend internals bypassing BFF contract.
+3. UI polling direct backend internals bypassing lotus-gateway contract.
 
 ## 6. Acceptance Criteria
 

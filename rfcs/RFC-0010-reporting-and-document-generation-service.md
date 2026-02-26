@@ -27,7 +27,7 @@ Create a dedicated `reporting-service` repository and runtime service.
 
 ## Integration Model
 
-- Input from BFF orchestration and service APIs.
+- Input from lotus-gateway orchestration and service APIs.
 - Asynchronous job model with operation status endpoint.
 - Artifacts stored in object storage abstraction (S3-compatible and on-prem compatible).
 

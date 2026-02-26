@@ -3,76 +3,76 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: `lotus-core` (PAS), `lotus-performance` (PA), `lotus-advise` (DPM), BFF, UI
+- Scope: `lotus-core` (lotus-core), `lotus-performance` (lotus-performance), `lotus-advise` (lotus-manage), lotus-gateway, UI
 
 ## 1. Decision Summary
 
-1. Keep PAS, PA, and DPM as separate backend services and repositories.
-2. Keep UI + BFF delivery-first, with BFF as the orchestration entrypoint for UI workflows.
+1. Keep lotus-core, lotus-performance, and lotus-manage as separate backend services and repositories.
+2. Keep UI + lotus-gateway delivery-first, with lotus-gateway as the orchestration entrypoint for UI workflows.
 3. Add a dedicated Reporting Service later (not now).
-4. Introduce workflow orchestration as a separate runtime service only when BFF orchestration becomes operationally complex.
-5. Enforce strict non-overlap ownership: PAS core data/processing, PA advanced analytics, DPM advisory/discretionary workflows.
+4. Introduce workflow orchestration as a separate runtime service only when lotus-gateway orchestration becomes operationally complex.
+5. Enforce strict non-overlap ownership: lotus-core core data/processing, lotus-performance advanced analytics, lotus-manage advisory/discretionary workflows.
 
 ## 2. Why This Is the Right Strategy
 
 1. Clear domain ownership reduces duplicate logic and rework.
 2. Separate deployability supports SaaS and client-hosted rollout patterns.
-3. BFF-first preserves implementation momentum and validates contracts early.
+3. lotus-gateway-first preserves implementation momentum and validates contracts early.
 4. Reporting is a distinct workload (templates, rendering, async jobs, archival) and should not bloat core services.
 5. Orchestration should be introduced by evidence, not by default.
 
 ## 3. Service Ownership Model
 
-### PAS (Core Platform, System of Record)
+### lotus-core (Core Platform, System of Record)
 
 Owns:
 1. Portfolios, positions, transactions, instruments, market data, valuation, timeseries.
 2. Canonical baseline calculations (core performance/risk summaries).
 3. Canonical lineage/support data and operational state.
-4. Canonical integration contracts for PA/DPM/BFF consumption.
+4. Canonical integration contracts for lotus-performance/lotus-manage/lotus-gateway consumption.
 
 Must not own:
 1. Advanced attribution/model analytics.
 2. Rebalancing/advisory recommendation workflows.
 
-### PA (Advanced Analytics)
+### lotus-performance (Advanced Analytics)
 
 Owns:
 1. Advanced performance analytics (attribution, decomposition, model/factor overlays).
-2. Advanced risk analytics beyond PAS baseline metrics.
-3. Analytics products built on PAS snapshots and canonical data contracts.
+2. Advanced risk analytics beyond lotus-core baseline metrics.
+3. Analytics products built on lotus-core snapshots and canonical data contracts.
 
 Must not own:
-1. Independent copies of PAS core data pipelines.
-2. PAS system-of-record state.
+1. Independent copies of lotus-core core data pipelines.
+2. lotus-core system-of-record state.
 
-### DPM (Advisory and Discretionary Workflows)
+### lotus-manage (Advisory and Discretionary Workflows)
 
 Owns:
 1. Portfolio construction, optimization, proposal generation, rebalancing logic.
 2. Policy/rule-driven recommendation workflows.
-3. Direct-input simulation mode and PAS-connected mode.
+3. Direct-input simulation mode and lotus-core-connected mode.
 
 Must not own:
-1. Core ledger/state persistence that duplicates PAS.
+1. Core ledger/state persistence that duplicates lotus-core.
 
-### BFF + UI
+### lotus-gateway + UI
 
 Owns:
 1. Unified UI workflows.
-2. API composition across PAS/PA/DPM for screen-level contracts.
+2. API composition across lotus-core/lotus-performance/lotus-manage for screen-level contracts.
 3. Presentation-specific aggregation and pagination rules.
 
 Must not own:
-1. Core domain calculations that belong to PAS/PA/DPM.
+1. Core domain calculations that belong to lotus-core/lotus-performance/lotus-manage.
 
 ## 4. Repository Strategy
 
 Keep separate repositories for:
-1. PAS
-2. PA
-3. DPM
-4. BFF
+1. lotus-core
+2. lotus-performance
+3. lotus-manage
+4. lotus-gateway
 5. UI
 
 Add one shared standards/contracts repository or package set for:
@@ -86,7 +86,7 @@ Add one shared standards/contracts repository or package set for:
 
 Introduce when at least one of these is true:
 1. PDF/statement generation becomes a core requirement.
-2. Rendering workload impacts BFF latency or service reliability.
+2. Rendering workload impacts lotus-gateway latency or service reliability.
 3. Multi-template versioning and archival/audit requirements become active.
 
 Responsibilities:
@@ -99,22 +99,22 @@ Responsibilities:
 
 Introduce only if:
 1. Multi-step cross-service workflows require retries/compensation.
-2. BFF workflow code becomes too coupled or failure-prone.
-3. Approval/process state machines exceed BFF complexity limits.
+2. lotus-gateway workflow code becomes too coupled or failure-prone.
+3. Approval/process state machines exceed lotus-gateway complexity limits.
 
 ## 6. Phased Rollout (Now / Next / Later)
 
 ### Now
 
 1. Keep repos separate.
-2. Use BFF orchestration for UI vertical slices.
-3. PAS exposes canonical ingestion + core snapshot contracts.
+2. Use lotus-gateway orchestration for UI vertical slices.
+3. lotus-core exposes canonical ingestion + core snapshot contracts.
 4. Freeze ownership boundaries to prevent duplication.
 
 ### Next
 
-1. Expand PA advanced analytics on PAS contracts.
-2. Expand DPM recommendation/rebalance flows via PAS-connected mode.
+1. Expand lotus-performance advanced analytics on lotus-core contracts.
+2. Expand lotus-manage recommendation/rebalance flows via lotus-core-connected mode.
 3. Standardize cross-service OpenAPI schemas and vocabulary lints.
 
 ### Later
@@ -127,8 +127,8 @@ Introduce only if:
 
 1. No duplicated ownership of core domain data paths.
 2. Any new API must map to one bounded context owner.
-3. BFF contracts are versioned and traceable to backend contracts.
-4. PAS remains canonical source for core portfolio state.
+3. lotus-gateway contracts are versioned and traceable to backend contracts.
+4. lotus-core remains canonical source for core portfolio state.
 5. Introducing new service runtime requires an RFC with measurable trigger criteria.
 
 

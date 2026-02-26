@@ -1,24 +1,24 @@
-# RFC-0028 UI + BFF Integration Model and Responsibility Rules
+# RFC-0028 UI + lotus-gateway Integration Model and Responsibility Rules
 
 - Status: Proposed
 - Date: 2026-02-23
 - Owners: Platform Architecture
-- Scope: UI, BFF, PAS, PA, DPM
+- Scope: UI, lotus-gateway, lotus-core, lotus-performance, lotus-manage
 
 ## 1. Problem Statement
 
-As integration expands, business logic can leak into BFF/UI unless responsibilities are enforced with explicit rules.
+As integration expands, business logic can leak into lotus-gateway/UI unless responsibilities are enforced with explicit rules.
 
 ## 2. Decision
 
-BFF is the only backend interface for UI workflows; BFF orchestrates, normalizes, and degrades gracefully, while domain logic remains in PAS/PA/DPM.
+lotus-gateway is the only backend interface for UI workflows; lotus-gateway orchestrates, normalizes, and degrades gracefully, while domain logic remains in lotus-core/lotus-performance/lotus-manage.
 
 ## 3. Responsibility Split
 
 1. UI owns:
 - interaction patterns, visualization, input capture, user feedback
 
-2. BFF owns:
+2. lotus-gateway owns:
 - workflow-oriented API contracts
 - cross-service orchestration and composition
 - partial failure envelopes and caching policy
@@ -26,20 +26,20 @@ BFF is the only backend interface for UI workflows; BFF orchestrates, normalizes
 3. Domain services own:
 - business rules, calculations, state transitions, policy enforcement
 
-## 4. BFF Guardrails
+## 4. lotus-gateway Guardrails
 
-1. BFF must not persist canonical domain state.
-2. BFF must not reimplement domain calculations.
-3. BFF may perform display-oriented transforms and aggregation only.
+1. lotus-gateway must not persist canonical domain state.
+2. lotus-gateway must not reimplement domain calculations.
+3. lotus-gateway may perform display-oriented transforms and aggregation only.
 
 ## 5. Contract Rules
 
-1. BFF contracts are versioned independently from downstream service contracts.
-2. Every BFF endpoint maps to one documented workflow.
-3. Freshness and source metadata required in BFF responses.
+1. lotus-gateway contracts are versioned independently from downstream service contracts.
+2. Every lotus-gateway endpoint maps to one documented workflow.
+3. Freshness and source metadata required in lotus-gateway responses.
 
 ## 6. Acceptance Criteria
 
-1. Architecture tests/checklists enforce no-domain-logic in BFF policy.
-2. Contract tests validate BFF adapters against PAS/PA/DPM APIs.
-3. UI consumes BFF only for business workflows (no direct service calls).
+1. Architecture tests/checklists enforce no-domain-logic in lotus-gateway policy.
+2. Contract tests validate lotus-gateway adapters against lotus-core/lotus-performance/lotus-manage APIs.
+3. UI consumes lotus-gateway only for business workflows (no direct service calls).

@@ -1,4 +1,4 @@
-# RFC-0007: BFF Integration Contract for Unified UI Platform
+# RFC-0007: lotus-gateway Integration Contract for Unified UI Platform
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -9,9 +9,9 @@ The unified UI requires stable, workflow-oriented contracts, but backend APIs ar
 
 ## Decision
 
-Implement a strict BFF contract layer as the only UI integration boundary.
+Implement a strict lotus-gateway contract layer as the only UI integration boundary.
 
-## BFF Contracts v1
+## lotus-gateway Contracts v1
 
 - `ClientSummary`
 - `PortfolioOverview`
@@ -30,17 +30,17 @@ Implement a strict BFF contract layer as the only UI integration boundary.
 - `lotus-core` provides foundational state and historical data.
 - `lotus-performance` provides advanced performance/attribution analytics.
 - `lotus-advise` provides decision workflows and advisory lifecycle.
-- BFF owns mapping, normalization, caching, and degradation handling.
+- lotus-gateway owns mapping, normalization, caching, and degradation handling.
 
 ## UX Rules
 
-- UI always shows DPM status semantics directly.
+- UI always shows lotus-manage status semantics directly.
 - UI always shows freshness fields (`as_of_date`, source timestamps).
 - UI never depends on backend-native DTO names.
 
 ## Acceptance Criteria
 
-- BFF OpenAPI schema published and versioned.
-- BFF adapters and contract tests implemented for all 3 services.
-- MVP Advisor Workbench delivered via BFF-only integration.
+- lotus-gateway OpenAPI schema published and versioned.
+- lotus-gateway adapters and contract tests implemented for all 3 services.
+- MVP Advisor Workbench delivered via lotus-gateway-only integration.
 

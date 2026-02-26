@@ -19,7 +19,7 @@ Assign single-owner responsibility per domain capability and remove overlap.
 
 - No duplicated analytics ownership.
 - No workflow ownership outside decisioning service.
-- No direct UI calls to backend services except BFF.
+- No direct UI calls to backend services except lotus-gateway.
 
 ## Acceptance Criteria
 

@@ -2,7 +2,7 @@
 
 ## Scope
 
-Applies to PAS, PA, DPM, RAS, BFF, and UI-facing backend interactions.
+Applies to lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway, and UI-facing backend interactions.
 
 Machine-readable contract source:
 - `platform-contracts/cross-cutting-platform-contract.yaml`
@@ -37,10 +37,10 @@ Every service must expose:
 - readiness endpoint (`/health/ready`)
 
 Readiness must validate critical dependencies:
-- PAS ingestion: Kafka availability
-- PAS query: database connectivity
-- DPM: database availability
-- RAS/BFF: upstream dependency availability where appropriate
+- lotus-core ingestion: Kafka availability
+- lotus-core query: database connectivity
+- lotus-manage: database availability
+- lotus-report/lotus-gateway: upstream dependency availability where appropriate
 
 ## 3. Metrics Standard
 

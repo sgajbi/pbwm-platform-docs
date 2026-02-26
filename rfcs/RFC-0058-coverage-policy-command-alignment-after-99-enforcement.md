@@ -8,9 +8,9 @@ Service-level CI/local gates were tightened incrementally, but the centralized p
 
 ## Proposed Solution
 Align centralized coverage commands with active service gates:
-1. Set DPM coverage command fail-under to `99`.
-2. Set PA coverage command fail-under to `99`.
-3. Keep PAS command via `python scripts/coverage_gate.py` (already enforced at 99 in PAS).
+1. Set lotus-manage coverage command fail-under to `99`.
+2. Set lotus-performance coverage command fail-under to `99`.
+3. Keep lotus-core command via `python scripts/coverage_gate.py` (already enforced at 99 in lotus-core).
 
 ## Architectural Impact
 No runtime behavior change. Improves governance and automation consistency for cross-platform quality measurement.

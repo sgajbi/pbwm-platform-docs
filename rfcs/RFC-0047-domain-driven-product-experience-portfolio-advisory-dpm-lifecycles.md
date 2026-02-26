@@ -1,8 +1,8 @@
-# RFC-0047: Domain-Driven Product Experience for Portfolio Foundation, Advisory Lifecycle, and DPM Lifecycle
+# RFC-0047: Domain-Driven Product Experience for Portfolio Foundation, Advisory Lifecycle, and lotus-manage Lifecycle
 
 - Status: PROPOSED
 - Date: 2026-02-24
-- Owners: Platform Architecture (UI, BFF, PAS, PA, DPM)
+- Owners: Platform Architecture (UI, lotus-gateway, lotus-core, lotus-performance, lotus-manage)
 
 ## Problem Statement
 
@@ -22,14 +22,14 @@ Define a product model with three explicit domains:
    - Existing portfolios, holdings, transactions, composition, health, and baseline analytics.
 2. Advisory Lifecycle (CA-led)
    - Select portfolio, iteratively model trades/cash changes, evaluate suitability/SAA/risk in-loop, generate proposal, collect consent, execute.
-3. DPM Lifecycle (DPM-led)
+3. lotus-manage Lifecycle (lotus-manage-led)
    - Structured scenario building with stronger automation/policy controls, approval, and execution orchestration.
 
 ## Architectural Impact
 
 - UI becomes lifecycle-first and domain-driven, not page-first.
-- BFF evolves from pass-through aggregation to lifecycle orchestration contract.
-- PAS/PA/DPM expose simulation- and insight-ready APIs with stable boundaries and low-latency read models.
+- lotus-gateway evolves from pass-through aggregation to lifecycle orchestration contract.
+- lotus-core/lotus-performance/lotus-manage expose simulation- and insight-ready APIs with stable boundaries and low-latency read models.
 
 ## Risks and Trade-offs
 
@@ -43,7 +43,7 @@ Define a product model with three explicit domains:
    - Portfolio explorer and analytics cockpit with universal utility.
 2. Advisory phase:
    - Iterative proposal workspace with real-time impact panels.
-3. DPM phase:
+3. lotus-manage phase:
    - Parallel lifecycle with automation-centric controls and governance.
 4. Cross-cutting:
    - Add lifecycle contracts, response-time budgets, and observability for the simulation loop.

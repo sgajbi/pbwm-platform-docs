@@ -8,7 +8,7 @@ OpenAPI/Swagger quality expectations exist in architecture and migration standar
 
 Establish a cross-repository OpenAPI conformance baseline and automate validation in `lotus-platform`.
 
-Baseline controls for backend repos (`PAS`, `PA`, `DPM`, `RAS`, `AEA/BFF`):
+Baseline controls for backend repos (`lotus-core`, `lotus-performance`, `lotus-manage`, `lotus-report`, `lotus-gateway/lotus-gateway`):
 
 1. `Makefile` exposes `openapi-gate`.
 2. CI executes `make openapi-gate` (or equivalent explicit OpenAPI contract check).

@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0038-intake-production-ux-hardening-with-enterprise-form-patterns.md`
 

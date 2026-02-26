@@ -7,15 +7,15 @@ The platform lacks a dedicated service for reporting-ready aggregations and repo
 Create a new `lotus-report` as a separate application with:
 - aggregation read-model APIs
 - report-generation APIs
-- strict separation from PAS/PA core ownership
+- strict separation from lotus-core/lotus-performance core ownership
 
 ## 3. Ownership Boundaries
-- PAS:
+- lotus-core:
   - core ledger/reference/market/position/valuation/time-series
-- PA:
+- lotus-performance:
   - advanced analytics (performance/risk/attribution/contribution)
 - Reporting & Aggregation Service:
-  - join/aggregate PAS and PA outputs into report-ready views
+  - join/aggregate lotus-core and lotus-performance outputs into report-ready views
   - generate report artifacts and metadata
 
 ## 4. v1 Bootstrap Scope
@@ -38,19 +38,19 @@ Create a new `lotus-report` as a separate application with:
 - bootstrap service and contracts with deterministic placeholder data.
 
 ### Phase B
-- add PAS connector for core snapshot/positions/transactions ingestion.
-- add PA connector for analytics snapshots.
+- add lotus-core connector for core snapshot/positions/transactions ingestion.
+- add lotus-performance connector for analytics snapshots.
 
 ### Phase C
 - persist aggregated read models and add supportability metadata.
 
 ### Phase D
-- integrate BFF contracts and UI reporting flows.
+- integrate lotus-gateway contracts and UI reporting flows.
 
 ## 6. Risks and Trade-offs
 - Early placeholder responses are not business-complete.
 - Additional service increases operational surface area.
-- Coordination required across PAS/PA schema evolution.
+- Coordination required across lotus-core/lotus-performance schema evolution.
 
 ## 7. Acceptance Criteria
 1. New service is runnable locally and in Docker.

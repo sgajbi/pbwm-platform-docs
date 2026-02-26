@@ -18,7 +18,7 @@ Canonical target repositories:
 
 - `lotus-platform` (current `lotus-platform`): cross-cutting governance, standards, RFC/ADR, templates, automation, platform contracts.
 - `lotus-core` (current `lotus-core`): authoritative portfolio ledger, positions, valuations, cost/P&L, snapshots, and canonical query APIs.
-- `lotus-gateway` (current `lotus-gateway`): BFF/orchestration for channels; no core business logic ownership.
+- `lotus-gateway` (current `lotus-gateway`): lotus-gateway/orchestration for channels; no core business logic ownership.
 - `lotus-performance` (split from current `lotus-performance`): performance and attribution analytics.
 - `lotus-risk` (split from current `lotus-performance`): risk and exposure analytics.
 - `lotus-advise` (split from current `lotus-advise`): advisory workflow and proposal decisioning.

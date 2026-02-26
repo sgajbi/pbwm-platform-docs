@@ -1,26 +1,26 @@
-# RFC-0028: DPM Parity Phase 2 - Proposal Version Management
+# RFC-0028: lotus-manage Parity Phase 2 - Proposal Version Management
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
 
 ## Context
 
-Phase 2 of DPM parity requires immutable proposal version capabilities in UI.
+Phase 2 of lotus-manage parity requires immutable proposal version capabilities in UI.
 
-DPM already supports:
+lotus-manage already supports:
 - `GET /rebalance/proposals/{proposal_id}/versions/{version_no}`
 - `POST /rebalance/proposals/{proposal_id}/versions`
 
-These were not exposed end-to-end in BFF/UI.
+These were not exposed end-to-end in lotus-gateway/UI.
 
 ## Decision
 
-Implement proposal version management across BFF + UI:
+Implement proposal version management across lotus-gateway + UI:
 
-- BFF exposes:
+- lotus-gateway exposes:
   - `GET /api/v1/proposals/{proposal_id}/versions/{version_no}`
   - `POST /api/v1/proposals/{proposal_id}/versions`
 - UI proposal detail exposes:

@@ -2,7 +2,7 @@
 
 - Version: 1.0.0
 - Status: Active
-- Scope: PAS, PA, DPM, RAS, AEA (BFF), lotus-workbench integration surface
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway (lotus-gateway), lotus-workbench integration surface
 - Change control: Any change to mandatory rules requires an RFC in `lotus-platform/rfcs`.
 
 ## A. Do Now (Pre-Launch Must-Haves)
@@ -58,9 +58,9 @@
 
 ## D. Per-Repo Plan
 
-- `lotus-gateway`: resilient upstream clients (PAS/PA/DPM/RAS), pagination guardrails, concurrency tests, SLO notes.
-- `lotus-performance`: PAS input resilience, async-heavy workloads isolated, load tests for analytics APIs.
-- `lotus-report`: PAS/PA resilient ingestion, aggregation path performance budgets, report-path concurrency tests.
+- `lotus-gateway`: resilient upstream clients (lotus-core/lotus-performance/lotus-manage/lotus-report), pagination guardrails, concurrency tests, SLO notes.
+- `lotus-performance`: lotus-core input resilience, async-heavy workloads isolated, load tests for analytics APIs.
+- `lotus-report`: lotus-core/lotus-performance resilient ingestion, aggregation path performance budgets, report-path concurrency tests.
 - `lotus-core`: enforce stateless query APIs, index and retention documentation, queue depth observability.
 - `lotus-advise`: async batch isolation, bounded retries for dependencies, policy-based degradation behavior.
 - `lotus-platform`: central policy, compliance matrix, validation automation and evidence artifacts.

@@ -2,7 +2,7 @@
 
 - Last updated: 2026-02-24
 - Scope: run `lotus-advise` + `lotus-gateway` + `lotus-workbench` together with Docker, run `lotus-core` and `lotus-report` standalone when needed, and keep standardized local gates for `lotus-performance`
-- Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
+- Current phase: lotus-manage-first UI/lotus-gateway workflows with lotus-core integration and lotus-performance baseline hardening
 
 ## 1. Prerequisites
 
@@ -21,7 +21,7 @@ Expected:
 Canonical centralized orchestration now lives in:
 - `lotus-platform/platform-stack/docker-compose.yml`
 
-Run end-to-end stack (PAS, PA, DPM, RAS, BFF, UI + observability):
+Run end-to-end stack (lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway, UI + observability):
 
 ```powershell
 cd C:\Users\Sandeep\projects\lotus-platform\platform-stack
@@ -32,33 +32,33 @@ docker compose ps
 
 Key endpoints:
 - UI: `http://localhost:3000`
-- BFF: `http://localhost:8100`
-- PAS Ingestion: `http://localhost:8200`
-- PAS Query: `http://localhost:8201`
-- DPM: `http://localhost:8000`
-- PA: `http://localhost:8002`
-- RAS: `http://localhost:8300`
+- lotus-gateway: `http://localhost:8100`
+- lotus-core Ingestion: `http://localhost:8200`
+- lotus-core Query: `http://localhost:8201`
+- lotus-manage: `http://localhost:8000`
+- lotus-performance: `http://localhost:8002`
+- lotus-report: `http://localhost:8300`
 - Prometheus: `http://localhost:9190`
 - Grafana: `http://localhost:3300`
 
 ## 2. Ports and Dependencies
 
-- DPM API: `http://localhost:8000`
-- PAS Ingestion API: `http://localhost:8200`
-- PAS Query API: `http://localhost:8201`
-- PA API: `http://localhost:8002`
-- RAS API: `http://localhost:8300`
-- Postgres (for DPM): `localhost:5432`
-- BFF API: `http://localhost:8100`
+- lotus-manage API: `http://localhost:8000`
+- lotus-core Ingestion API: `http://localhost:8200`
+- lotus-core Query API: `http://localhost:8201`
+- lotus-performance API: `http://localhost:8002`
+- lotus-report API: `http://localhost:8300`
+- Postgres (for lotus-manage): `localhost:5432`
+- lotus-gateway API: `http://localhost:8100`
 - UI: `http://localhost:3000`
 
 Dependency chain:
-- UI -> BFF
-- BFF -> DPM
-- BFF -> PAS Ingestion (for portfolio creation)
-- BFF -> PAS Query (for governed selectors)
-- BFF/UI -> RAS (reporting and aggregation views)
-- DPM -> Postgres (via its compose file)
+- UI -> lotus-gateway
+- lotus-gateway -> lotus-manage
+- lotus-gateway -> lotus-core Ingestion (for portfolio creation)
+- lotus-gateway -> lotus-core Query (for governed selectors)
+- lotus-gateway/UI -> lotus-report (reporting and aggregation views)
+- lotus-manage -> Postgres (via its compose file)
 
 ## 3. One-Time Pull
 
@@ -72,7 +72,7 @@ cd /c/Users/sande/dev/lotus-workbench && git checkout main && git pull --ff-only
 
 Run these in 3 separate Git Bash terminals.
 
-## 4.1 Start DPM (+ Postgres)
+## 4.1 Start lotus-manage (+ Postgres)
 
 ```bash
 cd /c/Users/sande/dev/lotus-advise
@@ -80,7 +80,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-## 4.2 Start BFF
+## 4.2 Start lotus-gateway
 
 ```bash
 cd /c/Users/sande/dev/lotus-gateway
@@ -113,7 +113,7 @@ Manual UI checks:
   - verify role selector (`Advisor`, `Risk`, `Compliance`) filters priorities and playbook content
 - `http://localhost:3000/pas/intake`
   - verify operation selector is available (`Create Portfolio`, `Add Positions`, `Add Transactions`, `Add Instruments`, `Add Market Data`)
-  - verify portfolio/instrument/currency fields provide lookup suggestions from PAS query via BFF
+  - verify portfolio/instrument/currency fields provide lookup suggestions from lotus-core query via lotus-gateway
   - verify non-portfolio operations allow list row add/remove and submit successfully
   - verify list operations render in table-style editors with dense enterprise controls
   - verify no button/text overlap at narrow widths (mobile/tablet), and horizontal scroll appears for wide tables/toggles
@@ -161,18 +161,18 @@ cd /c/Users/sande/dev/lotus-advise && docker compose down -v
 
 - `Cannot connect to Docker daemon`
   - Docker Desktop/Engine is not running.
-- BFF cannot reach DPM
+- lotus-gateway cannot reach lotus-manage
   - Check `DECISIONING_SERVICE_BASE_URL=http://host.docker.internal:8000`.
-- BFF cannot reach PAS ingestion
+- lotus-gateway cannot reach lotus-core ingestion
   - Check `PORTFOLIO_DATA_INGESTION_BASE_URL=http://host.docker.internal:8200`.
-- BFF cannot reach PAS query
+- lotus-gateway cannot reach lotus-core query
   - Check `PORTFOLIO_DATA_PLATFORM_BASE_URL=http://host.docker.internal:8201`.
-- UI cannot reach BFF
+- UI cannot reach lotus-gateway
   - Check `BFF_BASE_URL=http://host.docker.internal:8100`.
 - Port conflict on `3000/8100/8000/5432`
   - Stop conflicting process/container and rerun `docker compose up -d --build`.
-- PA conflict with DPM on `8000`
-  - PA Docker compose now defaults to host port `8002` (`PA_HOST_PORT` override supported).
+- lotus-performance conflict with lotus-manage on `8000`
+  - lotus-performance Docker compose now defaults to host port `8002` (`PA_HOST_PORT` override supported).
 
 ## 9. CI Parity Note
 
@@ -180,11 +180,11 @@ cd /c/Users/sande/dev/lotus-advise && docker compose down -v
 - CI parity tests use each repo's `docker-compose.ci-local.yml`.
 - Keep both paths green when changing infra or test commands.
 
-## 10. PAS Local Docker Run (No Port Conflicts)
+## 10. lotus-core Local Docker Run (No Port Conflicts)
 
-PAS now uses dedicated host ports and can run in parallel with DPM/BFF/UI.
+lotus-core now uses dedicated host ports and can run in parallel with lotus-manage/lotus-gateway/UI.
 
-PAS host ports:
+lotus-core host ports:
 - Ingestion API: `http://localhost:8200`
 - Query API: `http://localhost:8201`
 - Postgres: `localhost:55432`
@@ -199,7 +199,7 @@ git checkout main
 git pull --ff-only
 ```
 
-### 10.2 Start PAS
+### 10.2 Start lotus-core
 
 ```bash
 cd /c/Users/sande/dev/lotus-core
@@ -207,7 +207,7 @@ docker compose up -d --build
 docker compose ps
 ```
 
-PAS startup now includes automated demo dataset bootstrap (`demo_data_loader`).
+lotus-core startup now includes automated demo dataset bootstrap (`demo_data_loader`).
 Validate bootstrap completion:
 
 ```bash
@@ -231,7 +231,7 @@ curl -s "http://127.0.0.1:8201/support/portfolios/PORT001/overview"
 curl -s "http://127.0.0.1:8201/lineage/portfolios/PORT001/securities/SEC001"
 ```
 
-### 10.4 Stop PAS
+### 10.4 Stop lotus-core
 
 ```bash
 cd /c/Users/sande/dev/lotus-core
@@ -243,18 +243,18 @@ docker compose down
 Do not restart the full platform by default. Rebuild only changed services:
 
 ```bash
-# PAS: refresh only ingestion service after ingestion changes
+# lotus-core: refresh only ingestion service after ingestion changes
 cd /c/Users/sande/dev/lotus-core
 docker compose up -d --build ingestion_service
 
-# PAS: refresh only demo loader after demo pack script changes
+# lotus-core: refresh only demo loader after demo pack script changes
 docker compose up -d --build demo_data_loader
 
-# BFF/UI targeted refresh examples
+# lotus-gateway/UI targeted refresh examples
 cd /c/Users/sande/dev/lotus-gateway && docker compose up -d --build lotus-gateway
 cd /c/Users/sande/dev/lotus-workbench && docker compose up -d --build lotus-workbench
 
-# RAS targeted refresh example
+# lotus-report targeted refresh example
 cd /c/Users/sande/dev/lotus-report && docker compose up -d --build
 ```
 
@@ -264,13 +264,13 @@ Use container logs first for debugging:
 docker logs --tail=200 <container_name>
 ```
 
-## 11. Live PAS + PA + DPM + RAS -> BFF Capabilities E2E (Docker)
+## 11. Live lotus-core + lotus-performance + lotus-manage + lotus-report -> lotus-gateway Capabilities E2E (Docker)
 
 This path validates `lotus-gateway` aggregation endpoint against live upstream containers:
-- PAS query service
-- PA service
-- DPM service
-- BFF service
+- lotus-core query service
+- lotus-performance service
+- lotus-manage service
+- lotus-gateway service
 
 ### 11.1 Pull Latest
 
@@ -281,7 +281,7 @@ cd /c/Users/sande/dev/lotus-performance && git checkout main && git pull --ff-on
 cd /c/Users/sande/dev/lotus-gateway && git checkout main && git pull --ff-only
 ```
 
-### 11.2 Start Stack From BFF Repo
+### 11.2 Start Stack From lotus-gateway Repo
 
 ```bash
 cd /c/Users/sande/dev/lotus-gateway
@@ -304,7 +304,7 @@ Expected output:
 ### 11.4 Manual API Smoke
 
 ```bash
-curl -s "http://127.0.0.1:8100/api/v1/platform/capabilities?consumerSystem=BFF&tenantId=default"
+curl -s "http://127.0.0.1:8100/api/v1/platform/capabilities?consumerSystem=lotus-gateway&tenantId=default"
 ```
 
 Response should include:
@@ -401,7 +401,7 @@ Output artifacts:
 
 ### 14.3 Targeted Service Refresh (No Full Stack Restart)
 
-Example for PAS:
+Example for lotus-core:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation\Service-Refresh.ps1 -ProjectPath C:/Users/Sandeep/projects/lotus-core -Services query_service demo_data_loader
@@ -480,7 +480,7 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `autonomous-foundation`
 
 Windows note for `ci-parity`: coverage-scoped pytest commands in the profile use `set COVERAGE_FILE=... &&` because the task runner executes via `cmd /c`.
-`ci-parity` intentionally omits host `pip check` for DPM/PA due shared interpreter drift; run `docker-ci-parity` when you need strict isolated dependency parity.
+`ci-parity` intentionally omits host `pip check` for lotus-manage/lotus-performance due shared interpreter drift; run `docker-ci-parity` when you need strict isolated dependency parity.
 
 Artifacts:
 - `output/task-runs/*.json`

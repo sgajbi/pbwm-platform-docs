@@ -29,7 +29,7 @@ Use concise domain-owned descriptions:
 
 - `lotus-platform`: Cross-cutting architecture, governance, standards, automation, and platform contracts.
 - `lotus-core`: Canonical portfolio and ledger state engine for positions, valuations, and snapshots.
-- `lotus-gateway`: Channel/BFF orchestration APIs for Lotus clients.
+- `lotus-gateway`: Channel/lotus-gateway orchestration APIs for Lotus clients.
 - `lotus-performance`: Advanced performance and attribution analytics.
 - `lotus-risk`: Advanced risk and exposure analytics.
 - `lotus-advise`: Advisory proposal and decision workflow engine.
@@ -61,7 +61,7 @@ Representative command pattern:
 
 gh repo edit sgajbi/lotus-platform --name lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
 gh repo edit sgajbi/lotus-core --name lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
-gh repo edit sgajbi/lotus-gateway --name lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
+gh repo edit sgajbi/lotus-gateway --name lotus-gateway --description "Channel/lotus-gateway orchestration APIs for Lotus clients."
 gh repo edit sgajbi/lotus-performance --name lotus-performance --description "Advanced performance and attribution analytics."
 gh repo edit sgajbi/lotus-advise --name lotus-advise --description "Advisory proposal and decision workflow engine."
 gh repo edit sgajbi/lotus-report --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
@@ -111,7 +111,7 @@ Minimum checks:
 2. All platform docs and standards use Lotus naming consistently.
 3. No active legacy name references in runtime, CI, or documentation (outside historical RFC archive text).
 4. Conformance artifacts are green and reproducible from automation.
-5. PA and DPM split plan approved with execution RFCs for `lotus-risk` and `lotus-manage`.
+5. lotus-performance and lotus-manage split plan approved with execution RFCs for `lotus-risk` and `lotus-manage`.
 
 
 

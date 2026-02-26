@@ -2,14 +2,14 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 
 ## Context
 
 The initial proposal simulation/detail screens exposed raw API request/response JSON directly in the primary user workflow.  
-This is not acceptable for advisor-facing enterprise UX and does not align with the BFF-first, productized platform direction.
+This is not acceptable for advisor-facing enterprise UX and does not align with the lotus-gateway-first, productized platform direction.
 
 ## Decision
 
@@ -18,7 +18,7 @@ For advisor-facing screens:
 - Replace raw JSON input areas with structured business forms.
 - Replace raw JSON response blocks with summarized workflow/KPI output.
 - Keep engineering/debug payload visibility out of the default UI workflow.
-- Preserve BFF proxy usage (`/api/bff/...`) as the only browser-facing integration path.
+- Preserve lotus-gateway proxy usage (`/api/bff/...`) as the only browser-facing integration path.
 
 ## Implementation Notes
 

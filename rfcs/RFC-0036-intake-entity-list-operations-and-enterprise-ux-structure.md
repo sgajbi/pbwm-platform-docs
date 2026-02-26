@@ -2,7 +2,7 @@
 
 - Status: Accepted
 - Date: 2026-02-23
-- Owners: UI/BFF Platform
+- Owners: UI/lotus-gateway Platform
 - Related RFCs:
   - `RFC-0034-pas-ingestion-integration-for-real-portfolio-creation-from-ui.md`
   - `RFC-0035-private-banking-intake-console-ux-hardening.md`
@@ -29,7 +29,7 @@ Refactor intake UI into operation-driven, list-capable workflows:
   - `Add Transactions`
   - `Add Instruments`
   - `Add Market Data`
-- submit each operation as a targeted PAS portfolio-bundle payload through BFF
+- submit each operation as a targeted lotus-core portfolio-bundle payload through lotus-gateway
 
 ## Scope Implemented
 
@@ -52,6 +52,6 @@ In `lotus-workbench`:
 
 ## Notes
 
-- This preserves BFF-first integration and PAS ownership.
+- This preserves lotus-gateway-first integration and lotus-core ownership.
 - Next phase should add server-driven dropdown sources (portfolio lookup, instrument lookup, currency standards).
 

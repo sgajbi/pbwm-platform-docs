@@ -6,11 +6,11 @@ This standard covers item 10 (data model standards) and item 11 (migration frame
 
 1. Each service must publish `docs/standards/data-model-ownership.md`.
 2. Ownership boundaries must be explicit and aligned to platform architecture:
-   - PAS owns core portfolio ledger and valuation data model.
-   - PA owns advanced analytics contract model.
-   - DPM owns advisory/discretionary proposal and policy execution model.
-   - RAS owns reporting and aggregation contract model.
-   - AEA/BFF owns response-shaping contracts only (no core business persistence).
+   - lotus-core owns core portfolio ledger and valuation data model.
+   - lotus-performance owns advanced analytics contract model.
+   - lotus-manage owns advisory/discretionary proposal and policy execution model.
+   - lotus-report owns reporting and aggregation contract model.
+   - lotus-gateway/lotus-gateway owns response-shaping contracts only (no core business persistence).
 3. No shared database across services.
 4. Canonical terminology must match `Domain Vocabulary Glossary.md`.
 
@@ -28,9 +28,9 @@ This standard covers item 10 (data model standards) and item 11 (migration frame
 
 ## Service-Specific Modes
 
-- PAS: Alembic-backed migration smoke (`alembic heads`, `alembic upgrade head --sql`).
-- DPM: forward-only SQL pack contract checks and migration-focused unit smoke.
-- AEA/PA/RAS: no-schema mode with explicit migration contract docs and CI smoke guard.
+- lotus-core: Alembic-backed migration smoke (`alembic heads`, `alembic upgrade head --sql`).
+- lotus-manage: forward-only SQL pack contract checks and migration-focused unit smoke.
+- lotus-gateway/lotus-performance/lotus-report: no-schema mode with explicit migration contract docs and CI smoke guard.
 
 ## Conformance Automation
 

@@ -46,6 +46,6 @@ Adopt a lightweight ADR standard in each active repository, with mandatory ADR r
 
 ## 6. Acceptance Criteria
 
-1. PAS, PA, DPM, BFF, and UI each have `docs/adrs/README.md` and initial ADR set.
+1. lotus-core, lotus-performance, lotus-manage, lotus-gateway, and UI each have `docs/adrs/README.md` and initial ADR set.
 2. New RFC-driven implementations include ADR linkage in PR descriptions.
 3. Decision history remains queryable and reviewable by repository.

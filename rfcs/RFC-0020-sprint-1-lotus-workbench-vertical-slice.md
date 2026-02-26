@@ -9,7 +9,7 @@
 Deliver one end-to-end vertical slice that proves the platform direction:
 
 - UI page for Advisor Workbench Overview
-- BFF composition endpoint
+- lotus-gateway composition endpoint
 - integration with all 3 current backend services
 - core cross-cutting foundations: correlation IDs, contract tests, partial failure handling
 
@@ -23,16 +23,16 @@ Deliver one end-to-end vertical slice that proves the platform direction:
 ## Scope (Sprint 1)
 
 In scope:
-- New BFF repo scaffold (`lotus-gateway`).
+- New lotus-gateway repo scaffold (`lotus-gateway`).
 - New UI repo scaffold (`lotus-workbench`).
-- One BFF endpoint: `GET /api/v1/workbench/{portfolio_id}/overview`.
+- One lotus-gateway endpoint: `GET /api/v1/workbench/{portfolio_id}/overview`.
 - One UI route: `/workbench/{portfolio_id}`.
 - Backend integration adapters for:
   - Portfolio core data
   - Performance snapshot
   - Rebalance status snapshot
 - Correlation ID propagation and logging.
-- BFF contract tests and one UI integration test.
+- lotus-gateway contract tests and one UI integration test.
 
 Out of scope:
 - Full authentication/authorization implementation (use clear interface + stub).
@@ -40,7 +40,7 @@ Out of scope:
 - Reporting center.
 - Deep attribution drilldowns.
 
-## Canonical Contract (BFF)
+## Canonical Contract (lotus-gateway)
 
 ### Endpoint
 
@@ -161,7 +161,7 @@ lotus-workbench/
 
 ## Sprint 1 Task Breakdown
 
-### Track 1: BFF Foundation
+### Track 1: lotus-gateway Foundation
 
 1. Create repo and baseline tooling.
 2. Add FastAPI app bootstrap and health endpoint.
@@ -169,7 +169,7 @@ lotus-workbench/
 4. Add standard error model (`application/problem+json`).
 5. Add config model for upstream base URLs and timeout budgets.
 
-### Track 2: BFF Domain Endpoint
+### Track 2: lotus-gateway Domain Endpoint
 
 1. Define `WorkbenchOverviewResponse` contract model.
 2. Implement 3 upstream clients (portfolio/performance/decisioning).
@@ -188,7 +188,7 @@ lotus-workbench/
 ### Track 4: Cross-Cutting Standards
 
 1. Standardize `portfolio_id` naming in new contracts.
-2. Add correlation-id logging fields in BFF.
+2. Add correlation-id logging fields in lotus-gateway.
 3. Add Makefile tasks:
    - `lint`, `typecheck`, `test`, `check`
 4. Add CI workflow:
@@ -196,11 +196,11 @@ lotus-workbench/
 
 ## Definition of Done
 
-- BFF endpoint returns composed response from all three services.
+- lotus-gateway endpoint returns composed response from all three services.
 - UI page renders overview for a test portfolio.
 - Correlation ID visible in logs and response headers.
 - Partial failure path tested and visible in UI.
-- CI green in new BFF and UI repos.
+- CI green in new lotus-gateway and UI repos.
 - Demo script recorded:
   - happy path
   - one upstream failure path
@@ -209,7 +209,7 @@ lotus-workbench/
 
 - Risk: Upstream contract mismatch.
   - Mitigation: isolate per-service adapter mappers and unit-test them.
-- Risk: slow parallel calls from BFF.
+- Risk: slow parallel calls from lotus-gateway.
   - Mitigation: async fan-out with strict timeout budgets and graceful degradation.
 - Risk: auth not finalized.
   - Mitigation: introduce `auth_context` interface now; wire real provider later.
@@ -218,7 +218,7 @@ lotus-workbench/
 
 `RFC-0021` should define Sprint 2:
 - advisory simulation screen
-- submit simulation via BFF
+- submit simulation via lotus-gateway
 - status-driven result UX (`READY`, `PENDING_REVIEW`, `BLOCKED`)
 
 

@@ -63,7 +63,7 @@
     },
     {
       "name": "pas-data-smoke",
-      "description": "PAS data pipeline and UI-facing smoke checks",
+      "description": "lotus-core data pipeline and UI-facing smoke checks",
       "tasks": [
         { "id": "pas-demo-loader", "repo": "lotus-core", "command": "docker compose up -d --build demo_data_loader" },
         { "id": "pas-query-health", "repo": "lotus-core", "command": "curl -sSf http://127.0.0.1:8201/health/ready" },

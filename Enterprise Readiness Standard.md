@@ -2,7 +2,7 @@
 
 - Version: 1.0.0
 - Status: Active
-- Scope: PAS, PA, DPM, RAS, AEA/BFF, and shared cross-cutting standards in PPD
+- Scope: lotus-core, lotus-performance, lotus-manage, lotus-report, lotus-gateway/lotus-gateway, and shared cross-cutting standards in PPD
 - Change control: Changes to mandatory controls require RFC in `lotus-platform/rfcs`; temporary deviations require ADR with expiry review date.
 
 ## A. Do Now (Pre-Launch Must-Haves)
@@ -59,7 +59,7 @@
 - `lotus-gateway`
   - Enforce write-path audit middleware and redaction.
   - Maintain resilient upstream calls and contract validation.
-  - Keep tenant/role feature flag controls for BFF orchestration.
+  - Keep tenant/role feature flag controls for lotus-gateway orchestration.
 
 - `lotus-core`
   - Apply enterprise controls in query-service API surface.

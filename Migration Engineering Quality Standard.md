@@ -1,6 +1,6 @@
 # Migration Engineering Quality Standard
 
-This standard governs all PAS/PA/BFF/DPM migration work.
+This standard governs all lotus-core/lotus-performance/lotus-gateway/lotus-manage migration work.
 
 ## 1. Test Pyramid Requirements
 
@@ -61,7 +61,7 @@ Manual execution is reserved for debugging and high-context decisions.
 Each migration change must demonstrate:
 
 1. clear boundary movement toward target ownership model.
-2. vocabulary consistency across PAS, PA, BFF, and docs.
+2. vocabulary consistency across lotus-core, lotus-performance, lotus-gateway, and docs.
 3. updated tests across pyramid layers.
 4. documentation updated in both local repo and PPD when cross-cutting.
 5. reproducible automation path for verification.

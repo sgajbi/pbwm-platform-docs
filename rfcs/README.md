@@ -34,7 +34,7 @@ Reference baseline:
 - No backward compatibility requirements for naming/structure while pre-live.
 - Single responsibility per service.
 - No duplicated ownership of domain capabilities.
-- UI consumes a unified BFF contract, not raw service contracts.
+- UI consumes a unified lotus-gateway contract, not raw service contracts.
 - Cloud and on-prem deployment parity is required for productization.
 
 ## Central Standards

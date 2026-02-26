@@ -2,11 +2,11 @@
 
 This folder provides a centralized Docker Compose orchestration for the full PBWM platform:
 
-- PAS (`pas-ingestion`, `pas-query`) + PAS dependencies (`zookeeper`, `kafka`, `pas-kafka-topic-creator`, `pas-postgres`, `pas-migration-runner`)
-- DPM (`dpm`, `dpm-postgres`)
-- PA (`pa`)
-- RAS (`ras`)
-- BFF (`bff`)
+- lotus-core (`pas-ingestion`, `pas-query`) + lotus-core dependencies (`zookeeper`, `kafka`, `pas-kafka-topic-creator`, `pas-postgres`, `pas-migration-runner`)
+- lotus-manage (`dpm`, `dpm-postgres`)
+- lotus-performance (`pa`)
+- lotus-report (`ras`)
+- lotus-gateway (`bff`)
 - UI (`ui`)
 - Observability baseline (`prometheus`, `grafana`, `otel-collector`)
 
@@ -33,12 +33,12 @@ docker compose up -d --build
 ## 3) Smoke Endpoints
 
 - UI: `http://localhost:3000`
-- BFF readiness: `http://localhost:8100/health/ready`
-- DPM readiness: `http://localhost:8000/health/ready`
-- PAS ingestion ready: `http://localhost:8200/health/ready`
-- PAS query ready: `http://localhost:8201/health/ready`
-- PA readiness: `http://localhost:8002/health/ready`
-- RAS readiness: `http://localhost:8300/health/ready`
+- lotus-gateway readiness: `http://localhost:8100/health/ready`
+- lotus-manage readiness: `http://localhost:8000/health/ready`
+- lotus-core ingestion ready: `http://localhost:8200/health/ready`
+- lotus-core query ready: `http://localhost:8201/health/ready`
+- lotus-performance readiness: `http://localhost:8002/health/ready`
+- lotus-report readiness: `http://localhost:8300/health/ready`
 - Prometheus: `http://localhost:9190`
 - Grafana: `http://localhost:3300` (admin/admin)
 

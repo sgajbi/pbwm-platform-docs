@@ -10,7 +10,7 @@ Balance architectural integrity with momentum by defining what to unify immediat
 ## Unify Now
 
 - Canonical vocabulary and headers
-- BFF contract models for first workflow
+- lotus-gateway contract models for first workflow
 - Correlation/idempotency propagation
 - CI/CD minimum baseline
 
