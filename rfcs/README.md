@@ -2,9 +2,13 @@
 
 This folder contains architecture RFCs to align:
 
-- `dpm-rebalance-engine`
-- `performanceAnalytics`
-- `portfolio-analytics-system`
+- `lotus-advise` (current `dpm-rebalance-engine`)
+- `lotus-performance` (current `performanceAnalytics`)
+- `lotus-core` (current `portfolio-analytics-system`)
+- `lotus-gateway` (current `advisor-experience-api`)
+- `lotus-reporting` (current `reporting-aggregation-service`)
+- `lotus-workbench` (current `advisor-workbench`)
+- `lotus-platform` (current `pbwm-platform-docs`)
 
 Reference baseline:
 - `dpm-rebalance-engine` is the primary engineering standard for automation, testing, and architecture discipline.
@@ -27,6 +31,7 @@ Reference baseline:
 ## Principles
 
 - Standardization over compatibility (no production consumers yet).
+- No backward compatibility requirements for naming/structure while pre-live.
 - Single responsibility per service.
 - No duplicated ownership of domain capabilities.
 - UI consumes a unified BFF contract, not raw service contracts.
@@ -91,6 +96,8 @@ Reference baseline:
 - `RFC-0060-phase-2-shared-standards-and-automated-conformance.md`
 - `RFC-0061-openapi-contract-quality-and-conformance-automation.md`
 - `RFC-0062-domain-vocabulary-conformance-automation.md`
+- `RFC-0063-platform-wide-rounding-and-precision-standard.md`
+- `RFC-0064-lotus-platform-rebrand-and-enterprise-productization-baseline.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
