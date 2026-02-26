@@ -170,6 +170,103 @@ function Add-Finding {
   })
 }
 
+function Get-AvailableGitHubLabels {
+  param([string]$GitHubRepo)
+
+  if ($DryRun) {
+    return @("qa","platform-conformance")
+  }
+
+  try {
+    $raw = & gh label list --repo $GitHubRepo --limit 200 --json name 2>$null
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($raw)) {
+      return @()
+    }
+    $parsed = $raw | ConvertFrom-Json
+    $names = @()
+    foreach ($row in $parsed) { $names += [string]$row.name }
+    return $names
+  } catch {
+    return @()
+  }
+}
+
+function New-GitHubIssue {
+  param(
+    [string]$GitHubRepo,
+    [string]$Title,
+    [string]$BodyFile,
+    [string[]]$RequestedLabels
+  )
+
+  $available = Get-AvailableGitHubLabels -GitHubRepo $GitHubRepo
+  $labelsToUse = @()
+  foreach ($label in $RequestedLabels) {
+    if ($available -contains $label) { $labelsToUse += $label }
+  }
+
+  $args = @("issue","create","--repo",$GitHubRepo,"--title",$Title,"--body-file",$BodyFile)
+  foreach ($label in $labelsToUse) {
+    $args += @("--label",$label)
+  }
+
+  $result = & gh @args 2>&1
+  return [pscustomobject]@{
+    success = ($LASTEXITCODE -eq 0)
+    labels = $labelsToUse
+    response = (($result | Out-String).Trim())
+  }
+}
+
+function Get-IssueByExactTitle {
+  param(
+    [string]$GitHubRepo,
+    [string]$Title
+  )
+
+  if ($DryRun) {
+    return $null
+  }
+
+  try {
+    $json = & gh issue list --repo $GitHubRepo --state all --limit 200 --json title,url,number,state 2>$null
+    if ($LASTEXITCODE -ne 0 -or [string]::IsNullOrWhiteSpace($json)) {
+      return $null
+    }
+    $rows = $json | ConvertFrom-Json
+    foreach ($row in $rows) {
+      if ([string]$row.title -eq $Title) {
+        return $row
+      }
+    }
+    return $null
+  } catch {
+    return $null
+  }
+}
+
+function Wait-ForServiceReady {
+  param(
+    [string]$Url,
+    [int]$ExpectedStatus = 200,
+    [int]$TimeoutSeconds = 60
+  )
+
+  if ($DryRun -or [string]::IsNullOrWhiteSpace($Url)) {
+    return $true
+  }
+
+  $deadline = (Get-Date).AddSeconds($TimeoutSeconds)
+  while ((Get-Date) -lt $deadline) {
+    $probe = Invoke-HttpCheck -Method "GET" -Url $Url -Headers @{} -Body "" -TimeoutSec 5
+    if ([int]$probe.status -eq [int]$ExpectedStatus) {
+      return $true
+    }
+    Start-Sleep -Seconds 2
+  }
+  return $false
+}
+
 function Get-StandardsSnapshot {
   param([string]$PlatformRepoPath)
 
@@ -286,6 +383,13 @@ foreach ($entry in $selected) {
     $startupOutput = $startResult.output
     if ($startResult.exitCode -ne 0) {
       Add-Finding -Findings $findings -Repo $repoName -CheckId "startup" -Type "startup" -Expected "Startup command exits 0" -Actual "Startup command failed with exit code $($startResult.exitCode)" -Evidence $startupOutput -Steps @("cd $repoPath", ([string]$entry.startup.up_command))
+    } elseif ($entry.checks.api -and $entry.checks.api.Count -gt 0) {
+      $readyUrl = [string]$entry.checks.api[0].url
+      $readyStatus = [int]$entry.checks.api[0].expected_status
+      $ready = Wait-ForServiceReady -Url $readyUrl -ExpectedStatus $readyStatus -TimeoutSeconds 60
+      if (-not $ready) {
+        Add-Finding -Findings $findings -Repo $repoName -CheckId "startup-readiness" -Type "startup" -Expected "Service ready at $readyUrl with HTTP $readyStatus within timeout" -Actual "Service did not become ready within timeout" -Evidence $startupOutput -Steps @("cd $repoPath", ([string]$entry.startup.up_command), "Probe readiness URL: $readyUrl")
+      }
     }
   }
 
@@ -484,12 +588,32 @@ foreach ($entry in $selected) {
       $tmpBody = Join-Path $repoEvidenceDir ("issue-{0:000}.md" -f $index)
       $issueText | Set-Content -Path $tmpBody
 
-      $issueOut = & gh issue create --repo $githubRepo --title $issueTitle --body-file $tmpBody --label "qa" --label "platform-conformance" 2>&1
-      $issueRecords.Add([pscustomobject]@{
-        repo = $repoName
-        check_id = $finding.check_id
-        issue_response = ($issueOut | Out-String).Trim()
-      })
+      $existing = Get-IssueByExactTitle -GitHubRepo $githubRepo -Title $issueTitle
+      if ($null -ne $existing) {
+        $action = "existing"
+        if ([string]$existing.state -eq "CLOSED") {
+          $null = & gh issue reopen ([string]$existing.number) --repo $githubRepo 2>$null
+          $action = if ($LASTEXITCODE -eq 0) { "reopened" } else { "existing-closed" }
+        }
+        $issueRecords.Add([pscustomobject]@{
+          repo = $repoName
+          check_id = $finding.check_id
+          issue_action = $action
+          issue_success = $true
+          labels_used = ""
+          issue_response = [string]$existing.url
+        })
+      } else {
+        $issueResult = New-GitHubIssue -GitHubRepo $githubRepo -Title $issueTitle -BodyFile $tmpBody -RequestedLabels @("qa","platform-conformance")
+        $issueRecords.Add([pscustomobject]@{
+          repo = $repoName
+          check_id = $finding.check_id
+          issue_action = "created"
+          issue_success = [bool]$issueResult.success
+          labels_used = ($issueResult.labels -join ",")
+          issue_response = [string]$issueResult.response
+        })
+      }
     }
   }
 
@@ -519,7 +643,12 @@ $mdPath = Join-Path $runDir "qa-summary.md"
 $issuePath = Join-Path $runDir "qa-issues.json"
 
 $summary | ConvertTo-Json -Depth 8 | Set-Content -Path $jsonPath
-$summary.issues | ConvertTo-Json -Depth 6 | Set-Content -Path $issuePath
+$issuesPayload = @($summary.issues)
+if ($issuesPayload.Count -eq 0) {
+  "[]" | Set-Content -Path $issuePath
+} else {
+  $issuesPayload | ConvertTo-Json -Depth 6 | Set-Content -Path $issuePath
+}
 
 $md = @()
 $md += "# Platform QA Summary"
