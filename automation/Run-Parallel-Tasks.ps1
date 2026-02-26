@@ -65,6 +65,12 @@ for ($i = 0; $i -lt $resolvedTasks.Count; $i += $MaxParallel) {
     $jobs += Start-Job -ScriptBlock {
       param($TaskId, $Repo, $RepoPath, $Command)
 
+      $ErrorActionPreference = "Continue"
+      try {
+        $PSNativeCommandUseErrorActionPreference = $false
+      } catch {
+      }
+
       $start = Get-Date
       $output = ""
       $exitCode = 0
@@ -72,10 +78,20 @@ for ($i = 0; $i -lt $resolvedTasks.Count; $i += $MaxParallel) {
       try {
         Push-Location $RepoPath
         try {
-          $output = cmd /c $Command 2>&1 | Out-String
+          $rawOutput = cmd /c $Command 2>&1 | Out-String
           if ($LASTEXITCODE -ne $null) {
             $exitCode = $LASTEXITCODE
           }
+          # Drop PowerShell remoting wrappers for native stderr while preserving command output.
+          $output = ($rawOutput -split "`r?`n" | Where-Object {
+            $_ -notmatch "^cmd : " -and
+            $_ -notmatch "^At line:\d+ char:\d+" -and
+            $_ -notmatch "^\s*\+ " -and
+            $_ -notmatch "^\s*~+" -and
+            $_ -notmatch "^\s+CategoryInfo\s+:" -and
+            $_ -notmatch "^\s+FullyQualifiedErrorId\s+:" -and
+            $_ -notmatch "^\s*NativeCommandError\s*$"
+          }) -join "`n"
         } finally {
           Pop-Location
         }

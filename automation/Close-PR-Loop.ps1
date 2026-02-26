@@ -11,6 +11,10 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+# Avoid turning native git stderr into terminating errors; inspect exit codes instead.
+if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
+  $PSNativeCommandUseErrorActionPreference = $false
+}
 
 if (-not (Test-Path $ConfigPath)) {
   throw "Config file not found: $ConfigPath"
@@ -116,11 +120,16 @@ function Remove-MergedBranch {
     if ($DryRunMode) {
       $remoteState = "would-delete"
     } else {
-      & git -C $RepoPath push origin --delete $Branch *> $null
+      $deleteOutput = (& git -C $RepoPath push origin --delete $Branch 2>&1 | Out-String).Trim()
       if ($LASTEXITCODE -eq 0) {
         $remoteState = "deleted"
+      } elseif ($deleteOutput -match "remote ref does not exist") {
+        $remoteState = "not-found"
       } else {
         $remoteState = "delete-failed"
+        if ($deleteOutput) {
+          $detail += "remote_delete_error: $deleteOutput"
+        }
       }
     }
   }

@@ -339,6 +339,17 @@
       ]
     },
     {
+      "name": "automation-integrity",
+      "description": "Validate automation config integrity (repos/profile references, command file refs, and task wiring)",
+      "tasks": [
+        {
+          "id": "validate-automation-config",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
+        }
+      ]
+    },
+    {
       "name": "backend-standards-conformance",
       "description": "Validate backend repositories against shared foundation standards",
       "tasks": [
@@ -493,6 +504,11 @@
           "command": "powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1"
         },
         {
+          "id": "validate-automation-config",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
+        },
+        {
           "id": "summarize-failures",
           "repo": "lotus-platform",
           "command": "powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 -Latest 5"
@@ -547,6 +563,11 @@
           "id": "verify-repo-metadata",
           "repo": "lotus-platform",
           "command": "powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1"
+        },
+        {
+          "id": "validate-automation-config",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
         },
         {
           "id": "dependency-rollup",
