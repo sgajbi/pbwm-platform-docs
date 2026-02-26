@@ -7,7 +7,7 @@
 
 ## 1. Context
 
-Browser-based QA on `advisor-workbench` identified functional and UX quality gaps that block enterprise-grade readiness:
+Browser-based QA on `lotus-workbench` identified functional and UX quality gaps that block enterprise-grade readiness:
 
 - Proposal detail route remains in loading state with repeated `404` console errors.
 - Workbench route renders hard error state for `PF_1001` with no enterprise fallback UX.
@@ -104,4 +104,5 @@ Out of scope:
   - Playwright test updates,
   - runbook/RFC documentation updates,
   - screenshot evidence of before/after.
+
 

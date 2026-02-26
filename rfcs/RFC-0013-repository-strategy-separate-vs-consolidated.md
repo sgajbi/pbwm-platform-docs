@@ -19,7 +19,7 @@ Maintain separate repositories by bounded context, with shared platform librarie
 - `performance-intelligence-service` (current `lotus-performance`)
 - `portfolio-decisioning-service` (current `lotus-advise`)
 - `lotus-gateway` (new BFF)
-- `advisor-workbench` (new UI)
+- `lotus-workbench` (new UI)
 - `platform-foundations` (new shared libs)
 - `client-reporting-service` (new)
 
@@ -27,4 +27,5 @@ Maintain separate repositories by bounded context, with shared platform librarie
 
 - Repository role matrix approved.
 - New repos (BFF/UI/shared/reporting) scheduled and scaffolded in roadmap.
+
 

@@ -4,7 +4,7 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
+  - `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
 
 ## Context
 
@@ -22,7 +22,7 @@ For advisor-facing screens:
 
 ## Implementation Notes
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - Proposal simulation page now captures:
   - portfolio id
@@ -54,3 +54,4 @@ Trade-off:
 - `npm run test`
 - `npm run build`
 - Docker build path validated via `docker compose up -d --build` workflow for the UI stack.
+

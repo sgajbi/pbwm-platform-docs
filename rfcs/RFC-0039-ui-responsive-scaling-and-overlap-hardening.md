@@ -25,7 +25,7 @@ Apply responsive hardening at both page and global shell levels:
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/app/pas/intake/page.tsx`
   - responsive action rail
@@ -43,3 +43,4 @@ In `advisor-workbench`:
 ## Notes
 
 - This is a UX quality/responsiveness fix only; backend behavior and contracts are unchanged.
+

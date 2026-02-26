@@ -20,7 +20,7 @@ Adopt a two-layer naming model:
 - `lotus-performance` -> technical: `performance-intelligence-service`
 - `lotus-core` -> technical: `portfolio-data-platform`
 - New BFF: `lotus-gateway`
-- New UI: `advisor-workbench`
+- New UI: `lotus-workbench`
 - New reporting: `client-reporting-service`
 - Shared libs: `platform-foundations`
 
@@ -33,4 +33,5 @@ Adopt a two-layer naming model:
 
 - Naming map documented in architecture vision file.
 - Repo rename or alias plan defined.
+
 

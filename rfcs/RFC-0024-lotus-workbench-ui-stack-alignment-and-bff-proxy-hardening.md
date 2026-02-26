@@ -3,7 +3,7 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Depends on: RFC-0017, RFC-0020
-- Target repository: `advisor-workbench`
+- Target repository: `lotus-workbench`
 
 ## Context
 
@@ -13,7 +13,7 @@ Current UI implementation quality was below enterprise expectations:
 - weak failure visibility when BFF connectivity breaks
 - uneven adoption of documented frontend stack
 
-Documented target stack for `advisor-workbench`:
+Documented target stack for `lotus-workbench`:
 
 - Next.js + React + TypeScript
 - TanStack Query
@@ -24,7 +24,7 @@ Documented target stack for `advisor-workbench`:
 
 ## Decision
 
-Bring `advisor-workbench` implementation into alignment with the documented stack and enterprise UX baseline, while preserving current proposal/workbench workflows and test coverage.
+Bring `lotus-workbench` implementation into alignment with the documented stack and enterprise UX baseline, while preserving current proposal/workbench workflows and test coverage.
 
 ## Scope
 
@@ -72,3 +72,4 @@ Out of scope:
 3. proposal/workbench flows render with MUI-based UI and explicit loading/error states.
 4. browser-side API requests use BFF proxy path and avoid direct cross-origin dependency.
 5. docs are updated in the same PR (RFC + runbook note if operational behavior changes).
+

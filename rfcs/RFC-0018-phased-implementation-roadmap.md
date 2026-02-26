@@ -10,7 +10,7 @@
 
 ## Phase 1: Foundation Slice
 
-- Create `lotus-gateway` and `advisor-workbench`.
+- Create `lotus-gateway` and `lotus-workbench`.
 - Implement first workbench workflow.
 
 ## Phase 2: Standardization Wave
@@ -32,4 +32,5 @@
 
 - Each phase has explicit exit criteria and demo artifacts.
 - Progress tracked by measurable integration milestones.
+
 

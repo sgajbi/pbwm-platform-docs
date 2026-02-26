@@ -33,7 +33,7 @@ Refactor intake UI into operation-driven, list-capable workflows:
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/app/pas/intake/page.tsx`
   - operation selector with isolated intent-driven forms
@@ -54,3 +54,4 @@ In `advisor-workbench`:
 
 - This preserves BFF-first integration and PAS ownership.
 - Next phase should add server-driven dropdown sources (portfolio lookup, instrument lookup, currency standards).
+

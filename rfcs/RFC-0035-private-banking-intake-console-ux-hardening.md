@@ -26,7 +26,7 @@ Upgrade intake UX into an operations-grade console:
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/app/pas/intake/page.tsx`
   - rebuilt as enterprise intake operations console
@@ -48,3 +48,4 @@ In `advisor-workbench`:
 
 - CSV flow now submits real PAS portfolio-bundle payloads.
 - Excel upload remains a planned follow-up.
+

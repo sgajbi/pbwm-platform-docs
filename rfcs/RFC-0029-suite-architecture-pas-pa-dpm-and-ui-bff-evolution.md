@@ -6,7 +6,7 @@
 - Related RFCs:
   - `RFC-0002-bounded-contexts-and-service-boundaries.md`
   - `RFC-0007-bff-integration-contract-for-ui-platform.md`
-  - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+  - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
 
 ## Context
 
@@ -124,3 +124,4 @@ All cross-service behavior should be configuration-driven:
 - Any new UI/BFF capability must declare owning backend (PAS/PA/DPM) in RFC and API docs.
 - Reject changes that duplicate domain ownership across services.
 - Keep docs + code in sync in the same PR cycle.
+

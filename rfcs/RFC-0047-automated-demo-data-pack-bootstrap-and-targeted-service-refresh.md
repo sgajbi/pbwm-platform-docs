@@ -5,7 +5,7 @@
 - Repositories impacted:
   - `lotus-core`
   - `lotus-gateway` (consumes PAS outputs)
-  - `advisor-workbench` (renders PAS-backed views through BFF)
+  - `lotus-workbench` (renders PAS-backed views through BFF)
 
 ## Context
 
@@ -50,4 +50,5 @@ Platform startup required manual or inconsistent dataset loading, creating unsta
    - loader logs,
    - manual re-run,
    - targeted refresh of changed services only.
+
 

@@ -5,7 +5,7 @@
 - Owners: UI/BFF Platform
 - Related RFCs:
   - `RFC-0032-advisor-workflow-shell-phase-1-client-and-task-centric-command-center.md`
-  - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+  - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
 
 ## Context
 
@@ -25,7 +25,7 @@ This is still a UI orchestration layer and does not change backend ownership or 
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/features/suite/mock-data.ts`
   - introduced `OperatingRole` type
@@ -47,3 +47,4 @@ In `advisor-workbench`:
 - PAS and PA remain storyboard-only in this phase.
 - DPM remains the live workflow backend path via BFF.
 - Next phase should add persisted saved views and role-based routing defaults.
+

@@ -4,7 +4,7 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+  - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
   - `RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
   - `RFC-0031-ui-enterprise-workflow-language-and-lineage-visibility.md`
 
@@ -18,7 +18,7 @@ The suite storyboard was improved, but still needed stronger workflow value for 
 
 ## Decision
 
-Implement Phase 1 of advisor workflow shell in `advisor-workbench` Command Center:
+Implement Phase 1 of advisor workflow shell in `lotus-workbench` Command Center:
 
 - add a client-priority board with urgency and next business action
 - add a DPM action playbook mapping workflow states to user actions
@@ -28,7 +28,7 @@ This phase is UI workflow orchestration and guidance only; backend responsibilit
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/features/suite/mock-data.ts`
   - added `advisorPriorityBoard`
@@ -49,3 +49,4 @@ In `advisor-workbench`:
 - PAS/PA remain storyboard-backed in this phase.
 - DPM remains the only live integrated workflow path via BFF.
 - Next phase should add role-based worklists and saved operating views (advisor, risk, compliance).
+
