@@ -115,14 +115,14 @@ COPY scripts ./scripts
 RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -e ".[dev]"
 
 EXPOSE $Port
-CMD ["uvicorn", "src.app.main:app", "--host", "0.0.0.0", "--port", "$Port"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "$Port"]
 "@
 Set-Content -Path (Join-Path $target "Dockerfile") -Value $dockerfile
 
 $mainPy = @"
 from fastapi import FastAPI, Response, status
 from prometheus_fastapi_instrumentator import Instrumentator
-from src.app.middleware.correlation import CorrelationIdMiddleware
+from app.middleware.correlation import CorrelationIdMiddleware
 
 SERVICE_NAME = "$ServiceName"
 SERVICE_VERSION = "0.1.0"
@@ -168,20 +168,25 @@ Set-Content -Path (Join-Path $target "src/app/middleware/__init__.py") -Value ""
 $correlationMiddleware = @"
 from __future__ import annotations
 
+from collections.abc import Awaitable, Callable
 import time
 import uuid
-from typing import Callable
 
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.types import ASGIApp
 
 
 class CorrelationIdMiddleware(BaseHTTPMiddleware):
-    def __init__(self, app, service_name: str) -> None:
+    def __init__(self, app: ASGIApp, service_name: str) -> None:
         super().__init__(app)
         self._service_name = service_name
 
-    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+    async def dispatch(
+        self,
+        request: Request,
+        call_next: Callable[[Request], Awaitable[Response]],
+    ) -> Response:
         correlation_id = request.headers.get("X-Correlation-Id") or str(uuid.uuid4())
         request.state.correlation_id = correlation_id
         start = time.perf_counter()
@@ -195,7 +200,15 @@ class CorrelationIdMiddleware(BaseHTTPMiddleware):
 Set-Content -Path (Join-Path $target "src/app/middleware/correlation.py") -Value $correlationMiddleware
 
 $openapiGate = @"
-from src.app.main import app
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
+
+from app.main import app  # noqa: E402
 
 
 def main() -> None:
@@ -211,7 +224,6 @@ if __name__ == "__main__":
 Set-Content -Path (Join-Path $target "scripts/openapi_quality_gate.py") -Value $openapiGate
 
 $coverageGate = @"
-import os
 import sys
 from pathlib import Path
 
@@ -241,7 +253,6 @@ if __name__ == "__main__":
 Set-Content -Path (Join-Path $target "scripts/coverage_gate.py") -Value $coverageGate
 
 $floatGuard = @"
-import re
 import sys
 from pathlib import Path
 
@@ -274,7 +285,7 @@ if __name__ == "__main__":
 Set-Content -Path (Join-Path $target "scripts/check_monetary_float_usage.py") -Value $floatGuard
 
 $unitTest = @"
-from src.app.main import SERVICE_NAME
+from app.main import SERVICE_NAME
 
 
 def test_service_name_is_lotus_prefixed() -> None:
@@ -284,7 +295,7 @@ Set-Content -Path (Join-Path $target "tests/unit/test_service_contract.py") -Val
 
 $integrationTest = @"
 from fastapi.testclient import TestClient
-from src.app.main import app
+from app.main import app
 
 
 def test_health_endpoints() -> None:
@@ -304,7 +315,7 @@ Set-Content -Path (Join-Path $target "tests/integration/test_health.py") -Value 
 
 $e2eTest = @"
 from fastapi.testclient import TestClient
-from src.app.main import app
+from app.main import app
 
 
 def test_e2e_smoke() -> None:
@@ -342,25 +353,34 @@ $readme = @(
   "",
   "## Quick Start",
   "",
-  "```powershell",
+  '```powershell',
   "make install",
   "make lint",
   "make typecheck",
   "make openapi-gate",
   "make ci",
-  "```",
+  '```',
+  "",
+  '```powershell',
+  "python -m pip install -e '.[dev]'",
+  "python -m ruff check . && python -m ruff format --check .",
+  "python -m mypy --config-file mypy.ini",
+  "python scripts/openapi_quality_gate.py",
+  "python -m pytest tests/unit tests/integration tests/e2e",
+  "python scripts/coverage_gate.py",
+  '```',
   "",
   "## Run",
   "",
-  "```powershell",
-  "uvicorn src.app.main:app --reload --port $Port",
-  "```",
+  '```powershell',
+  "uvicorn app.main:app --reload --port $Port",
+  '```',
   "",
   "## Docker",
   "",
-  "```powershell",
+  '```powershell',
   "docker compose up --build",
-  "```",
+  '```',
   "",
   "## Standards",
   "",
@@ -465,6 +485,14 @@ if (-not $SkipAutomationRegistration) {
       Write-Host "Updated automation/service-map.json with $repoName"
     }
   }
+}
+
+try {
+  python -m ruff format $target | Out-Null
+  Write-Host "Applied ruff formatting to scaffold"
+}
+catch {
+  Write-Host "Skipped scaffold formatting (ruff unavailable): $($_.Exception.Message)"
 }
 
 Write-Host "Scaffold created: $target"
