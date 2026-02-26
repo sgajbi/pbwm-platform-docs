@@ -445,6 +445,12 @@ powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Prof
 # Domain vocabulary conformance baseline
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile domain-vocabulary-conformance -MaxParallel 1
 
+# PR lifecycle automation (monitor checks, queue auto-merge, cleanup merged branches)
+powershell -ExecutionPolicy Bypass -File automation\Close-PR-Loop.ps1
+
+# Continuous PR lifecycle watch
+powershell -ExecutionPolicy Bypass -File automation\Close-PR-Loop.ps1 -Watch -IntervalSeconds 30
+
 # Autonomous full foundation governance sweep
 powershell -ExecutionPolicy Bypass -File automation\Run-Parallel-Tasks.ps1 -Profile autonomous-foundation -MaxParallel 1
 
@@ -466,6 +472,7 @@ Profiles are defined in `automation/task-profiles.json` and currently include:
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 - `repo-metadata-validation`
+- `pr-lifecycle`
 - `autonomous-foundation`
 
 Windows note for `ci-parity`: coverage-scoped pytest commands in the profile use `set COVERAGE_FILE=... &&` because the task runner executes via `cmd /c`.
@@ -477,6 +484,8 @@ Artifacts:
 - `output/task-runs/*.out.log`
 - `output/task-runs/*.err.log`
 - `output/background-runs.json`
+- `output/pr-lifecycle.json`
+- `output/pr-lifecycle.md`
 - `output/dependency-vulnerability-rollup.json`
 - `output/dependency-vulnerability-rollup.md`
 - `output/agent-status.json`

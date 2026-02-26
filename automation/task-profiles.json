@@ -145,6 +145,13 @@
       ]
     },
     {
+      "name": "pr-lifecycle",
+      "description": "Monitor PR checks, queue auto-merge, and clean merged feature branches",
+      "tasks": [
+        { "id": "close-pr-loop", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Close-PR-Loop.ps1" }
+      ]
+    },
+    {
       "name": "autonomous-foundation",
       "description": "Autonomous foundation governance sweep with machine-readable evidence artifacts",
       "tasks": [
