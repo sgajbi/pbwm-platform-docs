@@ -2,7 +2,7 @@
   "repos": [
     {
       "name": "lotus-workbench",
-      "pathHint": "advisor-workbench",
+      "pathHint": "lotus-workbench",
       "defaultServices": ["lotus-workbench"],
       "rules": [
         {
@@ -13,7 +13,7 @@
     },
     {
       "name": "lotus-gateway",
-      "pathHint": "advisor-experience-api",
+      "pathHint": "lotus-gateway",
       "defaultServices": ["lotus-gateway"],
       "rules": [
         {
@@ -24,7 +24,7 @@
     },
     {
       "name": "lotus-advise",
-      "pathHint": "dpm-rebalance-engine",
+      "pathHint": "lotus-advise",
       "defaultServices": ["lotus-advise"],
       "rules": [
         {
@@ -35,7 +35,7 @@
     },
     {
       "name": "lotus-performance",
-      "pathHint": "performanceAnalytics",
+      "pathHint": "lotus-performance",
       "defaultServices": ["lotus-performance"],
       "rules": [
         {
@@ -46,7 +46,7 @@
     },
     {
       "name": "lotus-core",
-      "pathHint": "portfolio-analytics-system",
+      "pathHint": "lotus-core",
       "defaultServices": ["query_service", "ingestion_service"],
       "rules": [
         {
@@ -119,6 +119,7 @@
     }
   ]
 }
+
 
 
 
