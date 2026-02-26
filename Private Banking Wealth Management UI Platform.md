@@ -247,7 +247,7 @@ Why this first workflow:
 ### Phase 1
 - scaffold `advisor-bff` and `advisor-ui`
 - deliver first Advisor Workbench slice
-- implementation playbook: `docs/rfcs/RFC-0020-sprint-1-advisor-workbench-vertical-slice.md`
+- implementation playbook: `docs/rfcs/RFC-0020-sprint-1-lotus-workbench-vertical-slice.md`
 
 ### Phase 2
 - standardize CI/CD and tooling across all repos
@@ -305,4 +305,5 @@ Charts
 Forms/validation
 - React Hook Form
 - Zod
+
 

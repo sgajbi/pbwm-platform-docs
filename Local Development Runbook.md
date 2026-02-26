@@ -1,7 +1,7 @@
 # Local Development Runbook (Docker, Bash)
 
 - Last updated: 2026-02-24
-- Scope: run `lotus-advise` + `lotus-gateway` + `advisor-workbench` together with Docker, run `lotus-core` and `lotus-report` standalone when needed, and keep standardized local gates for `lotus-performance`
+- Scope: run `lotus-advise` + `lotus-gateway` + `lotus-workbench` together with Docker, run `lotus-core` and `lotus-report` standalone when needed, and keep standardized local gates for `lotus-performance`
 - Current phase: DPM-first UI/BFF workflows with PAS integration and PA baseline hardening
 
 ## 1. Prerequisites
@@ -65,7 +65,7 @@ Dependency chain:
 ```bash
 cd /c/Users/sande/dev/lotus-advise && git checkout main && git pull --ff-only
 cd /c/Users/sande/dev/lotus-gateway && git checkout main && git pull --ff-only
-cd /c/Users/sande/dev/advisor-workbench && git checkout main && git pull --ff-only
+cd /c/Users/sande/dev/lotus-workbench && git checkout main && git pull --ff-only
 ```
 
 ## 4. Start All 3 Apps (Docker)
@@ -94,7 +94,7 @@ docker compose ps
 ## 4.3 Start UI
 
 ```bash
-cd /c/Users/sande/dev/advisor-workbench
+cd /c/Users/sande/dev/lotus-workbench
 export BFF_BASE_URL="http://host.docker.internal:8100"
 docker compose up -d --build
 docker compose ps
@@ -132,7 +132,7 @@ Tail logs:
 ```bash
 cd /c/Users/sande/dev/lotus-advise && docker compose logs -f --tail=200
 cd /c/Users/sande/dev/lotus-gateway && docker compose logs -f --tail=200
-cd /c/Users/sande/dev/advisor-workbench && docker compose logs -f --tail=200
+cd /c/Users/sande/dev/lotus-workbench && docker compose logs -f --tail=200
 ```
 
 Restart a single stack:
@@ -146,7 +146,7 @@ docker compose up -d --build
 ## 7. Stop All
 
 ```bash
-cd /c/Users/sande/dev/advisor-workbench && docker compose down
+cd /c/Users/sande/dev/lotus-workbench && docker compose down
 cd /c/Users/sande/dev/lotus-gateway && docker compose down
 cd /c/Users/sande/dev/lotus-advise && docker compose down
 ```
@@ -252,7 +252,7 @@ docker compose up -d --build demo_data_loader
 
 # BFF/UI targeted refresh examples
 cd /c/Users/sande/dev/lotus-gateway && docker compose up -d --build lotus-gateway
-cd /c/Users/sande/dev/advisor-workbench && docker compose up -d --build advisor-workbench
+cd /c/Users/sande/dev/lotus-workbench && docker compose up -d --build lotus-workbench
 
 # RAS targeted refresh example
 cd /c/Users/sande/dev/lotus-report && docker compose up -d --build
@@ -509,4 +509,5 @@ powershell -ExecutionPolicy Bypass -File automation\Generate-Local-CI-Parity-Evi
 Artifacts:
 - `output/local-ci-parity-evidence.json`
 - `output/local-ci-parity-evidence.md`
+
 
