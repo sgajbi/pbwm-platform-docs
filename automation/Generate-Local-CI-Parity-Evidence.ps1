@@ -18,29 +18,73 @@ $targetRepos = @(
         ForEach-Object { $_ }
 )
 
-function Find-WorkflowPath {
+function Find-WorkflowFiles {
     param([string]$RepoPath)
     $workflowDir = Join-Path $RepoPath ".github/workflows"
-    if (-not (Test-Path $workflowDir)) { return $null }
-    foreach ($candidate in @("ci.yml", "ci.yaml", "backend-ci.yml", "pipeline.yml")) {
-        $path = Join-Path $workflowDir $candidate
-        if (Test-Path $path) { return $path }
+    if (-not (Test-Path $workflowDir)) { return @() }
+    $workflows = Get-ChildItem -Path $workflowDir -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -in @(".yml", ".yaml") }
+    return @($workflows)
+}
+
+function Get-CommandChecks {
+    param([string]$CommandText)
+
+    if ([string]::IsNullOrWhiteSpace($CommandText)) {
+        return @()
     }
-    return $null
+
+    $checks = New-Object System.Collections.Generic.List[string]
+    $parts = $CommandText -split "&&"
+    foreach ($raw in $parts) {
+        $part = $raw.Trim()
+        if ([string]::IsNullOrWhiteSpace($part)) { continue }
+
+        if ($part -match "\bmake\s+lint\b" -or $part -match "\bruff\s+check\b" -or $part -match "\bnpm\s+run\s+lint\b") { $checks.Add("lint") }
+        if ($part -match "\bruff\s+format\s+--check\b" -or $part -match "\bnpm\s+run\s+format:check\b") { $checks.Add("format-check") }
+        if ($part -match "\bmake\s+typecheck\b" -or $part -match "\bmypy\b" -or $part -match "\bnpm\s+run\s+typecheck\b") { $checks.Add("typecheck") }
+        if ($part -match "\bmake\s+test\b" -or $part -match "\bpytest\b" -or $part -match "\bnpm\s+run\s+test\b") { $checks.Add("test") }
+        if ($part -match "\bmake\s+ci\b") { $checks.Add("ci-meta") }
+        if ($part -match "dependency_health_check\.py" -or $part -match "requirements-audit\.txt") { $checks.Add("dependency-audit") }
+        if ($part -match "\bpip\s+check\b") { $checks.Add("pip-check") }
+        if ($part -match "\bcoverage\s+report\b.*--fail-under" -or $part -match "coverage_gate\.py") { $checks.Add("coverage-gate") }
+    }
+
+    return ($checks | Select-Object -Unique)
+}
+
+function Get-WorkflowChecks {
+    param([System.IO.FileInfo[]]$WorkflowFiles)
+
+    $checks = New-Object System.Collections.Generic.List[string]
+    foreach ($workflow in $WorkflowFiles) {
+        $content = Get-Content -Raw $workflow.FullName
+        $checks += Get-CommandChecks -CommandText $content
+    }
+    return ($checks | Select-Object -Unique)
 }
 
 $rows = @()
+$repoRoot = Resolve-Path (Join-Path $PSScriptRoot "..")
 
 foreach ($repo in $targetRepos) {
     $repoPath = [string]$repo.path
     if (-not [System.IO.Path]::IsPathRooted($repoPath)) {
-        $repoPath = Join-Path (Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")) $repoPath
+        $repoPath = Join-Path $repoRoot $repoPath
     }
+
+    $localCommands = @()
+    if ($repo.PSObject.Properties.Name -contains "preflight_fast_command" -and -not [string]::IsNullOrWhiteSpace($repo.preflight_fast_command)) {
+        $localCommands += [string]$repo.preflight_fast_command
+    }
+    if ($repo.PSObject.Properties.Name -contains "preflight_full_command" -and -not [string]::IsNullOrWhiteSpace($repo.preflight_full_command)) {
+        $localCommands += [string]$repo.preflight_full_command
+    }
+    $localCommands = $localCommands | Select-Object -Unique
 
     if (-not (Test-Path $repoPath)) {
         $rows += [pscustomobject]@{
             repo = $repo.name
-            local_command = "-"
+            local_command = ($localCommands -join " || ")
             ci_job = "-"
             parity_status = "missing-repo"
             gap = "Repository path not found"
@@ -48,11 +92,22 @@ foreach ($repo in $targetRepos) {
         continue
     }
 
-    $workflowPath = Find-WorkflowPath -RepoPath $repoPath
-    if (-not $workflowPath) {
+    if ($localCommands.Count -eq 0) {
         $rows += [pscustomobject]@{
             repo = $repo.name
             local_command = "-"
+            ci_job = "-"
+            parity_status = "gap"
+            gap = "No preflight commands defined in repos.json"
+        }
+        continue
+    }
+
+    $workflowFiles = Find-WorkflowFiles -RepoPath $repoPath
+    if ($workflowFiles.Count -eq 0) {
+        $rows += [pscustomobject]@{
+            repo = $repo.name
+            local_command = ($localCommands -join " || ")
             ci_job = "-"
             parity_status = "gap"
             gap = "CI workflow file not found"
@@ -60,53 +115,33 @@ foreach ($repo in $targetRepos) {
         continue
     }
 
-    $workflowContent = Get-Content -Raw $workflowPath
-    $requiredLocalCommands = @()
+    $expectedChecks = New-Object System.Collections.Generic.List[string]
+    foreach ($localCommand in $localCommands) {
+        $expectedChecks += Get-CommandChecks -CommandText $localCommand
+    }
+    $expectedChecks = $expectedChecks | Select-Object -Unique
 
-    if ($repo.preflight_fast_command) { $requiredLocalCommands += [string]$repo.preflight_fast_command }
-    if ($repo.preflight_full_command) { $requiredLocalCommands += [string]$repo.preflight_full_command }
-
-    if ($requiredLocalCommands.Count -eq 0) {
-      $requiredLocalCommands = @("make lint", "make typecheck", "make test")
+    if ($expectedChecks.Count -eq 0) {
+        $rows += [pscustomobject]@{
+            repo = $repo.name
+            local_command = ($localCommands -join " || ")
+            ci_job = "-"
+            parity_status = "gap"
+            gap = "No recognizable checks found in preflight commands"
+        }
+        continue
     }
 
-    $missing = New-Object System.Collections.Generic.List[string]
-    $ciHits = @()
+    $observedChecks = Get-WorkflowChecks -WorkflowFiles $workflowFiles
+    $missingChecks = @($expectedChecks | Where-Object { $_ -notin $observedChecks })
 
-    foreach ($localCommand in $requiredLocalCommands) {
-        $segments = @($localCommand -split "&&" | ForEach-Object { $_.Trim() } | Where-Object { $_ })
-        if ($segments.Count -eq 0) { continue }
-
-        $segmentMatched = $false
-        foreach ($segment in $segments) {
-            $probe = $segment
-            if ($probe.Length -gt 80) { $probe = $probe.Substring(0, 80) }
-            if ($workflowContent -match [regex]::Escape($probe)) {
-                $ciHits += $probe
-                $segmentMatched = $true
-                continue
-            }
-
-            $tokens = @($segment -split '\s+' | Where-Object { $_ })
-            $keyword = if ($tokens.Count -gt 2) { $tokens[2] } elseif ($tokens.Count -gt 0) { $tokens[-1] } else { $segment }
-            if ($workflowContent -match [regex]::Escape($keyword)) {
-                $ciHits += $keyword
-                $segmentMatched = $true
-            }
-        }
-
-        if (-not $segmentMatched) {
-            $missing.Add($localCommand)
-        }
-    }
-
-    $parityStatus = if ($missing.Count -eq 0) { "ok" } else { "gap" }
-    $gap = if ($missing.Count -eq 0) { "-" } else { "Missing CI parity for: " + ($missing -join ", ") }
+    $parityStatus = if ($missingChecks.Count -eq 0) { "ok" } else { "gap" }
+    $gap = if ($missingChecks.Count -eq 0) { "-" } else { "Missing CI parity checks: " + ($missingChecks -join ", ") }
 
     $rows += [pscustomobject]@{
         repo = $repo.name
-        local_command = ($requiredLocalCommands -join " || ")
-        ci_job = (($ciHits | Select-Object -Unique) -join ", ")
+        local_command = ($localCommands -join " || ")
+        ci_job = ($observedChecks -join ", ")
         parity_status = $parityStatus
         gap = $gap
     }
