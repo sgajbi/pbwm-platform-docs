@@ -131,6 +131,13 @@
       ]
     },
     {
+      "name": "durability-consistency-baseline",
+      "description": "Validate cross-repo durability and consistency policy conformance baseline",
+      "tasks": [
+        { "id": "validate-durability-consistency", "repo": "pbwm-platform-docs", "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Durability-Consistency.ps1" }
+      ]
+    },
+    {
       "name": "autonomous-foundation",
       "description": "Autonomous foundation governance sweep with machine-readable evidence artifacts",
       "tasks": [

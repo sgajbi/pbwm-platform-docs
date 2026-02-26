@@ -44,6 +44,7 @@ powershell -ExecutionPolicy Bypass -File automation/Measure-Test-Pyramid.ps1 -Ru
 powershell -ExecutionPolicy Bypass -File automation/Generate-Dependency-Vulnerability-Rollup.ps1
 powershell -ExecutionPolicy Bypass -File automation/Verify-Repo-Metadata.ps1
 powershell -ExecutionPolicy Bypass -File automation/Enforce-Backend-Governance.ps1 -Apply
+powershell -ExecutionPolicy Bypass -File automation/Validate-Durability-Consistency.ps1
 ```
 
 ## Active Cross-Cutting Rollout: Rounding and Precision Standard
@@ -82,4 +83,19 @@ Validation command:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation/Validate-Scalability-Availability.ps1
+```
+
+## Active Cross-Cutting Rollout: Durability and Consistency Standard
+
+Artifacts:
+
+- `Durability and Consistency Standard.md`
+- `Durability and Consistency Gap and Risk Report.md`
+- `output/durability-consistency-compliance.json`
+- `output/durability-consistency-compliance.md`
+
+Validation command:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Durability-Consistency.ps1
 ```

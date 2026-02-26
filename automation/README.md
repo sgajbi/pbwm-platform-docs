@@ -24,6 +24,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Rounding-Consistency.ps1`
 - `automation/Validate-Monetary-Float-Guard.ps1`
 - `automation/Validate-Scalability-Availability.ps1`
+- `automation/Validate-Durability-Consistency.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
@@ -185,6 +186,12 @@ Validate scalability and availability compliance matrix across backend repositor
 powershell -ExecutionPolicy Bypass -File automation/Validate-Scalability-Availability.ps1
 ```
 
+Validate durability and consistency compliance matrix across backend repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Validate-Durability-Consistency.ps1
+```
+
 Validate repository metadata (default branches and preflight command presence):
 
 ```powershell
@@ -241,6 +248,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `openapi-conformance-baseline`
 - `domain-vocabulary-conformance`
 - `repo-metadata-validation`
+- `durability-consistency-baseline`
 - `autonomous-foundation`
 
 New repo included in shared automation:
@@ -292,6 +300,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/rounding-consistency-report.md`
 - `output/monetary-float-guard-summary.json`
 - `output/monetary-float-guard-summary.md`
+- `output/durability-consistency-compliance.json`
+- `output/durability-consistency-compliance.md`
 - `output/backend-governance-enforcement.json`
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`
