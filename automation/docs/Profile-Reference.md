@@ -24,6 +24,8 @@ Profiles are defined in `automation/task-profiles.json`.
 - `openapi-conformance-baseline`: OpenAPI quality baseline only
 - `domain-vocabulary-conformance`: vocabulary policy baseline only
 - `repo-metadata-validation`: metadata/default branch/preflight command validation
+- `automation-integrity`: automation config + local-vs-CI parity hard-fail gate
+- `change-test-impact`: detects source changes without test updates across repos
 - `rfc-conformance-baseline`: RFC inventory + backlog
 - `pr-lifecycle`: PR monitor/auto-merge/cleanup loop task
 - `enforce-backend-governance`: branch protection + governance application
