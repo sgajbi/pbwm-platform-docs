@@ -20,6 +20,8 @@ This folder is the reusable standards package for backend repositories.
 powershell -ExecutionPolicy Bypass -File automation/Validate-Backend-Standards.ps1
 ```
 
+Automation command guide: `automation/docs/Automation-Guide.md`.
+
 ## One-Command Lotus Service Scaffold
 
 ```powershell

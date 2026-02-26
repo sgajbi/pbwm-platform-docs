@@ -516,6 +516,17 @@
       ]
     },
     {
+      "name": "qa-platform-readiness",
+      "description": "Bring up services and run platform-level QA validation with standards conformance checks",
+      "tasks": [
+        {
+          "id": "qa-platform-readiness",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Invoke-Platform-QA.ps1 -BringUp"
+        }
+      ]
+    },
+    {
       "name": "autonomous-foundation",
       "description": "Autonomous foundation governance sweep with machine-readable evidence artifacts",
       "tasks": [
