@@ -37,4 +37,7 @@ This generates a production-grade backend baseline with:
 - OpenAPI gate script
 - Unit/integration/e2e tests
 - standards docs (`docs/standards/*`)
+- automation registration in `automation/repos.json` and `automation/service-map.json`
+
+Use `-SkipAutomationRegistration` only for temporary local experiments.
 
