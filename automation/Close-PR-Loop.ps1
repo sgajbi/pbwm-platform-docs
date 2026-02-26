@@ -106,22 +106,37 @@ function Remove-MergedBranch {
     } elseif ($DryRunMode) {
       $localState = "would-delete"
     } else {
-      & git -C $RepoPath branch -d $Branch *> $null
-      if ($LASTEXITCODE -eq 0) {
+      $previousErrorAction = $ErrorActionPreference
+      $ErrorActionPreference = "Continue"
+      $localDeleteOutput = (& git -C $RepoPath branch -d $Branch 2>&1 | Out-String).Trim()
+      $localDeleteExitCode = $LASTEXITCODE
+      $ErrorActionPreference = $previousErrorAction
+      if ($localDeleteExitCode -eq 0) {
         $localState = "deleted"
       } else {
         $localState = "delete-failed"
+        if ($localDeleteOutput) {
+          $detail += "local_delete_error: $localDeleteOutput"
+        }
       }
     }
   }
 
-  $remoteExists = (& git -C $RepoPath ls-remote --heads origin $Branch 2>$null | Out-String).Trim()
+  $previousErrorAction = $ErrorActionPreference
+  $ErrorActionPreference = "Continue"
+  $remoteExists = (& git -C $RepoPath ls-remote --heads origin $Branch 2>&1 | Out-String).Trim()
+  $remoteExistsExitCode = $LASTEXITCODE
+  $ErrorActionPreference = $previousErrorAction
   if ($remoteExists) {
     if ($DryRunMode) {
       $remoteState = "would-delete"
     } else {
+      $previousErrorAction = $ErrorActionPreference
+      $ErrorActionPreference = "Continue"
       $deleteOutput = (& git -C $RepoPath push origin --delete $Branch 2>&1 | Out-String).Trim()
-      if ($LASTEXITCODE -eq 0) {
+      $deleteExitCode = $LASTEXITCODE
+      $ErrorActionPreference = $previousErrorAction
+      if ($deleteExitCode -eq 0) {
         $remoteState = "deleted"
       } elseif ($deleteOutput -match "remote ref does not exist") {
         $remoteState = "not-found"
