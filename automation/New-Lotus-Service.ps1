@@ -448,6 +448,8 @@ Set-Content -Path (Join-Path $target "docs/runbooks/service-operations.md") -Val
 if (-not $SkipAutomationRegistration) {
   $reposPath = Join-Path $repoRoot "automation/repos.json"
   $serviceMapPath = Join-Path $repoRoot "automation/service-map.json"
+  $governancePolicyPath = Join-Path $repoRoot "automation/backend-governance-policy.json"
+  $coveragePolicyPath = Join-Path $repoRoot "automation/test-coverage-policy.json"
   $repoPathNormalized = $target.Replace("\", "/")
   $repoName = $ServiceName
 
@@ -459,8 +461,8 @@ if (-not $SkipAutomationRegistration) {
         github = "$GithubOrg/$repoName"
         path = $repoPathNormalized
         default_branch = "main"
-        preflight_fast_command = "make lint && make typecheck && make test"
-        preflight_full_command = "make ci"
+        preflight_fast_command = "python -m ruff check . && python -m ruff format --check . && python scripts/check_monetary_float_usage.py && python -m mypy --config-file mypy.ini && python -m pytest tests/unit"
+        preflight_full_command = "python -m ruff check . && python -m ruff format --check . && python scripts/dependency_health_check.py --requirements requirements.txt && python -m pip check && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini"
       }
       $repos | ConvertTo-Json -Depth 8 | Set-Content $reposPath
       Write-Host "Updated automation/repos.json with $repoName"
@@ -485,6 +487,46 @@ if (-not $SkipAutomationRegistration) {
       Write-Host "Updated automation/service-map.json with $repoName"
     }
   }
+  if (Test-Path $governancePolicyPath) {
+    $policy = Get-Content -Raw $governancePolicyPath | ConvertFrom-Json
+    if (-not ($policy.repos | Where-Object { $_.name -eq $repoName })) {
+      $policy.repos += [pscustomobject]@{
+        name = $repoName
+        default_branch = "main"
+        required_checks = @(
+          "Workflow Lint",
+          "Lint Typecheck Security",
+          "Tests (unit)",
+          "Tests (integration)",
+          "Tests (e2e)",
+          "Coverage Gate (Combined)",
+          "Validate Docker Build"
+        )
+      }
+      $policy.repos = @($policy.repos | Sort-Object name)
+      $policy | ConvertTo-Json -Depth 8 | Set-Content $governancePolicyPath
+      Write-Host "Updated automation/backend-governance-policy.json with $repoName"
+    }
+  }
+
+  if (Test-Path $coveragePolicyPath) {
+    $coverage = Get-Content -Raw $coveragePolicyPath | ConvertFrom-Json
+    if (-not ($coverage.services | Where-Object { $_.repo -eq $repoName })) {
+      $coverage.services += [pscustomobject]@{
+        name = $repoName
+        repo = $repoName
+        buckets = [pscustomobject]@{
+          unit = @("tests/unit")
+          integration = @("tests/integration")
+          e2e = @("tests/e2e")
+        }
+        coverage_command = "python -m pytest --cov=src --cov-report=term --cov-fail-under=99"
+      }
+      $coverage.services = @($coverage.services | Sort-Object name)
+      $coverage | ConvertTo-Json -Depth 8 | Set-Content $coveragePolicyPath
+      Write-Host "Updated automation/test-coverage-policy.json with $repoName"
+    }
+  }
 }
 
 try {
@@ -500,3 +542,8 @@ Write-Host "Next steps:"
 Write-Host "1) git init + set origin"
 Write-Host "2) make install && make ci"
 Write-Host "3) apply branch protection + auto-merge governance"
+
+
+
+
+

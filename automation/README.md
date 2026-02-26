@@ -379,3 +379,15 @@ powershell -ExecutionPolicy Bypass -File automation/Cleanup-Legacy-Workspace.ps1
 ```
 
 
+
+## Automatic Onboarding
+
+Automation scope derives from `automation/repos.json` for all `lotus-*` repos (excluding `lotus-platform` where appropriate).
+
+When scaffolding a new service with `New-Lotus-Service.ps1`, automation registration updates by default:
+- `automation/repos.json`
+- `automation/service-map.json`
+- `automation/backend-governance-policy.json`
+- `automation/test-coverage-policy.json`
+
+This ensures new services inherit CI/CD, governance, and quality baselines without manual wiring.

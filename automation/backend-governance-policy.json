@@ -1,15 +1,6 @@
 {
   "repos": [
     {
-      "name": "lotus-gateway",
-      "default_branch": "main",
-      "required_checks": [
-        "Workflow Lint",
-        "Lint, Typecheck, Unit",
-        "Integration Tests"
-      ]
-    },
-    {
       "name": "lotus-advise",
       "default_branch": "main",
       "required_checks": [
@@ -27,6 +18,40 @@
       ]
     },
     {
+      "name": "lotus-core",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint, Typecheck, Unit Tests",
+        "Tests (unit)",
+        "Tests (integration-lite)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    },
+    {
+      "name": "lotus-gateway",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint, Typecheck, Unit",
+        "Integration Tests"
+      ]
+    },
+    {
+      "name": "lotus-manage",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint Typecheck Security",
+        "Tests (unit)",
+        "Tests (integration)",
+        "Tests (e2e)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    },
+    {
       "name": "lotus-performance",
       "default_branch": "main",
       "required_checks": [
@@ -36,18 +61,6 @@
         "Tests (unit)",
         "Tests (integration)",
         "Tests (e2e)",
-        "Coverage Gate (Combined)",
-        "Validate Docker Build"
-      ]
-    },
-    {
-      "name": "lotus-core",
-      "default_branch": "main",
-      "required_checks": [
-        "Workflow Lint",
-        "Lint, Typecheck, Unit Tests",
-        "Tests (unit)",
-        "Tests (integration-lite)",
         "Coverage Gate (Combined)",
         "Validate Docker Build"
       ]
@@ -64,8 +77,28 @@
         "Coverage Gate (Combined)",
         "Validate Docker Build"
       ]
+    },
+    {
+      "name": "lotus-risk",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint Typecheck Security",
+        "Tests (unit)",
+        "Tests (integration)",
+        "Tests (e2e)",
+        "Coverage Gate (Combined)",
+        "Validate Docker Build"
+      ]
+    },
+    {
+      "name": "lotus-workbench",
+      "default_branch": "main",
+      "required_checks": [
+        "Workflow Lint",
+        "Lint, Typecheck, Test, Build",
+        "Validate Docker Build"
+      ]
     }
   ]
 }
-
-

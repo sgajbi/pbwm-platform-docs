@@ -6,21 +6,17 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$backendRepos = @(
-    "lotus-gateway",
-    "lotus-advise",
-    "lotus-performance",
-    "lotus-core",
-    "lotus-report"
-)
-
-$requiredLocalCommands = @("make lint", "make typecheck", "make test", "make ci")
-$ciCommandPatterns = @{
-    "make lint"      = @("make lint", "ruff check")
-    "make typecheck" = @("make typecheck", "mypy")
-    "make test"      = @("make test", "pytest")
-    "make ci"        = @("make ci")
+if (-not (Test-Path $ReposPath)) {
+    throw "Repos config not found: $ReposPath"
 }
+
+$reposConfig = Get-Content -Raw $ReposPath | ConvertFrom-Json
+$repoEntries = if ($reposConfig -is [System.Array]) { $reposConfig } elseif ($reposConfig.repositories) { $reposConfig.repositories } else { @() }
+$targetRepos = @(
+    $repoEntries |
+        Where-Object { $_.name -like "lotus-*" -and $_.name -ne "lotus-platform" } |
+        ForEach-Object { $_ }
+)
 
 function Find-WorkflowPath {
     param([string]$RepoPath)
@@ -33,21 +29,18 @@ function Find-WorkflowPath {
     return $null
 }
 
-if (-not (Test-Path $ReposPath)) {
-    throw "Repos config not found: $ReposPath"
-}
-
-$repos = Get-Content -Raw $ReposPath | ConvertFrom-Json
 $rows = @()
 
-foreach ($repo in $repos) {
-    if ($backendRepos -notcontains $repo.name) { continue }
+foreach ($repo in $targetRepos) {
+    $repoPath = [string]$repo.path
+    if (-not [System.IO.Path]::IsPathRooted($repoPath)) {
+        $repoPath = Join-Path (Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")) $repoPath
+    }
 
-    $repoPath = $repo.path
     if (-not (Test-Path $repoPath)) {
         $rows += [pscustomobject]@{
             repo = $repo.name
-            local_command = ($requiredLocalCommands -join ", ")
+            local_command = "-"
             ci_job = "-"
             parity_status = "missing-repo"
             gap = "Repository path not found"
@@ -59,7 +52,7 @@ foreach ($repo in $repos) {
     if (-not $workflowPath) {
         $rows += [pscustomobject]@{
             repo = $repo.name
-            local_command = ($requiredLocalCommands -join ", ")
+            local_command = "-"
             ci_job = "-"
             parity_status = "gap"
             gap = "CI workflow file not found"
@@ -68,20 +61,41 @@ foreach ($repo in $repos) {
     }
 
     $workflowContent = Get-Content -Raw $workflowPath
+    $requiredLocalCommands = @()
+
+    if ($repo.preflight_fast_command) { $requiredLocalCommands += [string]$repo.preflight_fast_command }
+    if ($repo.preflight_full_command) { $requiredLocalCommands += [string]$repo.preflight_full_command }
+
+    if ($requiredLocalCommands.Count -eq 0) {
+      $requiredLocalCommands = @("make lint", "make typecheck", "make test")
+    }
+
     $missing = New-Object System.Collections.Generic.List[string]
     $ciHits = @()
 
     foreach ($localCommand in $requiredLocalCommands) {
-        $patterns = $ciCommandPatterns[$localCommand]
-        $hit = $false
-        foreach ($pattern in $patterns) {
-            if ($workflowContent -match [regex]::Escape($pattern)) {
-                $ciHits += $pattern
-                $hit = $true
-                break
+        $segments = @($localCommand -split "&&" | ForEach-Object { $_.Trim() } | Where-Object { $_ })
+        if ($segments.Count -eq 0) { continue }
+
+        $segmentMatched = $false
+        foreach ($segment in $segments) {
+            $probe = $segment
+            if ($probe.Length -gt 80) { $probe = $probe.Substring(0, 80) }
+            if ($workflowContent -match [regex]::Escape($probe)) {
+                $ciHits += $probe
+                $segmentMatched = $true
+                continue
+            }
+
+            $tokens = @($segment -split '\s+' | Where-Object { $_ })
+            $keyword = if ($tokens.Count -gt 2) { $tokens[2] } elseif ($tokens.Count -gt 0) { $tokens[-1] } else { $segment }
+            if ($workflowContent -match [regex]::Escape($keyword)) {
+                $ciHits += $keyword
+                $segmentMatched = $true
             }
         }
-        if (-not $hit) {
+
+        if (-not $segmentMatched) {
             $missing.Add($localCommand)
         }
     }
@@ -91,8 +105,8 @@ foreach ($repo in $repos) {
 
     $rows += [pscustomobject]@{
         repo = $repo.name
-        local_command = ($requiredLocalCommands -join ", ")
-        ci_job = ($ciHits | Select-Object -Unique) -join ", "
+        local_command = ($requiredLocalCommands -join " || ")
+        ci_job = (($ciHits | Select-Object -Unique) -join ", ")
         parity_status = $parityStatus
         gap = $gap
     }
@@ -123,5 +137,3 @@ Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
 
 Write-Host "Wrote $OutputJsonPath"
 Write-Host "Wrote $OutputMarkdownPath"
-
-

@@ -13,18 +13,20 @@ $config = if ($configRaw -is [System.Array]) {
   $configRaw
 }
 $backendRepos = @(
-  "lotus-gateway",
-  "lotus-core",
-  "lotus-performance",
-  "lotus-advise",
-  "lotus-report"
+  $config.repositories |
+    Where-Object {
+      $_.name -like "lotus-*" -and
+      $_.name -ne "lotus-platform" -and
+      ((("" + $_.preflight_fast_command) -match "python|make") -or (("" + $_.preflight_full_command) -match "python|make"))
+    } |
+    ForEach-Object { [string]$_.name }
 )
-
 $workflowMap = @{
   "lotus-gateway" = "bff-write-orchestration"
   "lotus-core" = "core-portfolio-write-read"
   "lotus-performance" = "advanced-analytics-read"
   "lotus-advise" = "decision-workflow-write"
+  "lotus-manage" = "dpm-execution-write"
   "lotus-report" = "reporting-aggregation-read"
 }
 
@@ -64,7 +66,7 @@ foreach ($repo in $config.repositories) {
   if (-not [System.IO.Path]::IsPathRooted($path)) {
     $path = Join-Path (Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")) $path
   }
-  $workflow = $workflowMap[$name]
+  $workflow = if ($workflowMap.ContainsKey($name)) { $workflowMap[$name] } else { "domain-workflow" }
   $standardsDoc = "docs/standards/durability-consistency.md"
 
   $checks = @(

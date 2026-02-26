@@ -13,13 +13,14 @@ $config = if ($configRaw -is [System.Array]) {
   $configRaw
 }
 $backendRepos = @(
-  "lotus-gateway",
-  "lotus-core",
-  "lotus-performance",
-  "lotus-advise",
-  "lotus-report"
+  $config.repositories |
+    Where-Object {
+      $_.name -like "lotus-*" -and
+      $_.name -ne "lotus-platform" -and
+      ((("" + $_.preflight_fast_command) -match "python|make") -or (("" + $_.preflight_full_command) -match "python|make"))
+    } |
+    ForEach-Object { [string]$_.name }
 )
-
 function Test-Pattern {
   param(
     [string]$RepoPath,
@@ -157,5 +158,4 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
-
 
