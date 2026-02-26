@@ -27,6 +27,8 @@ Canonical source: `lotus-platform/automation`
 | Detect stalled checks | `automation/Detect-Stalled-PR-Checks.ps1 -StaleMinutes 20` | Investigate PR check deadlocks |
 | Queue auto-merge + cleanup merged branches | `automation/Close-PR-Loop.ps1` | PR lifecycle automation |
 | Validate automation config integrity | `automation/Validate-Automation-Config.ps1` | Keep repos/profiles/refs consistent |
+| Enforce local-vs-CI scope parity (fail on gap) | `automation/Validate-Local-CI-Parity.ps1` | Prevent PR failures caused by missing local checks |
+| Validate code/test impact | `automation/Validate-Change-Test-Impact.ps1` | Ensure source deltas include test updates |
 | Platform QA readiness validation | `automation/Invoke-Platform-QA.ps1 -BringUp` | Bring up services and validate API/log/observability/standards |
 | Platform QA + issue creation | `automation/Invoke-Platform-QA.ps1 -BringUp -CreateIssues` | File defects with evidence in each repo |
 
@@ -37,6 +39,8 @@ Canonical source: `lotus-platform/automation`
 - Domain vocabulary: `automation/Validate-Domain-Vocabulary.ps1`
 - Enterprise readiness: `automation/Validate-Enterprise-Readiness.ps1`
 - Metadata validation: `automation/Verify-Repo-Metadata.ps1`
+- Local-CI parity gate: `automation/Validate-Local-CI-Parity.ps1`
+- Change/test impact validation: `automation/Validate-Change-Test-Impact.ps1`
 - Rounding consistency: `automation/Validate-Rounding-Consistency.ps1`
 - Monetary float guard: `automation/Validate-Monetary-Float-Guard.ps1`
 

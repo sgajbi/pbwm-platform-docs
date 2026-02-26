@@ -346,6 +346,22 @@
           "id": "validate-automation-config",
           "repo": "lotus-platform",
           "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
+        },
+        {
+          "id": "validate-local-ci-parity",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Local-CI-Parity.ps1"
+        }
+      ]
+    },
+    {
+      "name": "change-test-impact",
+      "description": "Detect source changes without test updates across lotus repositories",
+      "tasks": [
+        {
+          "id": "validate-change-test-impact",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Change-Test-Impact.ps1"
         }
       ]
     },
@@ -509,6 +525,16 @@
           "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
         },
         {
+          "id": "validate-local-ci-parity",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Local-CI-Parity.ps1"
+        },
+        {
+          "id": "validate-change-test-impact",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Change-Test-Impact.ps1"
+        },
+        {
           "id": "summarize-failures",
           "repo": "lotus-platform",
           "command": "powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 -Latest 5"
@@ -579,6 +605,16 @@
           "id": "validate-automation-config",
           "repo": "lotus-platform",
           "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Automation-Config.ps1"
+        },
+        {
+          "id": "validate-local-ci-parity",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Local-CI-Parity.ps1"
+        },
+        {
+          "id": "validate-change-test-impact",
+          "repo": "lotus-platform",
+          "command": "powershell -ExecutionPolicy Bypass -File automation/Validate-Change-Test-Impact.ps1"
         },
         {
           "id": "dependency-rollup",

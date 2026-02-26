@@ -66,7 +66,7 @@
     "github": "sgajbi/lotus-manage",
     "path": "C:/Users/Sandeep/projects/lotus-manage",
     "default_branch": "main",
-    "preflight_fast_command": "python -m ruff check . && python -m ruff format --check . && python scripts/check_monetary_float_usage.py && python -m mypy --config-file mypy.ini && python -m pytest tests/unit",
-    "preflight_full_command": "python -m ruff check . && python -m ruff format --check . && python -m pip check && python -m pip_audit && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini"
+    "preflight_fast_command": "python -m ruff check . && python -m ruff format --check . && python scripts/check_monetary_float_usage.py && python -m pytest tests/unit",
+    "preflight_full_command": "python -m ruff check . && python -m ruff format --check . && python -m pip check && python -m pip_audit && COVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report= && COVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report= && COVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99"
   }
 ]

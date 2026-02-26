@@ -39,12 +39,24 @@ function Get-CommandChecks {
         $part = $raw.Trim()
         if ([string]::IsNullOrWhiteSpace($part)) { continue }
 
-        if ($part -match "\bmake\s+lint\b" -or $part -match "\bruff\s+check\b" -or $part -match "\bnpm\s+run\s+lint\b") { $checks.Add("lint") }
+        if ($part -match "\bmake\s+lint\b") {
+            $checks.Add("lint")
+            # `make lint` in Lotus backends includes `ruff format --check`.
+            $checks.Add("format-check")
+        }
+        if ($part -match "\bruff\s+check\b" -or $part -match "\bnpm\s+run\s+lint\b") { $checks.Add("lint") }
         if ($part -match "\bruff\s+format\s+--check\b" -or $part -match "\bnpm\s+run\s+format:check\b") { $checks.Add("format-check") }
         if ($part -match "\bmake\s+typecheck\b" -or $part -match "\bmypy\b" -or $part -match "\bnpm\s+run\s+typecheck\b") { $checks.Add("typecheck") }
         if ($part -match "\bmake\s+test\b" -or $part -match "\bpytest\b" -or $part -match "\bnpm\s+run\s+test\b") { $checks.Add("test") }
-        if ($part -match "\bmake\s+ci\b") { $checks.Add("ci-meta") }
-        if ($part -match "dependency_health_check\.py" -or $part -match "requirements-audit\.txt") { $checks.Add("dependency-audit") }
+        if ($part -match "\bmake\s+check\b") {
+            # Workbench `make check` encapsulates lint/typecheck/test.
+            $checks.Add("lint")
+            $checks.Add("typecheck")
+            $checks.Add("test")
+        }
+        if ($part -match "dependency_health_check\.py" -or $part -match "requirements-audit\.txt" -or $part -match "\bmake\s+security-audit\b" -or $part -match "\bmake\s+check-deps\b" -or $part -match "\bpip_audit\b") {
+            $checks.Add("dependency-audit")
+        }
         if ($part -match "\bpip\s+check\b") { $checks.Add("pip-check") }
         if ($part -match "\bcoverage\s+report\b.*--fail-under" -or $part -match "coverage_gate\.py") { $checks.Add("coverage-gate") }
     }
