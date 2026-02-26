@@ -164,7 +164,7 @@ services:
       PROPOSAL_POSTGRES_DSN: postgresql://dpm:dpm@dpm-postgres:5432/dpm_supportability
       DPM_POLICY_PACK_CATALOG_BACKEND: POSTGRES
       DPM_POLICY_PACK_POSTGRES_DSN: postgresql://dpm:dpm@dpm-postgres:5432/dpm_supportability
-      OTEL_SERVICE_NAME: dpm-rebalance-engine
+      OTEL_SERVICE_NAME: lotus-advise
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
     ports:
       - "${DPM_PORT:-8000}:8000"
@@ -206,7 +206,7 @@ services:
       PAS_BASE_URL: http://pas-query:8001
       PA_BASE_URL: http://pa:8000
       CONTRACT_VERSION: v1
-      OTEL_SERVICE_NAME: reporting-aggregation-service
+      OTEL_SERVICE_NAME: lotus-report
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
     ports:
       - "${RAS_PORT:-8300}:8300"
@@ -241,7 +241,7 @@ services:
       REPORTING_AGGREGATION_BASE_URL: http://ras:8300
       UPSTREAM_TIMEOUT_SECONDS: 15
       CONTRACT_VERSION: v1
-      OTEL_SERVICE_NAME: advisor-experience-api
+      OTEL_SERVICE_NAME: lotus-gateway
       OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
     ports:
       - "${BFF_PORT:-8100}:8100"
@@ -315,3 +315,4 @@ volumes:
   pas-postgres-data:
   dpm-postgres-data:
   grafana-data:
+

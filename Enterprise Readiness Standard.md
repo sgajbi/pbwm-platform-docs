@@ -3,7 +3,7 @@
 - Version: 1.0.0
 - Status: Active
 - Scope: PAS, PA, DPM, RAS, AEA/BFF, and shared cross-cutting standards in PPD
-- Change control: Changes to mandatory controls require RFC in `pbwm-platform-docs/rfcs`; temporary deviations require ADR with expiry review date.
+- Change control: Changes to mandatory controls require RFC in `lotus-platform/rfcs`; temporary deviations require ADR with expiry review date.
 
 ## A. Do Now (Pre-Launch Must-Haves)
 
@@ -56,32 +56,32 @@
 
 ## D. Per-Repo Implementation Plan
 
-- `advisor-experience-api`
+- `lotus-gateway`
   - Enforce write-path audit middleware and redaction.
   - Maintain resilient upstream calls and contract validation.
   - Keep tenant/role feature flag controls for BFF orchestration.
 
-- `portfolio-analytics-system`
+- `lotus-core`
   - Apply enterprise controls in query-service API surface.
   - Keep schema validation and data-quality checks in core data paths.
   - Maintain migration, runbook, and durability links for operational evidence.
 
-- `performanceAnalytics`
+- `lotus-performance`
   - Apply enterprise controls on advanced analytics API surface.
   - Keep contract governance and deterministic config/feature controls.
   - Preserve resilience + observability evidence for critical analytics workflows.
 
-- `dpm-rebalance-engine`
+- `lotus-advise`
   - Apply enterprise audit and feature controls in advisory/discretionary APIs.
   - Keep policy and workflow validation evidence for decision-critical actions.
   - Enforce run-supportability and migration governance evidence.
 
-- `reporting-aggregation-service`
+- `lotus-report`
   - Apply enterprise controls to reporting and aggregation API surface.
   - Keep data-quality checks and upstream failure handling explicit.
   - Preserve operational guardrails for report-generation flows.
 
-- `pbwm-platform-docs`
+- `lotus-platform`
   - Own canonical checklist, validator automation, and machine-readable compliance artifacts.
 
 ## E. Definition of Done + Evidence
@@ -102,3 +102,4 @@ Required evidence artifacts:
 1. No repo-specific ad hoc standards that conflict with platform baseline.
 2. All deviations require ADR with rationale and expiry/review date.
 3. Every requirement must map to testable evidence (code/tests/config/docs/runbooks).
+

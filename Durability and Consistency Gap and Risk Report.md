@@ -32,11 +32,11 @@ This report tracks closure state for mandatory durability/consistency controls:
 
 | Repo | Priority Next Step | Effort |
 |---|---|---|
-| advisor-experience-api | Harden idempotency propagation + write-workflow consistency evidence | M |
-| portfolio-analytics-system | Extend atomicity + late-arrival regression coverage in ingestion/recompute paths | M |
-| performanceAnalytics | Expand deterministic replay and PAS-input validation evidence for stateless mode | M |
-| dpm-rebalance-engine | Harden conflict and replay telemetry evidence for workflow actions | M |
-| reporting-aggregation-service | Expand deterministic report-output replay coverage and provenance metadata evidence | S |
+| lotus-gateway | Harden idempotency propagation + write-workflow consistency evidence | M |
+| lotus-core | Extend atomicity + late-arrival regression coverage in ingestion/recompute paths | M |
+| lotus-performance | Expand deterministic replay and PAS-input validation evidence for stateless mode | M |
+| lotus-advise | Harden conflict and replay telemetry evidence for workflow actions | M |
+| lotus-report | Expand deterministic report-output replay coverage and provenance metadata evidence | S |
 
 ## E. Definition of Done + Evidence
 
@@ -50,4 +50,5 @@ Required artifacts:
 - `output/durability-consistency-compliance.json`
 - `output/durability-consistency-compliance.md`
 - per-repo `docs/standards/durability-consistency.md`
+
 

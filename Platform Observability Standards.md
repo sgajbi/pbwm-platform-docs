@@ -88,7 +88,7 @@ Platform metrics stack:
 ## 6. Centralized Local Stack
 
 Use:
-- `pbwm-platform-docs/platform-stack/docker-compose.yml`
+- `lotus-platform/platform-stack/docker-compose.yml`
 
 Included observability baseline:
 - `prometheus`
@@ -99,3 +99,4 @@ Infrastructure evidence links:
 - `platform-stack/prometheus/prometheus.yml`
 - `platform-stack/docker-compose.yml`
 - `platform-stack/grafana/provisioning/datasources/datasource.yml`
+

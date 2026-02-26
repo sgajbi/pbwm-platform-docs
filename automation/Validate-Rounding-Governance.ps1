@@ -14,7 +14,7 @@ $config = if ($configRaw -is [System.Array]) {
 }
 
 $repoRoot = Resolve-Path (Join-Path (Join-Path $PSScriptRoot "..") "..")
-$repos = @("lotus-gateway", "lotus-core", "lotus-performance", "lotus-advise", "lotus-report", "pbwm-platform-docs")
+$repos = @("lotus-gateway", "lotus-core", "lotus-performance", "lotus-advise", "lotus-report", "lotus-platform")
 
 $clauses = @(
   @{ id = "canonical_rules"; patterns = @("ROUND_HALF_EVEN", "quantize_", "Decimal"); targets = @(".","src","app","docs","automation") },

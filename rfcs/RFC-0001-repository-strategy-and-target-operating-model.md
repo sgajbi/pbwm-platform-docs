@@ -16,13 +16,13 @@ Adopt a single product identity and repository operating model under the Lotus b
 
 Canonical target repositories:
 
-- `lotus-platform` (current `pbwm-platform-docs`): cross-cutting governance, standards, RFC/ADR, templates, automation, platform contracts.
-- `lotus-core` (current `portfolio-analytics-system`): authoritative portfolio ledger, positions, valuations, cost/P&L, snapshots, and canonical query APIs.
-- `lotus-gateway` (current `advisor-experience-api`): BFF/orchestration for channels; no core business logic ownership.
-- `lotus-performance` (split from current `performanceAnalytics`): performance and attribution analytics.
-- `lotus-risk` (split from current `performanceAnalytics`): risk and exposure analytics.
-- `lotus-advise` (split from current `dpm-rebalance-engine`): advisory workflow and proposal decisioning.
-- `lotus-manage` (split from current `dpm-rebalance-engine`): discretionary lifecycle automation and control.
+- `lotus-platform` (current `lotus-platform`): cross-cutting governance, standards, RFC/ADR, templates, automation, platform contracts.
+- `lotus-core` (current `lotus-core`): authoritative portfolio ledger, positions, valuations, cost/P&L, snapshots, and canonical query APIs.
+- `lotus-gateway` (current `lotus-gateway`): BFF/orchestration for channels; no core business logic ownership.
+- `lotus-performance` (split from current `lotus-performance`): performance and attribution analytics.
+- `lotus-risk` (split from current `lotus-performance`): risk and exposure analytics.
+- `lotus-advise` (split from current `lotus-advise`): advisory workflow and proposal decisioning.
+- `lotus-manage` (split from current `lotus-advise`): discretionary lifecycle automation and control.
 - `lotus-workbench` (current `advisor-workbench`): advisor and operations user interface.
 - `lotus-report` (current `lotus-report`): reporting and aggregation outputs from `lotus-core` + analytics services.
 
@@ -75,4 +75,5 @@ Each repository must have:
 3. All cross-references in docs updated to Lotus names.
 4. CI, automation scripts, and compose references updated with no legacy name drift.
 5. Architecture bible, vocabulary glossary, and standards read as one consistent story.
+
 

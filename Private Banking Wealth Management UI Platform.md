@@ -1,4 +1,4 @@
-﻿# Private Banking Wealth Management Platform Vision and Architecture
+# Private Banking Wealth Management Platform Vision and Architecture
 
 - Last updated: 2026-02-23
 - Owner: Platform Architecture
@@ -13,9 +13,9 @@ Build a production-grade wealth management platform that can be sold as SaaS and
 Deliver a Unified Advisor Workbench backed by independent domain services and composed through a Python BFF.
 
 Current repositories:
-- `dpm-rebalance-engine`
-- `performanceAnalytics`
-- `portfolio-analytics-system`
+- `lotus-advise`
+- `lotus-performance`
+- `lotus-core`
 
 Planned repositories:
 - `advisor-ui`
@@ -58,9 +58,9 @@ Planned repositories:
         v
 [advisor-bff (FastAPI)]
         |
-        |--- [rebalance-advisory service] (dpm-rebalance-engine)
-        |--- [performance-analytics service] (performanceAnalytics)
-        |--- [portfolio-core service] (portfolio-analytics-system query APIs)
+        |--- [rebalance-advisory service] (lotus-advise)
+        |--- [performance-analytics service] (lotus-performance)
+        |--- [portfolio-core service] (lotus-core query APIs)
         |--- [reporting-service] (PDF/Excel/statements)
         |
         +--- [shared platform libraries]
@@ -141,8 +141,8 @@ Working external product umbrella:
 
 Recommended service/product-facing names:
 - `DPM Rebalance Engine` -> `Portfolio Decisioning Service`
-- `performanceAnalytics` -> `Performance Intelligence Service`
-- `portfolio-analytics-system` -> `Portfolio Data Platform`
+- `lotus-performance` -> `Performance Intelligence Service`
+- `lotus-core` -> `Portfolio Data Platform`
 - `advisor-bff` -> `Advisor Experience API`
 - `advisor-ui` -> `Advisor Workbench`
 - `reporting-service` -> `Client Reporting Service`
@@ -305,3 +305,4 @@ Charts
 Forms/validation
 - React Hook Form
 - Zod
+

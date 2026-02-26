@@ -33,11 +33,11 @@ Open gaps from matrix (current):
 
 | Repo | Next Action | Effort |
 |---|---|---|
-| advisor-experience-api | Completed Do-Now baseline; next: circuit-breaker/degradation policy and capacity modeling | M |
-| performanceAnalytics | Completed Do-Now baseline; next: HA deployment patterns and DR drill evidence | M |
-| reporting-aggregation-service | Completed Do-Now baseline; next: capacity model and restore drill evidence | M |
-| portfolio-analytics-system | Completed Do-Now baseline; next: bulkhead policy and HA deployment pattern hardening | M |
-| dpm-rebalance-engine | Completed Do-Now baseline; next: async workload capacity model and DR drill execution | M |
+| lotus-gateway | Completed Do-Now baseline; next: circuit-breaker/degradation policy and capacity modeling | M |
+| lotus-performance | Completed Do-Now baseline; next: HA deployment patterns and DR drill evidence | M |
+| lotus-report | Completed Do-Now baseline; next: capacity model and restore drill evidence | M |
+| lotus-core | Completed Do-Now baseline; next: bulkhead policy and HA deployment pattern hardening | M |
+| lotus-advise | Completed Do-Now baseline; next: async workload capacity model and DR drill execution | M |
 
 ## E. Definition of Done + Evidence
 
@@ -51,3 +51,4 @@ Evidence artifacts:
 - `output/scalability-availability-compliance.json`
 - `output/scalability-availability-compliance.md`
 - Repo PRs with code/tests/docs implementing missing controls.
+

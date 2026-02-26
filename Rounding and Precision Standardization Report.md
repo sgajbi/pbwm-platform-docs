@@ -8,12 +8,12 @@ RFC: `RFC-0063-platform-wide-rounding-and-precision-standard.md`
 
 | Repo | Standard Referenced | Shared Helper Added | Boundary Wiring Applied | Tests Added/Updated | Status |
 |---|---|---|---|---|---|
-| portfolio-analytics-system | yes | yes (`precision_policy.py`) | yes (`summary_service.py`) | yes | compliant |
-| performanceAnalytics | yes | yes (`precision_policy.py`) | yes (`engine/breakdown.py`) | yes | compliant |
-| dpm-rebalance-engine | yes | yes (`precision_policy.py`) | yes (`simulation_shared.py`) | yes | compliant |
-| reporting-aggregation-service | yes | yes (`precision_policy.py`) | yes (`aggregation_service.py`) | yes | compliant |
-| advisor-experience-api | yes | yes (`precision_policy.py`) | yes (`workbench_service.py`) | yes | compliant |
-| pbwm-platform-docs | yes | n/a | n/a | yes (`Validate-Rounding-Consistency.ps1`) | compliant |
+| lotus-core | yes | yes (`precision_policy.py`) | yes (`summary_service.py`) | yes | compliant |
+| lotus-performance | yes | yes (`precision_policy.py`) | yes (`engine/breakdown.py`) | yes | compliant |
+| lotus-advise | yes | yes (`precision_policy.py`) | yes (`simulation_shared.py`) | yes | compliant |
+| lotus-report | yes | yes (`precision_policy.py`) | yes (`aggregation_service.py`) | yes | compliant |
+| lotus-gateway | yes | yes (`precision_policy.py`) | yes (`workbench_service.py`) | yes | compliant |
+| lotus-platform | yes | n/a | n/a | yes (`Validate-Rounding-Consistency.ps1`) | compliant |
 
 ## Cross-Service Equivalence
 
@@ -41,3 +41,4 @@ RFC: `RFC-0063-platform-wide-rounding-and-precision-standard.md`
 - [x] Integration boundary behavior validated in touched services.
 - [x] Cross-service consistency artifact generated and passing.
 - [x] Per-repo standards docs updated.
+

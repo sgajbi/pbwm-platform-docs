@@ -1,13 +1,13 @@
 {
   "repos": [
     {
-      "name": "advisor-workbench",
+      "name": "lotus-workbench",
       "pathHint": "advisor-workbench",
-      "defaultServices": ["advisor-workbench"],
+      "defaultServices": ["lotus-workbench"],
       "rules": [
         {
           "pathPrefixes": ["src/", "public/", "package.json", "package-lock.json", "next.config", "Dockerfile"],
-          "services": ["advisor-workbench"]
+          "services": ["lotus-workbench"]
         }
       ]
     },
@@ -92,6 +92,28 @@
         {
           "pathPrefixes": ["docker-compose.yml", "Dockerfile", "demo_data/", "scripts/"],
           "services": ["query_service", "ingestion_service", "demo_data_loader"]
+        }
+      ]
+    },
+    {
+      "name": "lotus-risk",
+      "pathHint": "lotus-risk",
+      "defaultServices": ["lotus-risk"],
+      "rules": [
+        {
+          "pathPrefixes": ["src/", "tests/", "pyproject.toml", "Dockerfile"],
+          "services": ["lotus-risk"]
+        }
+      ]
+    },
+    {
+      "name": "lotus-manage",
+      "pathHint": "lotus-manage",
+      "defaultServices": ["lotus-manage"],
+      "rules": [
+        {
+          "pathPrefixes": ["src/", "tests/", "pyproject.toml", "Dockerfile"],
+          "services": ["lotus-manage"]
         }
       ]
     }

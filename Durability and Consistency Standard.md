@@ -3,7 +3,7 @@
 - Version: 1.0.0
 - Status: Active
 - Scope: PAS, PA, DPM, RAS, AEA (BFF)
-- Change control: Any change to mandatory rules requires an RFC in `pbwm-platform-docs/rfcs` and ADR for exceptions.
+- Change control: Any change to mandatory rules requires an RFC in `lotus-platform/rfcs` and ADR for exceptions.
 
 ## A. Do Now (Pre-Launch Must-Haves)
 
@@ -69,27 +69,27 @@
 
 ## D. Per-Repo Implementation Plan
 
-- `portfolio-analytics-system`:
+- `lotus-core`:
   - enforce durable ingestion and epoch-consistent query boundaries
   - keep idempotent consumer processing and invariant checks
   - publish explicit as-of/version metadata contracts
-- `performanceAnalytics`:
+- `lotus-performance`:
   - preserve deterministic analytics runs for identical inputs/as-of
   - classify eventual vs strong boundaries for PAS-sourced inputs
   - enforce import/schema validation for stateless mode payloads
-- `dpm-rebalance-engine`:
+- `lotus-advise`:
   - enforce idempotent workflow writes and durable run/proposal persistence
   - keep conflict/replay behavior deterministic and testable
   - standardize late-arrival/retry semantics
-- `reporting-aggregation-service`:
+- `lotus-report`:
   - keep deterministic reporting snapshots by as-of inputs
   - enforce request validation and reproducibility metadata
   - maintain explicit read-only consistency boundaries
-- `advisor-experience-api`:
+- `lotus-gateway`:
   - enforce idempotency propagation on write orchestration endpoints
   - preserve deterministic response shaping and reproducibility metadata
   - keep strong consistency boundaries explicit for write-through workflows
-- `pbwm-platform-docs`:
+- `lotus-platform`:
   - hold canonical policy and run validators/evidence artifacts
 
 ## E. Definition of Done + Evidence
@@ -111,4 +111,5 @@ Evidence artifacts:
 2. One source of truth per domain concept; no duplicated ownership.
 3. No hidden eventual consistency in strong-consistency workflows.
 4. Any deviation requires ADR with mitigation and expiry review date.
+
 

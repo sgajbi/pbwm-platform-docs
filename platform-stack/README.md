@@ -19,14 +19,14 @@ Cross-cutting governance for this stack is defined in:
 Copy `.env.example` to `.env` and adjust repository paths if needed.
 
 ```powershell
-cd C:\Users\Sandeep\projects\pbwm-platform-docs\platform-stack
+cd C:\Users\Sandeep\projects\lotus-platform\platform-stack
 Copy-Item .env.example .env
 ```
 
 ## 2) Start Full Platform
 
 ```powershell
-cd C:\Users\Sandeep\projects\pbwm-platform-docs\platform-stack
+cd C:\Users\Sandeep\projects\lotus-platform\platform-stack
 docker compose up -d --build
 ```
 
@@ -65,3 +65,4 @@ Destructive cleanup (containers + volumes):
 ```powershell
 docker compose down -v --remove-orphans
 ```
+

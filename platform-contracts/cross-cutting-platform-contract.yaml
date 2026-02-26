@@ -1,12 +1,12 @@
 version: 1
-owner_repo: pbwm-platform-docs
+owner_repo: lotus-platform
 scope:
   services:
-    - portfolio-analytics-system
-    - performanceAnalytics
-    - dpm-rebalance-engine
+    - lotus-core
+    - lotus-performance
+    - lotus-advise
     - lotus-report
-    - advisor-experience-api
+    - lotus-gateway
 principles:
   - api_driven_integration_only
   - no_shared_database_between_services
@@ -78,5 +78,6 @@ testing:
     - no_coverage_only_assertions
     - include_negative_paths_for_high_risk_workflows
     - assert_domain_outcomes_not_only_status_codes
+
 
 
