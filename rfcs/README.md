@@ -7,7 +7,7 @@ This folder contains architecture RFCs to align:
 - `lotus-core` (current `lotus-core`)
 - `lotus-gateway` (current `lotus-gateway`)
 - `lotus-report` (current `lotus-report`)
-- `lotus-workbench` (current `advisor-workbench`)
+- `lotus-workbench` (current `lotus-workbench`)
 - `lotus-platform` (current `lotus-platform`)
 
 Reference baseline:
@@ -52,14 +52,14 @@ Reference baseline:
 - `RFC-0017-ui-bff-first-delivery-strategy.md`
 - `RFC-0018-phased-implementation-roadmap.md`
 - `RFC-0019-pragmatic-unification-plan-now-vs-later.md`
-- `RFC-0020-sprint-1-advisor-workbench-vertical-slice.md`
+- `RFC-0020-sprint-1-lotus-workbench-vertical-slice.md`
 - `RFC-0021-authn-authz-foundation-deferred.md`
 - `RFC-0022-performance-analytics-engineering-alignment-to-dpm-standard.md`
 - `RFC-0023-performance-analytics-quality-hardening-coverage-and-docker-smoke.md`
-- `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
-- `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
-- `RFC-0026-advisor-workbench-proposal-operations-workspace.md`
-- `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+- `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
+- `RFC-0025-lotus-workbench-proposal-workflow-ux-hardening.md`
+- `RFC-0026-lotus-workbench-proposal-operations-workspace.md`
+- `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
 - `RFC-0028-dpm-parity-phase-2-proposal-version-management.md`
 - `RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 - `RFC-0030-ui-suite-storyboard-with-mocked-pas-pa-and-live-dpm.md`
@@ -109,6 +109,7 @@ Reference baseline:
 - `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
 - `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
 - `RFC-0030-adr-governance-and-decision-traceability.md`
+
 
 
 

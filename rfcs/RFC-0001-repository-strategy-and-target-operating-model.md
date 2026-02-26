@@ -23,7 +23,7 @@ Canonical target repositories:
 - `lotus-risk` (split from current `lotus-performance`): risk and exposure analytics.
 - `lotus-advise` (split from current `lotus-advise`): advisory workflow and proposal decisioning.
 - `lotus-manage` (split from current `lotus-advise`): discretionary lifecycle automation and control.
-- `lotus-workbench` (current `advisor-workbench`): advisor and operations user interface.
+- `lotus-workbench` (current `lotus-workbench`): advisor and operations user interface.
 - `lotus-report` (current `lotus-report`): reporting and aggregation outputs from `lotus-core` + analytics services.
 
 ## Product-Grade Operating Principles
@@ -75,5 +75,6 @@ Each repository must have:
 3. All cross-references in docs updated to Lotus names.
 4. CI, automation scripts, and compose references updated with no legacy name drift.
 5. Architecture bible, vocabulary glossary, and standards read as one consistent story.
+
 
 

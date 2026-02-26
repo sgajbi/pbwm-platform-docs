@@ -24,7 +24,7 @@ Deliver one end-to-end vertical slice that proves the platform direction:
 
 In scope:
 - New BFF repo scaffold (`lotus-gateway`).
-- New UI repo scaffold (`advisor-workbench`).
+- New UI repo scaffold (`lotus-workbench`).
 - One BFF endpoint: `GET /api/v1/workbench/{portfolio_id}/overview`.
 - One UI route: `/workbench/{portfolio_id}`.
 - Backend integration adapters for:
@@ -136,10 +136,10 @@ lotus-gateway/
   README.md
 ```
 
-## B. `advisor-workbench`
+## B. `lotus-workbench`
 
 ```text
-advisor-workbench/
+lotus-workbench/
   src/
     app/
       workbench/[portfolioId]/page.tsx
@@ -220,4 +220,5 @@ advisor-workbench/
 - advisory simulation screen
 - submit simulation via BFF
 - status-driven result UX (`READY`, `PENDING_REVIEW`, `BLOCKED`)
+
 

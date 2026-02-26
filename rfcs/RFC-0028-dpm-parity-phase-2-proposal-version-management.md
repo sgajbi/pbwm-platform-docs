@@ -4,7 +4,7 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+  - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
 
 ## Context
 
@@ -38,7 +38,7 @@ Implement proposal version management across BFF + UI:
 - `src/app/contracts/proposals.py`
 - `tests/integration/test_proposals_router.py`
 
-### advisor-workbench
+### lotus-workbench
 
 - `src/features/proposals/api.ts`
 - `src/features/proposals/types.ts`
@@ -50,7 +50,7 @@ Implement proposal version management across BFF + UI:
 - `lotus-gateway`:
   - `python -m pytest tests/unit tests/contract -q`
   - `python -m pytest tests/integration -q`
-- `advisor-workbench`:
+- `lotus-workbench`:
   - `npm run test`
   - `npm run build`
 
@@ -58,4 +58,5 @@ Implement proposal version management across BFF + UI:
 
 - New-version creation currently uses current-version `simulate_request` if present in proposal detail payload.
 - If backend payload omits `simulate_request`, UI surfaces an explicit warning and does not submit.
+
 

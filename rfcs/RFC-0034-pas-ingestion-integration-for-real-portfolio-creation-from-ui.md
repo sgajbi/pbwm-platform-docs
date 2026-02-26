@@ -40,7 +40,7 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 - Added Docker env wiring for PAS ingestion base URL
 - Added integration tests for intake router success/error passthrough
 
-### advisor-workbench
+### lotus-workbench
 
 - Added intake API client for BFF intake endpoint
 - Replaced mock-only intake form behavior with real submit action
@@ -51,7 +51,7 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 
 - `lotus-gateway`:
   - `python -m pytest tests/integration/test_intake_router.py tests/integration/test_proposals_router.py`
-- `advisor-workbench`:
+- `lotus-workbench`:
   - `npm run test`
   - `npm run build`
 
@@ -59,4 +59,5 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 
 - This phase enables manual single-holding portfolio creation through UI.
 - CSV/Excel upload adapters remain follow-up work.
+
 

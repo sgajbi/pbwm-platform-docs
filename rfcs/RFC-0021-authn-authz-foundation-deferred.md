@@ -8,7 +8,7 @@
 
 Platform direction requires consistent authentication and authorization across:
 
-- `advisor-workbench` (UI)
+- `lotus-workbench` (UI)
 - `lotus-gateway` (BFF)
 - `lotus-advise` (domain service)
 
@@ -79,4 +79,5 @@ Start implementation when all are true:
 
 - No code changes to add auth middleware or policy enforcement now.
 - No immediate changes to deployment secrets or identity provider setup.
+
 

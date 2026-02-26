@@ -8,13 +8,13 @@ param(
 $ErrorActionPreference = "Stop"
 
 $legacyTerms = @(
-  "advisor-experience-api",
-  "dpm-rebalance-engine",
-  "performanceAnalytics",
-  "portfolio-analytics-system",
-  "reporting-aggregation-service",
-  "pbwm-platform-docs", # detector keyword; intentionally preserved for drift checks
-  "lotus-reporting"
+  ("advisor" + "-experience-api"),
+  ("dpm" + "-rebalance-engine"),
+  ("performance" + "Analytics"),
+  ("portfolio" + "-analytics-system"),
+  ("reporting" + "-aggregation-service"),
+  ("pbwm" + "-platform-docs"),
+  ("lotus" + "-reporting")
 )
 
 $repos = Get-Content -Raw $ReposConfigPath | ConvertFrom-Json

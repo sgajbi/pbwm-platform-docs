@@ -25,7 +25,7 @@ gh repo edit sgajbi/lotus-gateway --description "Channel/BFF orchestration APIs 
 gh repo edit sgajbi/lotus-performance --description "Advanced performance and attribution analytics."
 gh repo edit sgajbi/lotus-advise --description "Advisory proposal and decision workflow engine."
 gh repo edit sgajbi/lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
-gh repo edit sgajbi/advisor-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
+gh repo edit sgajbi/lotus-workbench --description "Advisor and operations workbench UI."
 ```
 
 ## 3. Local Remote Rewrite
@@ -37,7 +37,7 @@ git -C C:\Users\Sandeep\projects\lotus-gateway remote set-url origin https://git
 git -C C:\Users\Sandeep\projects\lotus-performance remote set-url origin https://github.com/sgajbi/lotus-performance.git
 git -C C:\Users\Sandeep\projects\lotus-advise remote set-url origin https://github.com/sgajbi/lotus-advise.git
 git -C C:\Users\Sandeep\projects\lotus-report remote set-url origin https://github.com/sgajbi/lotus-report.git
-git -C C:\Users\Sandeep\projects\advisor-workbench remote set-url origin https://github.com/sgajbi/lotus-workbench.git
+git -C C:\Users\Sandeep\projects\lotus-workbench remote set-url origin https://github.com/sgajbi/lotus-workbench.git
 ```
 
 ## 4. Required Post-Rename Actions

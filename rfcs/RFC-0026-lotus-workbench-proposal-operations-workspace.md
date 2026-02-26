@@ -4,8 +4,8 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
-  - `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
+  - `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
+  - `RFC-0025-lotus-workbench-proposal-workflow-ux-hardening.md`
 
 ## Context
 
@@ -27,7 +27,7 @@ Upgrade proposal screens into an operations workspace:
 
 ## Implementation Scope
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/features/proposals/components/proposal-list-view.tsx`
 - `src/features/proposals/components/proposal-detail-view.tsx`
@@ -54,3 +54,4 @@ Trade-off:
 
 - `npm run test`
 - `npm run build`
+

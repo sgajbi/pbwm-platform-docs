@@ -50,9 +50,10 @@ Define a product model with three explicit domains:
 
 ## Downstream RFC Dependencies
 
-- `advisor-workbench`: RFC-0007
+- `lotus-workbench`: RFC-0007
 - `lotus-gateway`: RFC-0010
 - `lotus-core`: RFC-046
 - `lotus-performance`: RFC-032
 - `lotus-advise`: RFC-0029
+
 

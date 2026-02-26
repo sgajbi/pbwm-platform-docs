@@ -4,9 +4,9 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0024-advisor-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
-  - `RFC-0025-advisor-workbench-proposal-workflow-ux-hardening.md`
-  - `RFC-0026-advisor-workbench-proposal-operations-workspace.md`
+  - `RFC-0024-lotus-workbench-ui-stack-alignment-and-bff-proxy-hardening.md`
+  - `RFC-0025-lotus-workbench-proposal-workflow-ux-hardening.md`
+  - `RFC-0026-lotus-workbench-proposal-operations-workspace.md`
 
 ## Context
 
@@ -37,7 +37,7 @@ Each phase may require BFF contract expansion before UI wiring if endpoint not y
 
 ## Phase 1 Scope (Implemented)
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - Proposal list now supports server-side filters backed by BFF query params:
   - `state`
@@ -66,4 +66,5 @@ Files:
   - implement in BFF if contract gap exists
   - implement in UI
   - update runbook and docs in the same PR cycle
+
 

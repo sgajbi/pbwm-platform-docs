@@ -21,7 +21,7 @@ Execute a no-legacy rebrand of platform repository names, metadata, and cross-re
 - `lotus-performance` -> interim `lotus-performance` (then split into `lotus-performance` + `lotus-risk`)
 - `lotus-advise` -> interim `lotus-advise` (then split into `lotus-advise` + `lotus-manage`)
 - `lotus-report` -> `lotus-report`
-- `advisor-workbench` -> `lotus-workbench`
+- `lotus-workbench` -> `lotus-workbench`
 
 ## Repository Description Standard
 
@@ -65,7 +65,7 @@ gh repo edit sgajbi/lotus-gateway --name lotus-gateway --description "Channel/BF
 gh repo edit sgajbi/lotus-performance --name lotus-performance --description "Advanced performance and attribution analytics."
 gh repo edit sgajbi/lotus-advise --name lotus-advise --description "Advisory proposal and decision workflow engine."
 gh repo edit sgajbi/lotus-report --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
-gh repo edit sgajbi/advisor-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
+gh repo edit sgajbi/lotus-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
 ```
 
 ### Wave 2: Cross-Repo Technical Rewrite
@@ -112,5 +112,6 @@ Minimum checks:
 3. No active legacy name references in runtime, CI, or documentation (outside historical RFC archive text).
 4. Conformance artifacts are green and reproducible from automation.
 5. PA and DPM split plan approved with execution RFCs for `lotus-risk` and `lotus-manage`.
+
 
 

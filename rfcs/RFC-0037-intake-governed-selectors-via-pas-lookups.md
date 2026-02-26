@@ -32,7 +32,7 @@ Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
 - Added query service base URL config/env:
   - `PAS_QUERY_SERVICE_BASE_URL`
 
-### advisor-workbench
+### lotus-workbench
 
 - Added lookup API client
 - Updated intake workspace fields to use lookup-backed datalist selectors:
@@ -47,11 +47,12 @@ Introduce BFF-backed lookup endpoints and wire intake UI selectors to them:
   - `python -m ruff check .`
   - `python -m mypy src`
   - `python -m pytest tests/integration/test_lookups_router.py`
-- `advisor-workbench`:
+- `lotus-workbench`:
   - `npm run test`
   - `npm run build`
 
 ## Notes
 
 - Selector coverage now supports private-banking operational control without blocking manual overrides.
+
 

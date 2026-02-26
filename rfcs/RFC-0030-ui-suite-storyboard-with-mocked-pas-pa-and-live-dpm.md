@@ -4,7 +4,7 @@
 - Date: 2026-02-23
 - Owners: UI/BFF Platform
 - Related RFCs:
-  - `RFC-0027-dpm-feature-parity-program-for-advisor-workbench.md`
+  - `RFC-0027-dpm-feature-parity-program-for-lotus-workbench.md`
   - `RFC-0029-suite-architecture-pas-pa-dpm-and-ui-bff-evolution.md`
 
 ## Context
@@ -22,7 +22,7 @@ Implement a suite-level UI storyboard:
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - Added suite overview route:
   - `/suite`
@@ -52,3 +52,4 @@ In `advisor-workbench`:
 - Keep DPM parity implementation moving (live backend).
 - Replace PAS/PA mock adapters with BFF contracts once those APIs stabilize.
 - Preserve same UI flow and upgrade only data adapters where possible.
+

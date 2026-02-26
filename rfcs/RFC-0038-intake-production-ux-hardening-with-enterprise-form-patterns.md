@@ -26,7 +26,7 @@ Harden intake UX using enterprise form patterns and denser operational layouts:
 
 ## Scope Implemented
 
-In `advisor-workbench`:
+In `lotus-workbench`:
 
 - `src/app/pas/intake/page.tsx`
   - replaced ad-hoc form controls with MUI enterprise patterns
@@ -41,3 +41,4 @@ In `advisor-workbench`:
 ## Notes
 
 - This phase is UX quality hardening; backend contracts are unchanged.
+

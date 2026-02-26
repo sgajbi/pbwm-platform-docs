@@ -25,7 +25,7 @@ Implement two aligned improvements:
 
 ## Scope Implemented
 
-### advisor-workbench
+### lotus-workbench
 
 - Updated shell/home/suite/intake/analytics user-facing labels to workflow-first wording.
 - Removed direct PAS/PA/DPM framing from primary route titles and action labels.
@@ -44,7 +44,7 @@ Implement two aligned improvements:
 
 ## Validation
 
-- `advisor-workbench`:
+- `lotus-workbench`:
   - `npm run test`
   - `npm run build`
 - `lotus-gateway`:
@@ -54,4 +54,5 @@ Implement two aligned improvements:
 
 - PAS/PA storyboard routes remain mock-backed in this phase.
 - DPM-backed advisory workflows remain live through BFF.
+
 
