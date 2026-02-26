@@ -369,4 +369,13 @@ Application repositories should reference or consume this toolkit instead of mai
 
 PPD acts as a cross-cutting platform application: standards, contracts, validation scripts, and operating conventions are maintained here and consumed by all service repositories.
 
+## Legacy Workspace Cleanup
+
+After Lotus cutover, remove legacy local folders:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Cleanup-Legacy-Workspace.ps1
+powershell -ExecutionPolicy Bypass -File automation/Cleanup-Legacy-Workspace.ps1 -Apply
+```
+
 

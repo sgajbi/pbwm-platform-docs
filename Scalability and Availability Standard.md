@@ -2,7 +2,7 @@
 
 - Version: 1.0.0
 - Status: Active
-- Scope: PAS, PA, DPM, RAS, AEA (BFF), advisor-workbench integration surface
+- Scope: PAS, PA, DPM, RAS, AEA (BFF), lotus-workbench integration surface
 - Change control: Any change to mandatory rules requires an RFC in `lotus-platform/rfcs`.
 
 ## A. Do Now (Pre-Launch Must-Haves)
@@ -84,4 +84,5 @@ Required evidence artifacts:
 2. No silent or infinite retries.
 3. Scaling/availability claims must map to metrics/tests.
 4. Deviations require ADR with remediation timeline.
+
 
