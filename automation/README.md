@@ -6,6 +6,7 @@ Canonical cross-cutting automation lives here.
 
 - `automation/Sync-Repos.ps1`
 - `automation/PR-Monitor.ps1`
+- `automation/Close-PR-Loop.ps1`
 - `automation/Detect-Stalled-PR-Checks.ps1`
 - `automation/Platform-Pulse.ps1`
 - `automation/Run-Agent.ps1`
@@ -67,6 +68,18 @@ PR monitor with custom search filter:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation/PR-Monitor.ps1 -PrSearch "state:open label:ready-for-review" -IncludeChecks
+```
+
+Close PR loop (monitor checks, queue auto-merge, clean merged branches):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Close-PR-Loop.ps1
+```
+
+Continuous PR lifecycle watch loop:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Close-PR-Loop.ps1 -Watch -IntervalSeconds 30
 ```
 
 One iteration only:
@@ -257,6 +270,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `repo-metadata-validation`
 - `durability-consistency-baseline`
 - `enterprise-readiness-baseline`
+- `pr-lifecycle`
 - `autonomous-foundation`
 
 New repo included in shared automation:
@@ -285,6 +299,8 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 
 - `output/pr-monitor.json`
 - `output/pr-monitor.md`
+- `output/pr-lifecycle.json`
+- `output/pr-lifecycle.md`
 - `output/stalled-pr-checks.json`
 - `output/stalled-pr-checks.md`
 - `output/agent-status.md`
