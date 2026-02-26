@@ -11,6 +11,7 @@ Canonical source: `lotus-platform/automation`
 3. Need asynchronous long-running checks: run `Start-Background-Run.ps1` with a profile.
 4. Need PR lifecycle automation: run `Close-PR-Loop.ps1`.
 5. Need one repo preflight before push: run `Preflight-PR.ps1`.
+6. Need production-readiness QA validation: run `Invoke-Platform-QA.ps1`.
 
 ## Decision Matrix (When To Use What)
 
@@ -26,6 +27,8 @@ Canonical source: `lotus-platform/automation`
 | Detect stalled checks | `automation/Detect-Stalled-PR-Checks.ps1 -StaleMinutes 20` | Investigate PR check deadlocks |
 | Queue auto-merge + cleanup merged branches | `automation/Close-PR-Loop.ps1` | PR lifecycle automation |
 | Validate automation config integrity | `automation/Validate-Automation-Config.ps1` | Keep repos/profiles/refs consistent |
+| Platform QA readiness validation | `automation/Invoke-Platform-QA.ps1 -BringUp` | Bring up services and validate API/log/observability/standards |
+| Platform QA + issue creation | `automation/Invoke-Platform-QA.ps1 -BringUp -CreateIssues` | File defects with evidence in each repo |
 
 ## Core Validation Scripts
 
@@ -46,6 +49,7 @@ Most common:
 - `fast-feedback`
 - `ci-parity`
 - `docker-ci-parity`
+- `qa-platform-readiness`
 - `autonomous-foundation`
 
 ## Output Artifacts

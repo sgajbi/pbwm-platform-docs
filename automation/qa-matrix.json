@@ -1,0 +1,152 @@
+{
+  "repositories": [
+    {
+      "repo": "lotus-gateway",
+      "startup": {
+        "up_command": "docker compose up -d --build lotus-gateway",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 lotus-gateway"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8100/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8100/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8100/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "latency_ms", "service"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-advise",
+      "startup": {
+        "up_command": "docker compose up -d --build lotus-advise",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 lotus-advise"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8000/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8000/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8000/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "audit", "service"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-performance",
+      "startup": {
+        "up_command": "docker compose up -d --build performance-analytics",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 performance-analytics"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8002/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8002/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8002/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "service", "duration"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-core",
+      "startup": {
+        "up_command": "docker compose up -d --build ingestion_service query_service",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 ingestion_service query_service"
+      },
+      "checks": {
+        "api": [
+          { "id": "ingestion-health", "method": "GET", "url": "http://127.0.0.1:8200/health/ready", "expected_status": 200, "must_contain": ["ready"] },
+          { "id": "query-health", "method": "GET", "url": "http://127.0.0.1:8201/health/ready", "expected_status": 200, "must_contain": ["ready"] },
+          { "id": "query-docs", "method": "GET", "url": "http://127.0.0.1:8201/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "query-metrics", "url": "http://127.0.0.1:8201/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "service", "request"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-report",
+      "startup": {
+        "up_command": "docker compose up -d --build lotus-report",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 lotus-report"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8300/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8300/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8300/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "service", "audit"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-risk",
+      "startup": {
+        "up_command": "docker compose up -d --build lotus-risk",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 lotus-risk"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8130/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8130/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8130/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "service", "risk"]
+        }
+      }
+    },
+    {
+      "repo": "lotus-manage",
+      "startup": {
+        "up_command": "docker compose up -d --build lotus-manage",
+        "down_command": "docker compose down",
+        "log_command": "docker compose logs --tail=200 lotus-manage"
+      },
+      "checks": {
+        "api": [
+          { "id": "health", "method": "GET", "url": "http://127.0.0.1:8000/health", "expected_status": 200, "must_contain": ["status"] },
+          { "id": "docs", "method": "GET", "url": "http://127.0.0.1:8000/docs", "expected_status": 200, "must_contain": ["Swagger"] }
+        ],
+        "monitoring": [
+          { "id": "metrics", "url": "http://127.0.0.1:8000/metrics", "expected_status": 200, "must_contain": ["http"] }
+        ],
+        "observability": {
+          "require_response_headers": ["x-correlation-id"],
+          "required_log_patterns": ["correlation", "audit", "service"]
+        }
+      }
+    }
+  ]
+}

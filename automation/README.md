@@ -37,6 +37,7 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 - `automation/Measure-Test-Pyramid.ps1`
 - `automation/Validate-Backend-Standards.ps1`
 - `automation/Generate-Dependency-Vulnerability-Rollup.ps1`
+- `automation/Invoke-Platform-QA.ps1`
 - `automation/Validate-OpenAPI-Conformance.ps1`
 - `automation/Validate-Domain-Vocabulary.ps1`
 - `automation/Validate-Rounding-Consistency.ps1`
@@ -51,6 +52,7 @@ powershell -ExecutionPolicy Bypass -File automation/Run-Agent.ps1
 - `automation/service-map.json`
 - `automation/task-profiles.json`
 - `automation/repos.json`
+- `automation/qa-matrix.json`
 
 ## Quick Start
 
@@ -181,6 +183,18 @@ Summarize recent failures only:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File automation/Summarize-Task-Failures.ps1 -Latest 3
+```
+
+Run platform-level QA readiness automation (startup + API/log/metrics/standards checks):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Invoke-Platform-QA.ps1 -BringUp
+```
+
+Run QA and auto-create GitHub issues for each detected defect:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Invoke-Platform-QA.ps1 -BringUp -CreateIssues
 ```
 
 Validate cross-cutting platform contract compliance:
@@ -324,6 +338,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `rfc-conformance-baseline`
 - `pr-lifecycle`
 - `platform-alignment`
+- `qa-platform-readiness`
 - `autonomous-foundation`
 
 New repo included in shared automation:
@@ -391,6 +406,10 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/repo-metadata-validation.md`
 - `output/automation-config-validation.json`
 - `output/automation-config-validation.md`
+- `output/qa/*/qa-summary.json`
+- `output/qa/*/qa-summary.md`
+- `output/qa/*/qa-issues.json`
+- `output/qa/*/evidence/*.md`
 - `output/lotus-naming-conformance.json`
 - `output/lotus-naming-conformance.md`
 - `output/preflight/*.json`
