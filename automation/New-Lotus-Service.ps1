@@ -3,8 +3,10 @@ param(
   [string]$ServiceName,
   [string]$Description = "Lotus backend service",
   [string]$DestinationRoot = "C:/Users/Sandeep/projects",
+  [string]$GithubOrg = "sgajbi",
   [int]$Port = 8000,
-  [switch]$Force
+  [switch]$Force,
+  [switch]$SkipAutomationRegistration
 )
 
 $ErrorActionPreference = "Stop"
@@ -26,6 +28,7 @@ $dirs = @(
   ".github/workflows",
   "src/app",
   "src/app/contracts",
+  "src/app/middleware",
   "tests/unit",
   "tests/integration",
   "tests/e2e",
@@ -42,6 +45,15 @@ Copy-Item (Join-Path $templateRoot "Makefile.backend.template") (Join-Path $targ
 Copy-Item (Join-Path $templateRoot "pre-commit.backend.template.yaml") (Join-Path $target ".pre-commit-config.yaml") -Force
 Copy-Item (Join-Path $templateRoot "workflows/ci.backend.template.yml") (Join-Path $target ".github/workflows/ci.yml") -Force
 Copy-Item (Join-Path $templateRoot "workflows/pr-auto-merge.template.yml") (Join-Path $target ".github/workflows/pr-auto-merge.yml") -Force
+
+$makefilePath = Join-Path $target "Makefile"
+$makefile = Get-Content $makefilePath -Raw
+$makefile = $makefile -replace [regex]::Escape(".PHONY: install lint typecheck openapi-gate test test-unit test-integration test-e2e test-coverage security-audit check ci docker-build clean"), ".PHONY: install lint monetary-float-guard typecheck openapi-gate test test-unit test-integration test-e2e test-coverage coverage-gate security-audit check ci docker-build clean"
+$makefile = $makefile -replace [regex]::Escape("lint:`n`truff check .`n`truff format --check ."), "lint:`n`truff check .`n`truff format --check .`n`t`$(MAKE) monetary-float-guard"
+$makefile = $makefile -replace [regex]::Escape("typecheck:"), "monetary-float-guard:`n`tpython scripts/check_monetary_float_usage.py`n`ntypecheck:"
+$makefile = $makefile -replace [regex]::Escape("test-coverage:`n`tCOVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report=`n`tCOVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report=`n`tCOVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report=`n`tpython -m coverage combine .coverage.unit .coverage.integration .coverage.e2e`n`tpython -m coverage report --fail-under=99"), "test-coverage:`n`tCOVERAGE_FILE=.coverage.unit python -m pytest tests/unit --cov=src --cov-report=`n`tCOVERAGE_FILE=.coverage.integration python -m pytest tests/integration --cov=src --cov-report=`n`tCOVERAGE_FILE=.coverage.e2e python -m pytest tests/e2e --cov=src --cov-report=`n`tpython scripts/coverage_gate.py"
+$makefile = $makefile -replace [regex]::Escape("ci: lint typecheck openapi-gate test-integration test-e2e test-coverage security-audit"), "ci: lint typecheck openapi-gate test-integration test-e2e test-coverage security-audit"
+Set-Content $makefilePath $makefile
 
 $pyproject = @"
 [build-system]
@@ -110,17 +122,20 @@ Set-Content -Path (Join-Path $target "Dockerfile") -Value $dockerfile
 $mainPy = @"
 from fastapi import FastAPI, Response, status
 from prometheus_fastapi_instrumentator import Instrumentator
+from src.app.middleware.correlation import CorrelationIdMiddleware
 
 SERVICE_NAME = "$ServiceName"
 SERVICE_VERSION = "0.1.0"
+ROUNDING_POLICY_VERSION = "v1"
 
 app = FastAPI(title=SERVICE_NAME, version=SERVICE_VERSION)
+app.add_middleware(CorrelationIdMiddleware, service_name=SERVICE_NAME)
 Instrumentator().instrument(app).expose(app)
 
 
 @app.get("/health")
 async def health() -> dict[str, str]:
-    return {"status": "ok"}
+    return {"status": "ok", "service": SERVICE_NAME}
 
 
 @app.get("/health/live")
@@ -134,11 +149,50 @@ async def health_ready(response: Response) -> dict[str, str]:
         response.status_code = status.HTTP_503_SERVICE_UNAVAILABLE
         return {"status": "draining"}
     return {"status": "ready"}
+
+
+@app.get("/metadata")
+async def metadata() -> dict[str, str]:
+    return {
+        "service": SERVICE_NAME,
+        "version": SERVICE_VERSION,
+        "roundingPolicyVersion": ROUNDING_POLICY_VERSION,
+    }
 "@
 Set-Content -Path (Join-Path $target "src/app/main.py") -Value $mainPy
 
 Set-Content -Path (Join-Path $target "src/app/__init__.py") -Value ""
 Set-Content -Path (Join-Path $target "src/app/contracts/__init__.py") -Value ""
+Set-Content -Path (Join-Path $target "src/app/middleware/__init__.py") -Value ""
+
+$correlationMiddleware = @"
+from __future__ import annotations
+
+import time
+import uuid
+from typing import Callable
+
+from fastapi import Request, Response
+from starlette.middleware.base import BaseHTTPMiddleware
+
+
+class CorrelationIdMiddleware(BaseHTTPMiddleware):
+    def __init__(self, app, service_name: str) -> None:
+        super().__init__(app)
+        self._service_name = service_name
+
+    async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        correlation_id = request.headers.get("X-Correlation-Id") or str(uuid.uuid4())
+        request.state.correlation_id = correlation_id
+        start = time.perf_counter()
+        response = await call_next(request)
+        duration_ms = (time.perf_counter() - start) * 1000.0
+        response.headers["X-Correlation-Id"] = correlation_id
+        response.headers["X-Service-Name"] = self._service_name
+        response.headers["X-Request-Duration-Ms"] = f"{duration_ms:.3f}"
+        return response
+"@
+Set-Content -Path (Join-Path $target "src/app/middleware/correlation.py") -Value $correlationMiddleware
 
 $openapiGate = @"
 from src.app.main import app
@@ -155,6 +209,69 @@ if __name__ == "__main__":
     main()
 "@
 Set-Content -Path (Join-Path $target "scripts/openapi_quality_gate.py") -Value $openapiGate
+
+$coverageGate = @"
+import os
+import sys
+from pathlib import Path
+
+import coverage
+
+
+def main() -> int:
+    files = [".coverage.unit", ".coverage.integration", ".coverage.e2e"]
+    missing = [f for f in files if not Path(f).exists()]
+    if missing:
+        print(f"Missing coverage files: {missing}")
+        return 1
+    cov = coverage.Coverage()
+    cov.combine(files)
+    cov.save()
+    total = cov.report()
+    if total < 99.0:
+        print(f"Coverage gate failed: {total:.2f} < 99.00")
+        return 1
+    print(f"Coverage gate passed: {total:.2f}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+"@
+Set-Content -Path (Join-Path $target "scripts/coverage_gate.py") -Value $coverageGate
+
+$floatGuard = @"
+import re
+import sys
+from pathlib import Path
+
+MONETARY_HINTS = ("amount", "value", "price", "cost", "pnl", "market_value", "fx_rate")
+ALLOWLIST = set()
+
+
+def likely_monetary(line: str) -> bool:
+    low = line.lower()
+    return any(token in low for token in MONETARY_HINTS)
+
+
+def main() -> int:
+    violations: list[str] = []
+    for path in Path("src").rglob("*.py"):
+        text = path.read_text(encoding="utf-8")
+        for idx, line in enumerate(text.splitlines(), start=1):
+            if "float(" in line and likely_monetary(line) and f"{path}:{idx}" not in ALLOWLIST:
+                violations.append(f"{path}:{idx}: monetary float usage detected")
+    if violations:
+        print("\\n".join(violations))
+        return 1
+    print("Monetary float guard passed")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+"@
+Set-Content -Path (Join-Path $target "scripts/check_monetary_float_usage.py") -Value $floatGuard
 
 $unitTest = @"
 from src.app.main import SERVICE_NAME
@@ -175,6 +292,13 @@ def test_health_endpoints() -> None:
     assert client.get("/health").status_code == 200
     assert client.get("/health/live").status_code == 200
     assert client.get("/health/ready").status_code == 200
+
+
+def test_correlation_header_propagation() -> None:
+    client = TestClient(app)
+    response = client.get("/health", headers={"X-Correlation-Id": "corr-123"})
+    assert response.status_code == 200
+    assert response.headers["X-Correlation-Id"] == "corr-123"
 "@
 Set-Content -Path (Join-Path $target "tests/integration/test_health.py") -Value $integrationTest
 
@@ -188,6 +312,13 @@ def test_e2e_smoke() -> None:
     response = client.get("/health")
     assert response.status_code == 200
     assert response.json()["status"] == "ok"
+
+
+def test_metadata_endpoint() -> None:
+    client = TestClient(app)
+    response = client.get("/metadata")
+    assert response.status_code == 200
+    assert response.json()["service"].startswith("lotus-")
 "@
 Set-Content -Path (Join-Path $target "tests/e2e/test_smoke.py") -Value $e2eTest
 
@@ -225,6 +356,12 @@ $readme = @(
   "uvicorn src.app.main:app --reload --port $Port",
   "```",
   "",
+  "## Docker",
+  "",
+  "```powershell",
+  "docker compose up --build",
+  "```",
+  "",
   "## Standards",
   "",
   "- CI and governance: .github/workflows/",
@@ -234,6 +371,101 @@ $readme = @(
 Set-Content -Path (Join-Path $target "README.md") -Value $readme
 
 Set-Content -Path (Join-Path $target "docs/rfcs/README.md") -Value "# RFC Index`n"
+Set-Content -Path (Join-Path $target ".gitignore") -Value @"
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage*
+dist/
+build/
+"@
+Set-Content -Path (Join-Path $target ".env.example") -Value @"
+APP_ENV=local
+LOG_LEVEL=INFO
+ROUNDING_POLICY_VERSION=v1
+"@
+Set-Content -Path (Join-Path $target "docker-compose.yml") -Value @"
+services:
+  $($ServiceName):
+    build: .
+    ports:
+      - \"$($Port):$($Port)\"
+    env_file:
+      - .env
+    healthcheck:
+      test: [\"CMD\", \"python\", \"-c\", \"import urllib.request; urllib.request.urlopen('http://localhost:$($Port)/health/ready')\"]
+      interval: 15s
+      timeout: 3s
+      retries: 10
+"@
+New-Item -ItemType Directory -Force -Path (Join-Path $target "docs/runbooks") | Out-Null
+Set-Content -Path (Join-Path $target "docs/runbooks/service-operations.md") -Value @"
+# Service Operations Runbook
+
+## Standard Commands
+
+- `make lint`
+- `make typecheck`
+- `make ci`
+- `docker compose up --build`
+
+## Health and Readiness
+
+- Liveness: `/health/live`
+- Readiness: `/health/ready`
+- General health: `/health`
+- Metadata: `/metadata`
+
+## Incident First Checks
+
+1. Check container logs for request failures and stack traces.
+2. Verify `/health/ready` and metrics endpoint.
+3. Run local parity check (`make ci`) before hotfix PR.
+"@
+
+if (-not $SkipAutomationRegistration) {
+  $reposPath = Join-Path $repoRoot "automation/repos.json"
+  $serviceMapPath = Join-Path $repoRoot "automation/service-map.json"
+  $repoPathNormalized = $target.Replace("\", "/")
+  $repoName = $ServiceName
+
+  if (Test-Path $reposPath) {
+    $repos = Get-Content -Raw $reposPath | ConvertFrom-Json
+    if (-not ($repos | Where-Object { $_.name -eq $repoName })) {
+      $repos += [pscustomobject]@{
+        name = $repoName
+        github = "$GithubOrg/$repoName"
+        path = $repoPathNormalized
+        default_branch = "main"
+        preflight_fast_command = "make lint && make typecheck && make test"
+        preflight_full_command = "make ci"
+      }
+      $repos | ConvertTo-Json -Depth 8 | Set-Content $reposPath
+      Write-Host "Updated automation/repos.json with $repoName"
+    }
+  }
+
+  if (Test-Path $serviceMapPath) {
+    $serviceMap = Get-Content -Raw $serviceMapPath | ConvertFrom-Json
+    if (-not ($serviceMap.repos | Where-Object { $_.name -eq $repoName })) {
+      $serviceMap.repos += [pscustomobject]@{
+        name = $repoName
+        pathHint = $repoName
+        defaultServices = @($repoName)
+        rules = @(
+          [pscustomobject]@{
+            pathPrefixes = @("src/", "tests/", "pyproject.toml", "Dockerfile")
+            services = @($repoName)
+          }
+        )
+      }
+      $serviceMap | ConvertTo-Json -Depth 12 | Set-Content $serviceMapPath
+      Write-Host "Updated automation/service-map.json with $repoName"
+    }
+  }
+}
 
 Write-Host "Scaffold created: $target"
 Write-Host "Next steps:"

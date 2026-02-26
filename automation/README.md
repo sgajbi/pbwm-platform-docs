@@ -260,6 +260,12 @@ Enforce backend governance policy (branch protection + auto-merge + no review re
 powershell -ExecutionPolicy Bypass -File automation/Enforce-Backend-Governance.ps1 -Apply
 ```
 
+Scaffold a new standards-compliant Lotus backend and auto-register it in automation:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/New-Lotus-Service.ps1 -ServiceName lotus-foo -Description "New domain service"
+```
+
 Profiles currently defined in `automation/task-profiles.json`:
 - `bootstrap-env`
 - `fast-feedback`
