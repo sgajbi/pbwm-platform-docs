@@ -46,11 +46,12 @@
     "preflight_full_command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python scripts/coverage_gate.py"
   },
   {
-    "name": "lotus-reporting",
-    "github": "sgajbi/lotus-reporting",
+    "name": "lotus-report",
+    "github": "sgajbi/lotus-report",
     "path": "C:/Users/Sandeep/projects/reporting-aggregation-service",
     "default_branch": "main",
     "preflight_fast_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests/unit",
     "preflight_full_command": "python -m ruff check src tests scripts && python -m ruff format --check src tests scripts && python -m mypy --config-file mypy.ini src && python -m pytest tests --cov=src/app --cov-report=term --cov-fail-under=99"
   }
 ]
+

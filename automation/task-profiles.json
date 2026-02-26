@@ -9,7 +9,7 @@
         { "id": "bootstrap-dpm", "repo": "dpm-rebalance-engine", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
         { "id": "bootstrap-pa", "repo": "performanceAnalytics", "command": "python -m pip install -r requirements.txt && python -m pip install -r requirements-dev.txt" },
         { "id": "bootstrap-pas", "repo": "portfolio-analytics-system", "command": "python -m pip install asyncpg==0.30.0 SQLAlchemy==2.0.46 pydantic==2.12.5 python-dotenv==1.0.1 python-json-logger==2.0.7 prometheus-client==0.20.0 tenacity==8.2.3" },
-        { "id": "bootstrap-ras", "repo": "reporting-aggregation-service", "command": "python -m pip install -e \".[dev]\"" }
+        { "id": "bootstrap-ras", "repo": "lotus-report", "command": "python -m pip install -e \".[dev]\"" }
       ]
     },
     {
@@ -22,7 +22,7 @@
         { "id": "dpm-check", "repo": "dpm-rebalance-engine", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python -m pytest tests/unit/shared/dependencies/test_postgres_migrations.py tests/unit/shared/dependencies/test_production_cutover_contract.py -q'; sys.exit(subprocess.call(cmd, shell=True))\" && python -m pytest tests/unit" },
         { "id": "pa-check", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python -m mypy --config-file mypy.ini && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python -m pytest tests/unit" },
         { "id": "pas-check", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python -m pytest tests/unit/services/query_service -q" },
-        { "id": "ras-check", "repo": "reporting-aggregation-service", "command": "python -m ruff check src tests && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python -m pytest tests -q" }
+        { "id": "ras-check", "repo": "lotus-report", "command": "python -m ruff check src tests && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python -m pytest tests -q" }
       ]
     },
     {
@@ -34,7 +34,7 @@
         { "id": "dpm-docker-up", "repo": "dpm-rebalance-engine", "command": "docker compose up -d --build dpm-rebalance-engine" },
         { "id": "pa-docker-up", "repo": "performanceAnalytics", "command": "docker compose up -d --build performance-analytics" },
         { "id": "pas-docker-up", "repo": "portfolio-analytics-system", "command": "docker compose up -d --build query_service ingestion_service demo_data_loader" },
-        { "id": "ras-docker-up", "repo": "reporting-aggregation-service", "command": "docker compose up -d --build reporting-aggregation-service" }
+        { "id": "ras-docker-up", "repo": "lotus-report", "command": "docker compose up -d --build reporting-aggregation-service" }
       ]
     },
     {
@@ -46,7 +46,7 @@
         { "id": "pa-ci-local", "repo": "performanceAnalytics", "command": "python -m ruff check . && python -m ruff format --check . && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python scripts/dependency_health_check.py --requirements requirements.txt && set COVERAGE_FILE=.coverage.unit && python -m pytest tests/unit --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && set COVERAGE_FILE=.coverage.integration && python -m pytest tests/integration --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && set COVERAGE_FILE=.coverage.e2e && python -m pytest tests/e2e --cov=app --cov=engine --cov=core --cov=adapters --cov-report= && python -m coverage combine .coverage.unit .coverage.integration .coverage.e2e && python -m coverage report --fail-under=99 && python -m mypy --config-file mypy.ini" },
         { "id": "pas-ci-local", "repo": "portfolio-analytics-system", "command": "python -m ruff check src/services/query_service/app tests/unit/services/query_service --ignore E501,E701,I001 && python -m ruff format --check src/services/query_service/app tests/unit/services/query_service && python -m mypy --config-file mypy.ini && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && python scripts/coverage_gate.py" },
         { "id": "awb-test", "repo": "advisor-workbench", "command": "npm run test" },
-        { "id": "ras-ci-local", "repo": "reporting-aggregation-service", "command": "python -m ruff check src tests && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && set COVERAGE_FILE=.coverage && python -m pytest tests --cov=src/app --cov-report=term-missing --cov-fail-under=99" }
+        { "id": "ras-ci-local", "repo": "lotus-report", "command": "python -m ruff check src tests && python -c \"import shutil,subprocess,sys; cmd='make migration-smoke' if shutil.which('make') else 'python scripts/migration_contract_check.py'; sys.exit(subprocess.call(cmd, shell=True))\" && set COVERAGE_FILE=.coverage && python -m pytest tests --cov=src/app --cov-report=term-missing --cov-fail-under=99" }
       ]
     },
     {
@@ -58,7 +58,7 @@
         { "id": "pa-ci-docker", "repo": "performanceAnalytics", "command": "make ci-local-docker && make ci-local-docker-down" },
         { "id": "pas-docker-build", "repo": "portfolio-analytics-system", "command": "make docker-build" },
         { "id": "awb-docker-build", "repo": "advisor-workbench", "command": "docker compose build advisor-workbench" },
-        { "id": "ras-docker-build", "repo": "reporting-aggregation-service", "command": "docker compose build reporting-aggregation-service" }
+        { "id": "ras-docker-build", "repo": "lotus-report", "command": "docker compose build reporting-aggregation-service" }
       ]
     },
     {
@@ -83,7 +83,7 @@
         { "id": "pas-unit", "repo": "portfolio-analytics-system", "command": "python -m pytest tests/unit/services/query_service -q" },
         { "id": "pas-integration-lite", "repo": "portfolio-analytics-system", "command": "python -m pytest tests/integration/services/query_service/test_integration_router_dependency.py tests/integration/services/query_service/test_position_analytics_router.py tests/integration/services/query_service/test_performance_router.py tests/integration/services/query_service/test_risk_router_dependency.py -q" }
         ,
-        { "id": "ras-integration", "repo": "reporting-aggregation-service", "command": "python -m pytest tests/integration -q" }
+        { "id": "ras-integration", "repo": "lotus-report", "command": "python -m pytest tests/integration -q" }
       ]
     },
     {
@@ -170,3 +170,4 @@
     }
   ]
 }
+

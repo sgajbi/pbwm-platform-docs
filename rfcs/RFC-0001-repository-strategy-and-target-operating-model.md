@@ -24,7 +24,7 @@ Canonical target repositories:
 - `lotus-advise` (split from current `dpm-rebalance-engine`): advisory workflow and proposal decisioning.
 - `lotus-manage` (split from current `dpm-rebalance-engine`): discretionary lifecycle automation and control.
 - `lotus-workbench` (current `advisor-workbench`): advisor and operations user interface.
-- `lotus-reporting` (current `reporting-aggregation-service`): reporting and aggregation outputs from `lotus-core` + analytics services.
+- `lotus-report` (current `lotus-report`): reporting and aggregation outputs from `lotus-core` + analytics services.
 
 ## Product-Grade Operating Principles
 
@@ -39,7 +39,7 @@ Canonical target repositories:
 
 1. `lotus-core` owns canonical portfolio state and derived core financial state.
 2. `lotus-performance` and `lotus-risk` own advanced analytics only.
-3. `lotus-reporting` owns presentation-ready aggregations and reports.
+3. `lotus-report` owns presentation-ready aggregations and reports.
 4. `lotus-gateway` owns channel shaping and orchestration only.
 5. `lotus-workbench` consumes gateway contracts, not internal service contracts.
 6. `lotus-platform` owns all cross-cutting standards and compliance evidence.
@@ -75,3 +75,4 @@ Each repository must have:
 3. All cross-references in docs updated to Lotus names.
 4. CI, automation scripts, and compose references updated with no legacy name drift.
 5. Architecture bible, vocabulary glossary, and standards read as one consistent story.
+

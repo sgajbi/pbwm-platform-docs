@@ -43,7 +43,7 @@ Documentation ownership model:
 2. `lotus-performance` and `lotus-risk` (split from PA): advanced analytics and insights owners.
 3. `lotus-advise` and `lotus-manage` (split from DPM): decisioning/workflow owners by advisory vs discretionary lifecycle.
 4. `lotus-gateway` (current BFF/AEA): channel orchestration owner; no business-rule duplication.
-5. `lotus-reporting` (current RAS): reporting and aggregation outputs owner.
+5. `lotus-report` (current RAS): reporting and aggregation outputs owner.
 6. `lotus-platform` (current PPD): cross-cutting governance and contract authority.
 
 ## 3A. Canonical Naming Policy (Mandatory)
@@ -143,3 +143,4 @@ Mandatory constraints:
 1. Full-stack compose must start PAS, PA, DPM, RAS, BFF, and UI cohesively.
 2. Service-level compose files remain valid, but cross-platform startup behavior is governed by the centralized stack.
 3. Logging, metrics, and tracing settings in centralized stack must follow platform observability standards.
+

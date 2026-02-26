@@ -11,7 +11,7 @@ $backendRepos = @(
     "dpm-rebalance-engine",
     "performanceAnalytics",
     "portfolio-analytics-system",
-    "reporting-aggregation-service"
+    "lotus-report"
 )
 
 $requiredLocalCommands = @("make lint", "make typecheck", "make test", "make ci")
@@ -123,3 +123,4 @@ Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
 
 Write-Host "Wrote $OutputJsonPath"
 Write-Host "Wrote $OutputMarkdownPath"
+

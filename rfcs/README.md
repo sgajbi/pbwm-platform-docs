@@ -6,7 +6,7 @@ This folder contains architecture RFCs to align:
 - `lotus-performance` (current `performanceAnalytics`)
 - `lotus-core` (current `portfolio-analytics-system`)
 - `lotus-gateway` (current `advisor-experience-api`)
-- `lotus-reporting` (current `reporting-aggregation-service`)
+- `lotus-report` (current `lotus-report`)
 - `lotus-workbench` (current `advisor-workbench`)
 - `lotus-platform` (current `pbwm-platform-docs`)
 
@@ -109,4 +109,5 @@ Reference baseline:
 - `RFC-0028-ui-bff-integration-model-and-responsibility-rules.md`
 - `RFC-0029-phased-integration-roadmap-pas-pa-dpm.md`
 - `RFC-0030-adr-governance-and-decision-traceability.md`
+
 

@@ -11,7 +11,7 @@ $backendRepos = @(
     "dpm-rebalance-engine",
     "performanceAnalytics",
     "portfolio-analytics-system",
-    "reporting-aggregation-service"
+    "lotus-report"
 )
 
 $requiredMakeTargets = @("lint", "typecheck", "test", "ci", "security-audit", "migration-smoke", "migration-apply")
@@ -172,3 +172,4 @@ foreach ($row in $results) {
 Set-Content -Path $OutputMarkdownPath -Value ($lines -join "`n")
 Write-Host "Wrote $OutputJsonPath"
 Write-Host "Wrote $OutputMarkdownPath"
+

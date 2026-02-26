@@ -20,7 +20,7 @@ Execute a no-legacy rebrand of platform repository names, metadata, and cross-re
 - `advisor-experience-api` -> `lotus-gateway`
 - `performanceAnalytics` -> interim `lotus-performance` (then split into `lotus-performance` + `lotus-risk`)
 - `dpm-rebalance-engine` -> interim `lotus-advise` (then split into `lotus-advise` + `lotus-manage`)
-- `reporting-aggregation-service` -> `lotus-reporting`
+- `lotus-report` -> `lotus-report`
 - `advisor-workbench` -> `lotus-workbench`
 
 ## Repository Description Standard
@@ -34,7 +34,7 @@ Use concise domain-owned descriptions:
 - `lotus-risk`: Advanced risk and exposure analytics.
 - `lotus-advise`: Advisory proposal and decision workflow engine.
 - `lotus-manage`: Discretionary portfolio lifecycle and automation engine.
-- `lotus-reporting`: Reporting and aggregation outputs sourced from core and analytics services.
+- `lotus-report`: Reporting and aggregation outputs sourced from core and analytics services.
 - `lotus-workbench`: Advisor and operations workbench UI.
 
 ## Non-Negotiable Rules
@@ -64,7 +64,7 @@ gh repo edit sgajbi/portfolio-analytics-system --name lotus-core --description "
 gh repo edit sgajbi/advisor-experience-api --name lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
 gh repo edit sgajbi/performanceAnalytics --name lotus-performance --description "Advanced performance and attribution analytics."
 gh repo edit sgajbi/dpm-rebalance-engine --name lotus-advise --description "Advisory proposal and decision workflow engine."
-gh repo edit sgajbi/reporting-aggregation-service --name lotus-reporting --description "Reporting and aggregation outputs sourced from core and analytics services."
+gh repo edit sgajbi/reporting-aggregation-service --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
 gh repo edit sgajbi/advisor-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
 ```
 
@@ -112,3 +112,4 @@ Minimum checks:
 3. No active legacy name references in runtime, CI, or documentation (outside historical RFC archive text).
 4. Conformance artifacts are green and reproducible from automation.
 5. PA and DPM split plan approved with execution RFCs for `lotus-risk` and `lotus-manage`.
+

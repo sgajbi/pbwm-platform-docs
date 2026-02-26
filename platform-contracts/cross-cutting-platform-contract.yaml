@@ -5,7 +5,7 @@ scope:
     - portfolio-analytics-system
     - performanceAnalytics
     - dpm-rebalance-engine
-    - reporting-aggregation-service
+    - lotus-report
     - advisor-experience-api
 principles:
   - api_driven_integration_only
@@ -78,3 +78,5 @@ testing:
     - no_coverage_only_assertions
     - include_negative_paths_for_high_risk_workflows
     - assert_domain_outcomes_not_only_status_codes
+
+
