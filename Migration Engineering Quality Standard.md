@@ -53,6 +53,7 @@ Use asynchronous automation for long-running and repeatable tasks:
 - detached background runs via `automation/Start-Background-Run.ps1`
 - status monitoring via `automation/Check-Background-Runs.ps1`
 - failure summarization via `automation/Summarize-Task-Failures.ps1`
+- command-selection guide: `automation/docs/Automation-Guide.md`
 
 Manual execution is reserved for debugging and high-context decisions.
 
