@@ -125,6 +125,17 @@ function Resolve-Status {
   return 'Partial'
 }
 
+function Get-StatusRank {
+  param([string]$Status)
+  switch ($Status) {
+    'Diverged' { return 0 }
+    'Partial' { return 1 }
+    'NoLongerRelevant' { return 2 }
+    'Implemented' { return 3 }
+    default { return 1 }
+  }
+}
+
 if (-not (Test-Path $ConfigPath)) {
   throw "Config file not found: $ConfigPath"
 }
@@ -144,7 +155,10 @@ foreach ($repo in $repos) {
       $_.FullName -notmatch '\\.venv\\' -and
       $_.FullName -notmatch '\\node_modules\\' -and
       $_.FullName -notmatch '\\output\\' -and
-      $_.FullName -notmatch '\\advisory pack\\raw\\'
+      $_.FullName -notmatch '\\advisory pack\\raw\\' -and
+      $_.Name -notmatch '^(?i)RFC[-_]?CONVENTIONS\.md$' -and
+      $_.Name -notmatch '^(?i)RFC[_-]?IMPLEMENTATION[_-]?STATUS\.md$' -and
+      $_.Name -notmatch '^(?i)README\.md$'
     } |
     Sort-Object FullName -Unique
 
@@ -214,15 +228,67 @@ foreach ($repo in $repos) {
 }
 
 $generated = (Get-Date).ToUniversalTime().ToString('o')
+# Consolidate per (repo, rfc_id) to remove duplicate IDs from multiple files and
+# keep the lowest conformance state as the governing status.
+$rowsByKey = @{}
+foreach ($r in $rows) {
+  $k = "{0}::{1}" -f $r.repo, $r.rfc_id
+  if (-not $rowsByKey.ContainsKey($k)) {
+    $rowsByKey[$k] = $r
+    continue
+  }
+  $existing = $rowsByKey[$k]
+  $existingRank = Get-StatusRank -Status $existing.status
+  $candidateRank = Get-StatusRank -Status $r.status
+  if ($candidateRank -lt $existingRank) {
+    $rowsByKey[$k] = $r
+    continue
+  }
+  if ($candidateRank -eq $existingRank) {
+    $existingEvidence = [int]$existing.evidence.code_hits + [int]$existing.evidence.test_hits + [int]$existing.evidence.api_doc_hits
+    $candidateEvidence = [int]$r.evidence.code_hits + [int]$r.evidence.test_hits + [int]$r.evidence.api_doc_hits
+    if ($candidateEvidence -gt $existingEvidence) {
+      $rowsByKey[$k] = $r
+    }
+  }
+}
+$rows = @($rowsByKey.Values | Sort-Object repo, rfc_id, file)
+
+# Rebuild backlog from consolidated rows only.
+$backlog = @()
+foreach ($r in $rows) {
+  if ($r.status -eq 'Implemented') { continue }
+  $priority = switch ($r.status) {
+    'Diverged' { 'P1-High' }
+    'Partial' { 'P2-Medium' }
+    'NoLongerRelevant' { 'P3-Low' }
+    default { 'P2-Medium' }
+  }
+  $nextAction = switch ($r.status) {
+    'NoLongerRelevant' { 'Archive/supersede RFC and link replacement architecture target.' }
+    'Diverged' { 'Run line-by-line alignment and reconcile code/docs/tests.' }
+    default { 'Map requirements to code/tests and close remaining gaps.' }
+  }
+  $backlog += [pscustomobject]@{
+    repo = $r.repo
+    rfc_id = $r.rfc_id
+    title = $r.title
+    status = $r.status
+    priority = $priority
+    next_action = $nextAction
+    owner = 'tbd'
+  }
+}
+
 $inventory = [pscustomobject]@{
   generated_at = $generated
   schema = $SchemaPath
-  model_version = '1.0.0'
+  model_version = '1.1.0'
   rows = $rows
 }
 $backlogObj = [pscustomobject]@{
   generated_at = $generated
-  model_version = '1.0.0'
+  model_version = '1.1.0'
   items = $backlog
 }
 
@@ -238,7 +304,7 @@ $inventoryMd = @()
 $inventoryMd += '# RFC Conformance Inventory'
 $inventoryMd += ''
 $inventoryMd += "- generated_at: $generated"
-$inventoryMd += '- model_version: 1.0.0'
+$inventoryMd += '- model_version: 1.1.0'
 $inventoryMd += ''
 $inventoryMd += '| repo | rfc_id | status | requirement_lines | code_hits | test_hits | api_doc_hits | file |'
 $inventoryMd += '|---|---|---|---:|---:|---:|---:|---|'
