@@ -24,6 +24,7 @@ This map organizes the automation directory by responsibility without changing s
 - `Close-PR-Loop.ps1`
 - `Detect-Stalled-PR-Checks.ps1`
 - `Preflight-PR.ps1`
+- `Invoke-Platform-QA.ps1`
 
 ### Service Runtime Operations
 
@@ -63,6 +64,7 @@ This map organizes the automation directory by responsibility without changing s
 
 - `repos.json`: repo registry and preflight commands
 - `task-profiles.json`: profile-to-task mapping
+- `qa-matrix.json`: runtime QA startup/API/log/monitoring checks per service
 - `service-map.json`: service refresh mapping
 - `backend-governance-policy.json`
 - `test-coverage-policy.json`
