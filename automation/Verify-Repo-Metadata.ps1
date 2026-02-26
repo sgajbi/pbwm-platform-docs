@@ -6,6 +6,38 @@ param(
 
 $ErrorActionPreference = "Stop"
 
+function Test-CommandFileReferences {
+  param(
+    [string]$RepoPath,
+    [string]$Command,
+    [string]$Mode
+  )
+
+  if (-not $RepoPath -or -not (Test-Path $RepoPath) -or [string]::IsNullOrWhiteSpace($Command)) {
+    return @()
+  }
+
+  $checks = @(
+    @{ token = "requirements.txt"; relativePath = "requirements.txt" },
+    @{ token = "requirements-dev.txt"; relativePath = "requirements-dev.txt" },
+    @{ token = "requirements-audit.txt"; relativePath = "requirements-audit.txt" },
+    @{ token = "scripts/dependency_health_check.py"; relativePath = "scripts/dependency_health_check.py" },
+    @{ token = "Dockerfile.ci-local"; relativePath = "Dockerfile.ci-local" }
+  )
+
+  $issues = @()
+  foreach ($check in $checks) {
+    if ($Command -match [regex]::Escape($check.token)) {
+      $fullPath = Join-Path $RepoPath $check.relativePath
+      if (-not (Test-Path $fullPath)) {
+        $issues += "missing_file_ref(${Mode}:$($check.relativePath))"
+      }
+    }
+  }
+
+  return $issues
+}
+
 if (-not (Test-Path $ConfigPath)) {
   throw "Repos config not found: $ConfigPath"
 }
@@ -20,6 +52,8 @@ foreach ($repo in $repos) {
   if (-not $repo.path) { $issues += "missing_path" }
   if (-not $repo.default_branch) { $issues += "missing_default_branch" }
   if ($repo.path -and -not (Test-Path $repo.path)) { $issues += "path_not_found" }
+  $issues += Test-CommandFileReferences -RepoPath $repo.path -Command $repo.preflight_fast_command -Mode "preflight_fast"
+  $issues += Test-CommandFileReferences -RepoPath $repo.path -Command $repo.preflight_full_command -Mode "preflight_full"
 
   $headBranch = $null
   if ($repo.path -and (Test-Path $repo.path)) {
