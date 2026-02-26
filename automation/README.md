@@ -27,6 +27,7 @@ Canonical cross-cutting automation lives here.
 - `automation/Validate-Scalability-Availability.ps1`
 - `automation/Validate-Durability-Consistency.ps1`
 - `automation/Validate-Enterprise-Readiness.ps1`
+- `automation/Audit-RFC-Conformance.ps1`
 - `automation/Verify-Repo-Metadata.ps1`
 - `automation/Preflight-PR.ps1`
 - `automation/service-map.json`
@@ -212,6 +213,12 @@ Validate enterprise readiness baseline compliance matrix across backend reposito
 powershell -ExecutionPolicy Bypass -File automation/Validate-Enterprise-Readiness.ps1
 ```
 
+Build RFC conformance inventory and centralized alignment backlog across repositories:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File automation/Audit-RFC-Conformance.ps1
+```
+
 Validate repository metadata (default branches and preflight command presence):
 
 ```powershell
@@ -283,6 +290,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `repo-metadata-validation`
 - `durability-consistency-baseline`
 - `enterprise-readiness-baseline`
+- `rfc-conformance-baseline`
 - `pr-lifecycle`
 - `autonomous-foundation`
 
@@ -341,6 +349,10 @@ powershell -ExecutionPolicy Bypass -File automation/Check-Background-Runs.ps1 -W
 - `output/durability-consistency-compliance.md`
 - `output/enterprise-readiness-compliance.json`
 - `output/enterprise-readiness-compliance.md`
+- `output/rfc-conformance-inventory.json`
+- `output/rfc-conformance-inventory.md`
+- `output/rfc-conformance-backlog.json`
+- `output/rfc-conformance-backlog.md`
 - `output/backend-governance-enforcement.json`
 - `output/backend-governance-enforcement.md`
 - `output/repo-metadata-validation.json`

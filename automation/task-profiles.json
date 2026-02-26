@@ -152,6 +152,13 @@
       ]
     },
     {
+      "name": "rfc-conformance-baseline",
+      "description": "Build cross-repo RFC conformance inventory and centralized alignment backlog",
+      "tasks": [
+        { "id": "audit-rfc-conformance", "repo": "lotus-platform", "command": "powershell -ExecutionPolicy Bypass -File automation/Audit-RFC-Conformance.ps1" }
+      ]
+    },
+    {
       "name": "pr-lifecycle",
       "description": "Monitor PR checks, queue auto-merge, and clean merged feature branches",
       "tasks": [
