@@ -7,7 +7,7 @@ Automation scripts and repeated operational workflows are being duplicated acros
 There is no single governed location for cross-cutting operational automation such as multi-repo sync, PR monitoring, targeted refresh, and status reporting.
 
 ## Proposed Solution
-Create a shared automation toolkit under `pbwm-platform-docs/automation` as the platform source of truth for:
+Create a shared automation toolkit under `lotus-platform/automation` as the platform source of truth for:
 
 - repository synchronization scripts
 - PR monitoring scripts
@@ -31,3 +31,4 @@ All application repositories should consume or reference this toolkit rather tha
 2. Document quickstart and operational usage in PPD runbook.
 3. Update governance docs to point to PPD automation as canonical source.
 4. Incrementally retire duplicate automation from service repositories.
+

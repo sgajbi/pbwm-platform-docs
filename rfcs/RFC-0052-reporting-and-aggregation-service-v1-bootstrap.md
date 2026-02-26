@@ -4,7 +4,7 @@
 The platform lacks a dedicated service for reporting-ready aggregations and report generation. Reporting concerns are currently distributed and not productized as a standalone bounded context.
 
 ## 2. Decision
-Create a new `reporting-aggregation-service` as a separate application with:
+Create a new `lotus-report` as a separate application with:
 - aggregation read-model APIs
 - report-generation APIs
 - strict separation from PAS/PA core ownership
@@ -57,3 +57,4 @@ Create a new `reporting-aggregation-service` as a separate application with:
 2. Aggregation and report endpoints are reachable and tested.
 3. Platform automation knows about the service.
 4. Documentation and vocabulary references are updated centrally.
+

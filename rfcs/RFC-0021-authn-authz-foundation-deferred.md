@@ -9,8 +9,8 @@
 Platform direction requires consistent authentication and authorization across:
 
 - `advisor-workbench` (UI)
-- `advisor-experience-api` (BFF)
-- `dpm-rebalance-engine` (domain service)
+- `lotus-gateway` (BFF)
+- `lotus-advise` (domain service)
 
 This capability is critical but intentionally deferred to maintain delivery momentum on visible DPM-first workflows.
 
@@ -79,3 +79,4 @@ Start implementation when all are true:
 
 - No code changes to add auth middleware or policy enforcement now.
 - No immediate changes to deployment secrets or identity provider setup.
+

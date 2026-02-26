@@ -3,11 +3,11 @@
 - Status: Proposed
 - Date: 2026-02-23
 - Depends on: RFC-0005, RFC-0016, RFC-0022
-- Target repository: `performanceAnalytics`
+- Target repository: `lotus-performance`
 
 ## Context
 
-RFC-0022 aligned `performanceAnalytics` to the DPM engineering baseline.  
+RFC-0022 aligned `lotus-performance` to the DPM engineering baseline.  
 During implementation, additional hardening opportunities were identified:
 
 - strengthen CI Docker validation from build-only to build + runtime smoke
@@ -16,7 +16,7 @@ During implementation, additional hardening opportunities were identified:
 
 ## Decision
 
-Implement a hardening follow-up in `performanceAnalytics` with three mandatory outcomes:
+Implement a hardening follow-up in `lotus-performance` with three mandatory outcomes:
 
 1. Increase effective coverage of integration-critical API branches.
 2. Add runtime Docker smoke checks in CI after image build.
@@ -71,14 +71,15 @@ This prevents contract-specific `4xx` responses from being converted to unexpect
 1. CI Docker job validates runtime startup and endpoint responsiveness, not only build success.
 2. Coverage improves versus pre-hardening baseline and remains above gate.
 3. Endpoint error handling returns intended `4xx/5xx` contracts for tested scenarios.
-4. Runbook and RFC index are updated in `pbwm-platform-docs`.
+4. Runbook and RFC index are updated in `lotus-platform`.
 
 ## Documentation Governance Rule
 
-For this platform, every non-trivial cross-repo engineering change must be represented by an RFC in `pbwm-platform-docs/rfcs`.
+For this platform, every non-trivial cross-repo engineering change must be represented by an RFC in `lotus-platform/rfcs`.
 
 Minimum policy:
 
 - open or update an RFC before merge for architecture, CI/gates, workflow, or contract behavior changes
 - update local runbook when operational commands/workflows change
 - keep docs and code synchronized in the same PR whenever behavior changes
+

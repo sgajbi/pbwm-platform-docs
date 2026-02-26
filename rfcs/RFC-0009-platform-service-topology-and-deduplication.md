@@ -1,4 +1,4 @@
-﻿# RFC-0009: Platform Service Topology and Deduplication
+# RFC-0009: Platform Service Topology and Deduplication
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -13,13 +13,13 @@ Adopt target service topology with strict deduplication and clear single respons
 
 ## Target Runtime Services
 
-1. `portfolio-core` (from `portfolio-analytics-system`)
+1. `portfolio-core` (from `lotus-core`)
 - ingestion, persistence, event processing, timeseries, foundational queries.
 
-2. `performance-analytics` (from `performanceAnalytics`)
+2. `performance-analytics` (from `lotus-performance`)
 - TWR, MWR, contribution, attribution, multi-currency analytics.
 
-3. `rebalance-advisory` (from `dpm-rebalance-engine`)
+3. `rebalance-advisory` (from `lotus-advise`)
 - rebalance simulation, what-if, proposal lifecycle, approvals, artifacts.
 
 4. `reporting-service` (new, RFC-0010)
@@ -42,3 +42,4 @@ Adopt target service topology with strict deduplication and clear single respons
 - Topology diagram and ownership matrix finalized.
 - Duplicate endpoint families removed or redirected through owning service.
 - No ambiguous ownership remains in architecture docs.
+

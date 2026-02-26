@@ -1,4 +1,4 @@
-﻿# RFC-0005: Engineering Baseline and Delivery Standards
+# RFC-0005: Engineering Baseline and Delivery Standards
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -9,7 +9,7 @@ Engineering practices are inconsistent across repositories (CI, linting, typing,
 
 ## Decision
 
-Replicate the strongest `dpm-rebalance-engine` patterns as the minimum baseline for all repositories.
+Replicate the strongest `lotus-advise` patterns as the minimum baseline for all repositories.
 
 ## Standard Toolchain
 
@@ -48,3 +48,4 @@ Every repository must have GitHub Actions for:
 - CI workflows added and green in all repos.
 - Shared command surface documented and consistent.
 - Engineering standards guide committed in each repository.
+

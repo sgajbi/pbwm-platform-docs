@@ -6,7 +6,7 @@ The platform has a canonical shared vocabulary in `Domain Vocabulary Glossary.md
 
 ## Decision
 
-Introduce an automated cross-repository vocabulary conformance validator in `pbwm-platform-docs` and run it as a standard async/agent check.
+Introduce an automated cross-repository vocabulary conformance validator in `lotus-platform` and run it as a standard async/agent check.
 
 Initial enforcement scope:
 
@@ -20,7 +20,7 @@ Initial enforcement scope:
 
 ## Scope
 
-- Cross-cutting validation in `pbwm-platform-docs`.
+- Cross-cutting validation in `lotus-platform`.
 - No runtime service behavior changes in this RFC increment.
 
 ## Out of Scope
@@ -49,3 +49,4 @@ Mitigation:
 - One command generates platform-wide vocabulary conformance status.
 - Agent loop includes domain vocabulary conformance signal.
 - Output provides actionable per-repo findings.
+

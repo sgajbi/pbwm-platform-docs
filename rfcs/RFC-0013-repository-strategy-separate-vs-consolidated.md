@@ -1,4 +1,4 @@
-﻿# RFC-0013: Repository Strategy (Separate vs Consolidated)
+# RFC-0013: Repository Strategy (Separate vs Consolidated)
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -15,10 +15,10 @@ Maintain separate repositories by bounded context, with shared platform librarie
 
 ## Target Repositories
 
-- `portfolio-data-platform` (current `portfolio-analytics-system`)
-- `performance-intelligence-service` (current `performanceAnalytics`)
-- `portfolio-decisioning-service` (current `dpm-rebalance-engine`)
-- `advisor-experience-api` (new BFF)
+- `portfolio-data-platform` (current `lotus-core`)
+- `performance-intelligence-service` (current `lotus-performance`)
+- `portfolio-decisioning-service` (current `lotus-advise`)
+- `lotus-gateway` (new BFF)
 - `advisor-workbench` (new UI)
 - `platform-foundations` (new shared libs)
 - `client-reporting-service` (new)
@@ -27,3 +27,4 @@ Maintain separate repositories by bounded context, with shared platform librarie
 
 - Repository role matrix approved.
 - New repos (BFF/UI/shared/reporting) scheduled and scaffolded in roadmap.
+

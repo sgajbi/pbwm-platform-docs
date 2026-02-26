@@ -33,7 +33,7 @@ Implement DPM-to-UI parity in controlled phases with RFC-governed delivery.
 5. Phase 5: Idempotency and incident diagnostics UI.
 6. Phase 6: Extended advisory controls (drift/suitability/funding diagnostics views).
 
-Each phase may require BFF contract expansion before UI wiring if endpoint not yet exposed in `advisor-experience-api`.
+Each phase may require BFF contract expansion before UI wiring if endpoint not yet exposed in `lotus-gateway`.
 
 ## Phase 1 Scope (Implemented)
 
@@ -66,3 +66,4 @@ Files:
   - implement in BFF if contract gap exists
   - implement in UI
   - update runbook and docs in the same PR cycle
+

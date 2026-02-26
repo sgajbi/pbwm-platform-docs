@@ -15,11 +15,11 @@ Execute a no-legacy rebrand of platform repository names, metadata, and cross-re
 
 ## Canonical Name Map
 
-- `pbwm-platform-docs` -> `lotus-platform`
-- `portfolio-analytics-system` -> `lotus-core`
-- `advisor-experience-api` -> `lotus-gateway`
-- `performanceAnalytics` -> interim `lotus-performance` (then split into `lotus-performance` + `lotus-risk`)
-- `dpm-rebalance-engine` -> interim `lotus-advise` (then split into `lotus-advise` + `lotus-manage`)
+- `lotus-platform` -> `lotus-platform`
+- `lotus-core` -> `lotus-core`
+- `lotus-gateway` -> `lotus-gateway`
+- `lotus-performance` -> interim `lotus-performance` (then split into `lotus-performance` + `lotus-risk`)
+- `lotus-advise` -> interim `lotus-advise` (then split into `lotus-advise` + `lotus-manage`)
 - `lotus-report` -> `lotus-report`
 - `advisor-workbench` -> `lotus-workbench`
 
@@ -59,12 +59,12 @@ Representative command pattern:
 # run per repository from an authenticated session
 # gh repo rename keeps redirects, but docs and automation must still be updated in this wave
 
-gh repo edit sgajbi/pbwm-platform-docs --name lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
-gh repo edit sgajbi/portfolio-analytics-system --name lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
-gh repo edit sgajbi/advisor-experience-api --name lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
-gh repo edit sgajbi/performanceAnalytics --name lotus-performance --description "Advanced performance and attribution analytics."
-gh repo edit sgajbi/dpm-rebalance-engine --name lotus-advise --description "Advisory proposal and decision workflow engine."
-gh repo edit sgajbi/reporting-aggregation-service --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
+gh repo edit sgajbi/lotus-platform --name lotus-platform --description "Cross-cutting architecture, governance, standards, automation, and platform contracts."
+gh repo edit sgajbi/lotus-core --name lotus-core --description "Canonical portfolio and ledger state engine for positions, valuations, and snapshots."
+gh repo edit sgajbi/lotus-gateway --name lotus-gateway --description "Channel/BFF orchestration APIs for Lotus clients."
+gh repo edit sgajbi/lotus-performance --name lotus-performance --description "Advanced performance and attribution analytics."
+gh repo edit sgajbi/lotus-advise --name lotus-advise --description "Advisory proposal and decision workflow engine."
+gh repo edit sgajbi/lotus-report --name lotus-report --description "Reporting and aggregation outputs sourced from core and analytics services."
 gh repo edit sgajbi/advisor-workbench --name lotus-workbench --description "Advisor and operations workbench UI."
 ```
 
@@ -112,4 +112,5 @@ Minimum checks:
 3. No active legacy name references in runtime, CI, or documentation (outside historical RFC archive text).
 4. Conformance artifacts are green and reproducible from automation.
 5. PA and DPM split plan approved with execution RFCs for `lotus-risk` and `lotus-manage`.
+
 

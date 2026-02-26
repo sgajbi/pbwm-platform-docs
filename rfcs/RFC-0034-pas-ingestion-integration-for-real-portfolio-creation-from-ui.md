@@ -32,7 +32,7 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 
 ## Scope Implemented
 
-### advisor-experience-api
+### lotus-gateway
 
 - Added PAS ingestion client
 - Added intake contract/service/router
@@ -49,7 +49,7 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 
 ## Validation
 
-- `advisor-experience-api`:
+- `lotus-gateway`:
   - `python -m pytest tests/integration/test_intake_router.py tests/integration/test_proposals_router.py`
 - `advisor-workbench`:
   - `npm run test`
@@ -59,3 +59,4 @@ Integrate PAS ingestion through BFF and wire intake UI to submit real bundle pay
 
 - This phase enables manual single-holding portfolio creation through UI.
 - CSV/Excel upload adapters remain follow-up work.
+

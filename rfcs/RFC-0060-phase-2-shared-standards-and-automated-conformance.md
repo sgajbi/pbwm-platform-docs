@@ -6,7 +6,7 @@ Phase 1 established baseline quality gates across backend repositories, but reus
 
 ## Decision
 
-Introduce a Phase 2 shared standards package in `pbwm-platform-docs`:
+Introduce a Phase 2 shared standards package in `lotus-platform`:
 
 1. Centralized reusable templates for:
    - backend `Makefile` command conventions
@@ -20,7 +20,7 @@ Introduce a Phase 2 shared standards package in `pbwm-platform-docs`:
 
 ## Scope
 
-- `pbwm-platform-docs` only, as cross-cutting source of truth.
+- `lotus-platform` only, as cross-cutting source of truth.
 - No runtime behavior changes in domain services.
 
 ## Out of Scope
@@ -49,4 +49,5 @@ Mitigation:
 - A single source of truth exists for backend quality templates.
 - Conformance validator runs locally and in automation.
 - Output includes pass/fail by repository and missing controls.
+
 

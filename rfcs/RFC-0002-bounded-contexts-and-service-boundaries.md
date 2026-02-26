@@ -1,4 +1,4 @@
-﻿# RFC-0002: Bounded Contexts and Service Boundaries
+# RFC-0002: Bounded Contexts and Service Boundaries
 
 - Status: Proposed
 - Date: 2026-02-22
@@ -13,15 +13,15 @@ Define strict bounded contexts with exclusive capability ownership.
 
 ## Target Boundaries
 
-1. `portfolio-analytics-system`
+1. `lotus-core`
 - Owns ingestion, persistence, event choreography, reprocessing, timeseries, foundational portfolio reads.
 - Does not own advanced attribution/contribution engine APIs.
 
-2. `performanceAnalytics`
+2. `lotus-performance`
 - Owns TWR, MWR, contribution, attribution, multi-currency analytics engines and API contracts.
 - Does not own transactional persistence or workflow orchestration.
 
-3. `dpm-rebalance-engine`
+3. `lotus-advise`
 - Owns rebalance simulation, advisory proposals, workflow gates, approvals, run artifacts, supportability.
 - Does not own generic reporting/query APIs.
 
@@ -36,12 +36,13 @@ Define strict bounded contexts with exclusive capability ownership.
 
 ## Consolidation Actions
 
-- Move all advanced performance analytics authority to `performanceAnalytics`.
-- Keep `portfolio-analytics-system` performance endpoints only if they are pure orchestration wrappers, otherwise remove.
-- Keep `dpm-rebalance-engine` focused on decisioning/workflow, not generic portfolio query workloads.
+- Move all advanced performance analytics authority to `lotus-performance`.
+- Keep `lotus-core` performance endpoints only if they are pure orchestration wrappers, otherwise remove.
+- Keep `lotus-advise` focused on decisioning/workflow, not generic portfolio query workloads.
 
 ## Acceptance Criteria
 
 - Capability-to-service map complete.
 - Duplicate endpoint inventory resolved with removal plan.
 - Each service README documents what it explicitly does not own.
+
