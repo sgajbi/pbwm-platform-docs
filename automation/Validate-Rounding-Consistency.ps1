@@ -20,7 +20,7 @@ targets = {
     "pas": ("portfolio-analytics-system", "src/services/query_service/app", "precision_policy"),
     "pa": ("performanceAnalytics", "app", "precision_policy"),
     "dpm": ("dpm-rebalance-engine", "src/core", "precision_policy"),
-    "ras": ("reporting-aggregation-service", "src/app", "precision_policy"),
+    "ras": ("lotus-report", "src/app", "precision_policy"),
     "aea": ("advisor-experience-api", "src/app", "precision_policy"),
 }
 
@@ -132,3 +132,4 @@ if (-not $outputObject.consistent) {
 }
 
 Write-Host "Generated $OutputJson and $OutputMarkdown"
+

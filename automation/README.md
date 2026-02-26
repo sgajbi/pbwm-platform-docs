@@ -227,13 +227,13 @@ powershell -ExecutionPolicy Bypass -File automation/Detect-Stalled-PR-Checks.ps1
 Run strict PR preflight for one repository before pushing:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo reporting-aggregation-service -Mode full
+powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo lotus-report -Mode full
 ```
 
 Run fast PR preflight while iterating:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo reporting-aggregation-service -Mode fast
+powershell -ExecutionPolicy Bypass -File automation/Preflight-PR.ps1 -Repo lotus-report -Mode fast
 ```
 
 Generate test-pyramid and coverage baseline across backend services:
@@ -274,7 +274,7 @@ Profiles currently defined in `automation/task-profiles.json`:
 - `autonomous-foundation`
 
 New repo included in shared automation:
-- `reporting-aggregation-service`
+- `lotus-report`
 
 Note: profiles are Windows-native and do not require `make`.
 For `ci-parity`, coverage-scoped pytest steps use `set COVERAGE_FILE=... &&` syntax so they run correctly under `cmd /c` on Windows.
@@ -341,3 +341,4 @@ This folder is the source of truth for platform-wide automation and agent workfl
 Application repositories should reference or consume this toolkit instead of maintaining divergent copies.
 
 PPD acts as a cross-cutting platform application: standards, contracts, validation scripts, and operating conventions are maintained here and consumed by all service repositories.
+

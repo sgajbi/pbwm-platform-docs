@@ -53,7 +53,7 @@
       ]
     },
     {
-      "name": "reporting-aggregation-service",
+      "name": "lotus-report",
       "default_branch": "main",
       "required_checks": [
         "Workflow Lint",
@@ -67,3 +67,4 @@
     }
   ]
 }
+

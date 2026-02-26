@@ -50,8 +50,8 @@
       "coverage_command": "python scripts/coverage_gate.py"
     },
     {
-      "name": "reporting-aggregation-service",
-      "repo": "reporting-aggregation-service",
+      "name": "lotus-report",
+      "repo": "lotus-report",
       "buckets": {
         "unit": ["tests/unit"],
         "integration": ["tests/integration"],
@@ -61,3 +61,4 @@
     }
   ]
 }
+

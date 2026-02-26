@@ -18,7 +18,7 @@ $backendRepos = @(
   "portfolio-analytics-system",
   "performanceAnalytics",
   "dpm-rebalance-engine",
-  "reporting-aggregation-service"
+  "lotus-report"
 )
 
 function Test-Pattern {
@@ -155,3 +155,4 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+

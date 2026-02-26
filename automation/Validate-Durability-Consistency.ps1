@@ -18,7 +18,7 @@ $backendRepos = @(
   "portfolio-analytics-system",
   "performanceAnalytics",
   "dpm-rebalance-engine",
-  "reporting-aggregation-service"
+  "lotus-report"
 )
 
 $workflowMap = @{
@@ -26,7 +26,7 @@ $workflowMap = @{
   "portfolio-analytics-system" = "core-portfolio-write-read"
   "performanceAnalytics" = "advanced-analytics-read"
   "dpm-rebalance-engine" = "decision-workflow-write"
-  "reporting-aggregation-service" = "reporting-aggregation-read"
+  "lotus-report" = "reporting-aggregation-read"
 }
 
 function Test-Pattern {
@@ -175,3 +175,4 @@ foreach ($row in $rows) {
 $lines -join "`n" | Set-Content -Path $OutputMarkdown
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+

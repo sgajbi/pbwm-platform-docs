@@ -19,7 +19,7 @@ $backendRepos = @(
   "portfolio-analytics-system",
   "performanceAnalytics",
   "dpm-rebalance-engine",
-  "reporting-aggregation-service"
+  "lotus-report"
 )
 
 foreach ($repo in $config.repositories) {
@@ -77,3 +77,4 @@ if ($results.status -contains "failed" -or $results.status -contains "missing-sc
 }
 
 Write-Host "Wrote $OutputJson and $OutputMarkdown"
+

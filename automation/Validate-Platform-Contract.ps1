@@ -9,7 +9,7 @@ $services = @(
     @{ Name = "portfolio-analytics-system"; Path = "portfolio-analytics-system" },
     @{ Name = "performanceAnalytics"; Path = "performanceAnalytics" },
     @{ Name = "dpm-rebalance-engine"; Path = "dpm-rebalance-engine" },
-    @{ Name = "reporting-aggregation-service"; Path = "reporting-aggregation-service" },
+    @{ Name = "lotus-report"; Path = "lotus-report" },
     @{ Name = "advisor-experience-api"; Path = "advisor-experience-api" }
 )
 
@@ -73,3 +73,4 @@ foreach ($row in $rows) {
 
 Set-Content -Path $OutputPath -Value ($lines -join "`n")
 Write-Host "Wrote contract validation report to $OutputPath"
+
