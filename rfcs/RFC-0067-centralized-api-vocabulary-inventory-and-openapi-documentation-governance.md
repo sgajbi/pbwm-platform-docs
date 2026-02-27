@@ -147,6 +147,7 @@ Use this checklist for each application (`lotus-risk`, `lotus-performance`, `lot
    - OpenAPI quality gate
    - API vocabulary inventory gate
    - no-alias/no-legacy-term contract guard
+   - strict mypy type-check gate (`python -m mypy --config-file mypy.ini`)
 9. Fail CI on semantic naming drift (no warning mode in protected branches).
 10. Add service-level tests that assert canonical field names for critical endpoints.
 11. Regenerate inventory after every contract change and include it in the same PR.
