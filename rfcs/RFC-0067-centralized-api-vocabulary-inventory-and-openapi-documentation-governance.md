@@ -1,6 +1,6 @@
 # RFC-0067: Centralized API Vocabulary Inventory and OpenAPI Documentation Governance
 
-- Status: Approved (Implemented for `lotus-core`; rollout pending for remaining apps)
+- Status: Approved (Implemented for `lotus-core` and `lotus-risk`; rollout pending for remaining apps)
 - Date: 2026-02-27
 - Owners: lotus-platform architecture + service owners
 - Applies To: All Lotus application repositories (starting with `lotus-core`)
@@ -129,8 +129,9 @@ Builds fail if:
 ## Rollout Plan
 
 1. `lotus-core` baseline implementation (completed first).
-2. Apply same generator + gates to each Lotus app.
-3. Resolve cross-app term conflicts via RFC updates before enabling strict merge gates platform-wide.
+2. `lotus-risk` adoption (completed on 2026-02-27).
+3. Apply same generator + gates to each remaining Lotus app.
+4. Resolve cross-app term conflicts via RFC updates before enabling strict merge gates platform-wide.
 
 ## lotus-core Implementation Baseline (Completed)
 
@@ -158,6 +159,30 @@ Implemented in `lotus-core`:
  - explicit merge migration added to eliminate Alembic multi-head state
  - migration contract check strengthened to fail if Alembic has more than one head
  - rationale: multi-head drift can break test bring-up (`migration-runner` failures) and must be blocked early
+
+## lotus-risk Implementation Baseline (Completed)
+
+Implemented in `lotus-risk`:
+
+1. OpenAPI contract hardening
+ - operation metadata completeness (`summary`, `description`, tags, success + error responses)
+ - schema property completeness (`description`, `example`)
+2. Centralized API vocabulary inventory
+ - `lotus-risk/docs/standards/api-vocabulary/lotus-risk-api-vocabulary.v1.json`
+ - single definition per semantic attribute in `attributeCatalog`
+ - request/response usage rows reference centralized attributes only
+3. Canonical naming enforcement
+ - alias patterns removed from API contracts
+ - canonical snake_case API field naming adopted across risk endpoints
+ - no-alias/no-legacy-term contract guard added as a failing gate
+4. Validation gates wired in CI
+ - OpenAPI quality gate
+ - vocabulary inventory gate
+ - no-alias / no-legacy-term guard
+ - strict typing alignment (`mypy`) as platform direction
+5. Contract regression coverage alignment
+ - unit/integration/e2e tests updated to assert canonical field names and error envelope contract
+ - test pyramid and combined coverage gates kept active
 
 ## Canonical Rules (Normative)
 
