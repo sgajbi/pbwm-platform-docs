@@ -100,6 +100,7 @@ Reference baseline:
 - `RFC-0064-lotus-platform-rebrand-and-enterprise-productization-baseline.md`
 - `RFC-0065-lotus-performance-to-lotus-performance-and-lotus-risk-split.md`
 - `RFC-0066-lotus-advise-to-lotus-advise-and-lotus-manage-split.md`
+- `RFC-0067-centralized-api-vocabulary-inventory-and-openapi-documentation-governance.md`
 - `RFC-0022-platform-target-operating-model-and-service-additions.md`
 - `RFC-0023-pas-api-product-and-governance-principles.md`
 - `RFC-0024-pas-pa-dpm-integration-and-boundary-model.md`
