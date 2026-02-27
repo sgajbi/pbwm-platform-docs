@@ -7,6 +7,12 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$scriptRoot = Split-Path -Parent $PSCommandPath
+
+if (-not [System.IO.Path]::IsPathRooted($ConfigPath)) {
+  $ConfigPath = Join-Path $scriptRoot "..\$ConfigPath"
+}
+$ConfigPath = [System.IO.Path]::GetFullPath($ConfigPath)
 
 if (-not (Test-Path $ConfigPath)) {
   throw "Repos config not found: $ConfigPath"
@@ -32,8 +38,9 @@ if (-not $command) {
 $outputRoot = if ([System.IO.Path]::IsPathRooted($OutputDir)) {
   $OutputDir
 } else {
-  Join-Path (Get-Location) $OutputDir
+  Join-Path $scriptRoot "..\$OutputDir"
 }
+$outputRoot = [System.IO.Path]::GetFullPath($outputRoot)
 if (-not (Test-Path $outputRoot)) {
   New-Item -ItemType Directory -Path $outputRoot -Force | Out-Null
 }

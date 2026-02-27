@@ -11,6 +11,21 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+$scriptRoot = Split-Path -Parent $PSCommandPath
+
+if (-not [System.IO.Path]::IsPathRooted($ConfigPath)) {
+  $ConfigPath = Join-Path $scriptRoot "..\$ConfigPath"
+}
+if (-not [System.IO.Path]::IsPathRooted($OutputPath)) {
+  $OutputPath = Join-Path $scriptRoot "..\$OutputPath"
+}
+if (-not [System.IO.Path]::IsPathRooted($SummaryPath)) {
+  $SummaryPath = Join-Path $scriptRoot "..\$SummaryPath"
+}
+$ConfigPath = [System.IO.Path]::GetFullPath($ConfigPath)
+$OutputPath = [System.IO.Path]::GetFullPath($OutputPath)
+$SummaryPath = [System.IO.Path]::GetFullPath($SummaryPath)
+
 # Avoid turning native git stderr into terminating errors; inspect exit codes instead.
 if (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue) {
   $PSNativeCommandUseErrorActionPreference = $false
