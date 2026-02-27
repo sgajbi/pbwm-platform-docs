@@ -44,6 +44,12 @@ Conclusion: endpoint metadata is mostly present, but attribute-level description
 
 Adopt a centralized API vocabulary inventory standard in `lotus-platform`, with a per-application JSON spec and automated conformance checks.
 
+Semantic naming unification is a hard requirement:
+
+1. One meaning -> one canonical attribute/control name across Lotus apps.
+2. Different names for the same meaning are treated as vocabulary drift and must be remediated.
+3. Inventory entries must map fields/options/flags to canonical terms for cross-service equivalence checks.
+
 This RFC defines structure and governance only. Implementation occurs after approval.
 
 ## 4. Proposed Specification Format
@@ -175,6 +181,13 @@ Recommended additional metadata:
 6. `nullable`
 7. `sourceModel`
 8. `canonicalTerm` (maps to RFC-0003 vocabulary)
+9. `semanticId` (stable cross-service meaning identifier)
+
+Naming and semantic equivalence rules:
+
+1. `canonicalTerm` and `semanticId` are required for all shared business concepts.
+2. If two fields/options/flags map to the same `semanticId`, they must use the same canonical `name`.
+3. Alias names are temporary and must be declared with deprecation metadata and migration deadline.
 
 ## 5. Domain Grouping Methodology
 
@@ -233,6 +246,8 @@ Minimum quality requirements:
 6. Every consumer-visible flag/option includes default and allowed values (if constrained).
 7. Every consumer-visible flag/option documents behavior impact.
 8. Every contract-impacting server-side config/feature flag is inventoried with affected endpoints/fields.
+9. No two different names may represent the same semantic meaning across Lotus services.
+10. Every shared field/control maps to `semanticId` and `canonicalTerm`; mismatches fail conformance.
 
 ### 7.2 Governance Roles
 
@@ -253,6 +268,8 @@ Minimum quality requirements:
 1. Vocabulary-breaking changes require RFC or approved architecture decision.
 2. Inventory updates must be part of the same PR as API contract changes.
 3. Platform-wide vocabulary changes require cross-repo impact review.
+4. Introducing a new name for an existing `semanticId` requires explicit exception approval and migration plan.
+5. Alias windows must be time-bounded and tracked until removed.
 
 ## 8. Deliverables (After Approval)
 
@@ -265,6 +282,7 @@ Minimum quality requirements:
 4. Reporting:
 - conformance score by service.
 - drift report and unresolved vocabulary conflicts.
+- semantic equivalence conflict report (same meaning, different names).
 
 ## 9. Non-Goals (This Phase)
 
