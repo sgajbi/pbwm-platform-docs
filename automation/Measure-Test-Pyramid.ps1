@@ -43,7 +43,13 @@ function Get-CoveragePercent {
     )
 
     if (-not $Command) { return $null }
-    $output = & powershell -NoProfile -Command $Command 2>&1
+    try {
+        $PSNativeCommandUseErrorActionPreference = $false
+    } catch {
+    }
+    # Run through cmd to avoid terminating on benign stderr warnings from tools.
+    $output = cmd /c $Command 2>&1
+    $exitCode = $LASTEXITCODE
     $joined = ($output -join "`n")
     $joined = [regex]::Replace($joined, "\x1B\[[0-9;]*[A-Za-z]", "")
     $regexes = @(
@@ -58,6 +64,9 @@ function Get-CoveragePercent {
             $last = $matches[$matches.Count - 1]
             return [int][math]::Floor([double]$last.Groups[1].Value)
         }
+    }
+    if ($exitCode -ne 0) {
+        Write-Warning "Coverage command failed (exit=$exitCode): $Command"
     }
     return $null
 }
@@ -145,7 +154,13 @@ foreach ($service in $policy.services) {
 
         $coveragePercent = $null
         if ($RunCoverage) {
-            $coveragePercent = Get-CoveragePercent -Command $service.coverage_command
+            try {
+                $coveragePercent = Get-CoveragePercent -Command $service.coverage_command
+            }
+            catch {
+                Write-Warning "Coverage collection failed for $($service.name): $($_.Exception.Message)"
+                $coveragePercent = $null
+            }
         }
         $coverageStatus = if (-not $RunCoverage) {
             "skipped"
