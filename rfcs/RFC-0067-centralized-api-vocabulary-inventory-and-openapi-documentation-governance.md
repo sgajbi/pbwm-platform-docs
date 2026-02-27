@@ -18,6 +18,7 @@ Define a single, machine-readable, platform-level inventory of API vocabulary an
 2. Swagger/OpenAPI documentation quality is measurable and enforceable.
 3. Contract drift across services is detected early in CI.
 4. Domain vocabulary alignment with Lotus standards becomes auditable.
+5. API flags, options, and configuration behaviors are inventoried and governed.
 
 ## 2. Current-State Assessment (Phase 1 Baseline: lotus-core)
 
@@ -69,6 +70,7 @@ Examples:
     "openApiVersion": "3.1.0"
   },
   "generatedAt": "2026-02-27T00:00:00Z",
+  "controlsCatalog": [],
   "endpoints": []
 }
 ```
@@ -116,13 +118,52 @@ Examples:
 }
 ```
 
-### 4.4 Required Field Semantics
+Each endpoint entry also includes optional control metadata blocks when applicable:
 
-For both request and response field entries:
+1. `controls`: consumer-visible request options and flags.
+2. `featureFlags`: feature toggles that affect capability exposure or endpoint behavior.
+3. `configDependencies`: policy/config keys that materially affect contract outcomes.
+
+### 4.4 API Controls, Flags, and Configuration Inventory
+
+Inventory must include all API behavior controls offered to consumers and all server-side toggles that materially affect API contract behavior.
+
+1. Consumer-visible API controls:
+- Query/path/header/body options (for example: `includeSections`, pagination, filters, modes).
+- Enumerated options and supported value sets.
+- Defaults and requiredness.
+- Behavioral effect on payload shape, filtering, calculations, or policy outcomes.
+
+2. Server-side configuration dependencies (contract-impacting):
+- Policy/config variables that change API behavior or response semantics.
+- Feature toggles that alter endpoint/workflow availability.
+- Contract provenance fields exposed to consumers.
+
+3. Control classification:
+- `request_option`
+- `feature_toggle`
+- `service_policy`
+- `runtime_mode`
+
+### 4.5 Required Field Semantics
+
+For request/response field entries:
 
 1. `name`
 2. `description`
 3. `example`
+
+For control entries:
+
+1. `name`
+2. `kind`
+3. `description`
+4. `default`
+5. `example`
+6. `allowedValues` (if constrained)
+7. `behaviorImpact`
+8. `exposure` (`consumer_visible` or `server_side`)
+9. `affects` (fields/endpoints/workflows impacted)
 
 Recommended additional metadata:
 
@@ -158,19 +199,22 @@ Domain mapping rules:
 
 1. Extract endpoint/model metadata from OpenAPI.
 2. Produce initial inventory JSON for `lotus-core`.
-3. Mark missing descriptions/examples explicitly as validation violations.
+3. Extract controls/flags/config dependencies from OpenAPI and service configuration metadata.
+4. Mark missing descriptions/examples explicitly as validation violations.
 
 ### Phase B: Curate and Normalize
 
 1. Fill missing field descriptions and examples in source DTOs/OpenAPI.
-2. Normalize naming to canonical Lotus vocabulary.
-3. Resolve conflicts with domain owners.
+2. Fill missing control metadata (default values, allowed values, behavior impact).
+3. Normalize naming to canonical Lotus vocabulary.
+4. Resolve conflicts with domain owners.
 
 ### Phase C: Enforce
 
 1. Add CI gate in each service repo:
    - OpenAPI completeness checks.
    - Vocabulary inventory sync check against `lotus-platform`.
+   - Controls/flags/config inventory completeness checks.
 2. Add platform-level conformance job in `lotus-platform`:
    - validates all inventory files.
    - reports drift and naming inconsistencies.
@@ -186,6 +230,9 @@ Minimum quality requirements:
 3. Every response field has description and example.
 4. Every field aligns to canonical naming and domain vocabulary.
 5. Deprecated/removed endpoints are explicitly flagged.
+6. Every consumer-visible flag/option includes default and allowed values (if constrained).
+7. Every consumer-visible flag/option documents behavior impact.
+8. Every contract-impacting server-side config/feature flag is inventoried with affected endpoints/fields.
 
 ### 7.2 Governance Roles
 
@@ -214,6 +261,7 @@ Minimum quality requirements:
 3. CI validators:
 - service-level OpenAPI completeness validator.
 - platform-level inventory conformance validator.
+ - controls/flags/config completeness validator.
 4. Reporting:
 - conformance score by service.
 - drift report and unresolved vocabulary conflicts.
