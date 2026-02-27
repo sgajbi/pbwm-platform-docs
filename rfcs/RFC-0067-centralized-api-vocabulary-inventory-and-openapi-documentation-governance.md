@@ -1,6 +1,6 @@
 # RFC-0067: Centralized API Vocabulary Inventory and OpenAPI Documentation Governance
 
-- Status: Approved
+- Status: Approved (Implemented for `lotus-core`; rollout pending for remaining apps)
 - Date: 2026-02-27
 - Owners: lotus-platform architecture + service owners
 - Applies To: All Lotus application repositories (starting with `lotus-core`)
@@ -131,6 +131,103 @@ Builds fail if:
 1. `lotus-core` baseline implementation (completed first).
 2. Apply same generator + gates to each Lotus app.
 3. Resolve cross-app term conflicts via RFC updates before enabling strict merge gates platform-wide.
+
+## lotus-core Implementation Baseline (Completed)
+
+This section is the reference implementation to replicate for all remaining applications.
+
+Implemented in `lotus-core`:
+
+1. OpenAPI contract hardening
+ - operation metadata completeness (`summary`, `description`, tags, success + error responses)
+ - schema property completeness (`description`, `example`)
+2. Centralized API vocabulary inventory
+ - `lotus-platform/platform-contracts/api-vocabulary/lotus-core-api-vocabulary.v1.json`
+ - single definition per semantic attribute in `attributeCatalog`
+ - request/response usage rows reference centralized attributes only
+3. Canonical naming enforcement
+ - alias patterns rejected in API contracts and inventory
+ - legacy term rejection enforced (for example `cif_id`, `booking_center`)
+ - canonical term usage enforced (for example `client_id`, `booking_center_code`)
+4. Validation gates wired in CI
+ - OpenAPI quality gate
+ - vocabulary inventory gate
+ - no-alias / no-legacy-term guard
+ - strict typing alignment (`mypy`) as platform direction
+5. Migration reliability hardening (required for reproducible CI)
+ - explicit merge migration added to eliminate Alembic multi-head state
+ - migration contract check strengthened to fail if Alembic has more than one head
+ - rationale: multi-head drift can break test bring-up (`migration-runner` failures) and must be blocked early
+
+## Canonical Rules (Normative)
+
+Use these as mandatory rules for every app rollout:
+
+1. One concept -> one canonical name.
+2. One canonical name -> one semantic attribute definition.
+3. No aliases in API payloads, DTOs, or OpenAPI.
+4. No local implementation terms in external contracts.
+5. Endpoint request/response fields must reference centralized attribute definitions, not duplicate them.
+6. Generic placeholder examples are prohibited.
+7. Date/time must follow explicit OpenAPI formats (`string` + `format: date` or `date-time`).
+8. CI must fail on any semantic drift or naming conflict.
+
+## Implementation Playbook (Per App)
+
+Follow this exact sequence:
+
+1. Contract inventory generation
+ - generate `<app>-api-vocabulary.v1.json` from app OpenAPI
+2. Canonicalization pass
+ - replace legacy/local terms with platform canonical terms
+ - remove aliases in request/response models and routers
+3. OpenAPI documentation completion pass
+ - fill missing operation/property descriptions and examples
+4. Validation pass
+ - run OpenAPI gate, vocabulary gate, no-alias guard, mypy
+5. Migration/state sanity pass (if app has DB)
+ - verify single Alembic head
+ - create merge migration if multiple heads
+6. PR readiness pass
+ - regenerate inventory
+ - include code + inventory + standards/RFC updates together in one PR
+
+## Required CI Gates (Per App)
+
+Each app adopting RFC-0067 must include all gates below as required checks:
+
+1. OpenAPI quality gate
+2. API vocabulary inventory gate
+3. no-alias/no-legacy-term guard
+4. strict type check gate (`mypy`)
+5. migration contract gate (DB-backed services only):
+ - fail if Alembic head count != 1
+
+## PR Review Contract (Per App)
+
+A PR is non-compliant unless all are present:
+
+1. API code changes
+2. regenerated inventory JSON
+3. tests/guards for canonical names (or updated existing tests)
+4. RFC/docs updates if governance behavior changed
+
+## Troubleshooting Notes (From lotus-core)
+
+1. Symptom: DB test bring-up fails and migration container exits.
+ - Common cause: Alembic graph drift (multiple heads).
+ - Resolution: add explicit merge migration and enforce single-head check in CI.
+2. Symptom: inventory validation passes but semantics still drift.
+ - Common cause: duplicated attribute docs in endpoint usage rows.
+ - Resolution: keep descriptions/examples only in `attributeCatalog`; use references in endpoint field rows.
+3. Symptom: repeated naming regressions in PRs.
+ - Common cause: alias support left enabled in models/serializers.
+ - Resolution: remove alias configuration and fail fast with no-alias guard.
+
+## Non-Goals / Deferred
+
+1. Backward-compatibility alias windows are not in scope for pre-production cleanup tracks.
+2. Full platform rollout completion is tracked per application; this RFC defines the framework and baseline only.
 
 ## Cross-App Adoption Checklist
 
