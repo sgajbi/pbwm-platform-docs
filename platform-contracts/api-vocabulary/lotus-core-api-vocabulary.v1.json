@@ -13,7 +13,7 @@
       "openApiVersion": "3.1.0"
     }
   ],
-  "generatedAt": "2026-02-27T06:18:32.520955+00:00",
+  "generatedAt": "2026-02-27T10:21:00.104621+00:00",
   "attributeCatalog": [
     {
       "semanticId": "lotus.active_reprocessing_keys",
@@ -64,7 +64,7 @@
       "canonicalTerm": "amount",
       "preferredName": "amount",
       "description": "Monetary value for amount.",
-      "example": "AMOUNT_VALUE",
+      "example": 125000.5,
       "type": "object",
       "locations": [
         "body"
@@ -77,7 +77,7 @@
       "semanticId": "lotus.as_of_date",
       "canonicalTerm": "as_of_date",
       "preferredName": "as_of_date",
-      "description": "Business date for as of date.",
+      "description": "Business date used to resolve baseline positions and valuation context.",
       "example": "2026-02-27",
       "type": "string",
       "locations": [
@@ -92,7 +92,7 @@
       "canonicalTerm": "asset_class",
       "preferredName": "asset_class",
       "description": "Asset class for grouping and reporting.",
-      "example": "ASSET_CLASS_VALUE",
+      "example": "EQUITY",
       "type": "object",
       "locations": [
         "body"
@@ -106,7 +106,7 @@
       "canonicalTerm": "attempt_count",
       "preferredName": "attempt_count",
       "description": "Current retry attempt count for valuation jobs.",
-      "example": "ATTEMPT_COUNT_VALUE",
+      "example": 1,
       "type": "object",
       "locations": [
         "body"
@@ -134,7 +134,7 @@
       "canonicalTerm": "baseline_as_of",
       "preferredName": "baseline_as_of",
       "description": "projected positions response field: baseline as of.",
-      "example": "BASELINE_AS_OF_VALUE",
+      "example": "2026-02-27",
       "type": "object",
       "locations": [
         "body"
@@ -162,7 +162,9 @@
       "canonicalTerm": "booking_center_code",
       "preferredName": "booking_center_code",
       "description": "Filter by booking center to get all portfolios for a business unit.",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "string",
       "locations": [
         "body",
@@ -208,7 +210,7 @@
       "canonicalTerm": "cashflow",
       "preferredName": "cashflow",
       "description": "transaction record field: cashflow.",
-      "example": "CASHFLOW_VALUE",
+      "example": 3200.0,
       "type": "object",
       "locations": [
         "body"
@@ -312,14 +314,16 @@
       "canonicalTerm": "cost_basis",
       "preferredName": "cost_basis",
       "description": "The total cost basis of the holding as of this record.",
-      "example": 10.5,
-      "type": "number",
+      "example": {
+        "id": "OBJ_001"
+      },
+      "type": "string",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "number",
-        "object"
+        "object",
+        "string"
       ]
     },
     {
@@ -327,7 +331,7 @@
       "canonicalTerm": "cost_basis_local",
       "preferredName": "cost_basis_local",
       "description": "The total cost basis in the instrument's local currency.",
-      "example": "COST_BASIS_LOCAL_VALUE",
+      "example": 95000.0,
       "type": "object",
       "locations": [
         "body"
@@ -341,7 +345,7 @@
       "canonicalTerm": "cost_basis_method",
       "preferredName": "cost_basis_method",
       "description": "portfolio field: cost basis method.",
-      "example": "COST_BASIS_METHOD_VALUE",
+      "example": "FIFO",
       "type": "object",
       "locations": [
         "body"
@@ -354,8 +358,8 @@
       "semanticId": "lotus.country_of_risk",
       "canonicalTerm": "country_of_risk",
       "preferredName": "country_of_risk",
-      "description": "The country of primary risk exposure.",
-      "example": "COUNTRY_OF_RISK_VALUE",
+      "description": "Instrument country of risk (ISO 3166-1 alpha-2).",
+      "example": "US",
       "type": "object",
       "locations": [
         "body"
@@ -383,7 +387,7 @@
       "canonicalTerm": "created_by",
       "preferredName": "created_by",
       "description": "simulation session create request field: created by.",
-      "example": "CREATED_BY_VALUE",
+      "example": "lotus-manage",
       "type": "object",
       "locations": [
         "body"
@@ -396,7 +400,7 @@
       "semanticId": "lotus.currency",
       "canonicalTerm": "currency",
       "preferredName": "currency",
-      "description": "ISO currency code for currency.",
+      "description": "Instrument trading currency (ISO 4217).",
       "example": "USD",
       "type": "string",
       "locations": [
@@ -412,7 +416,7 @@
       "canonicalTerm": "current_epoch",
       "preferredName": "current_epoch",
       "description": "Current active epoch for the portfolio across position state keys.",
-      "example": "CURRENT_EPOCH_VALUE",
+      "example": 42,
       "type": "object",
       "locations": [
         "body"
@@ -440,7 +444,7 @@
       "canonicalTerm": "description",
       "preferredName": "description",
       "description": "Human-readable capability summary.",
-      "example": "DESCRIPTION_VALUE",
+      "example": "Portfolio-level metric description.",
       "type": "string",
       "locations": [
         "body"
@@ -510,7 +514,7 @@
       "canonicalTerm": "epoch",
       "preferredName": "epoch",
       "description": "Epoch for valuation jobs.",
-      "example": "EPOCH_VALUE",
+      "example": 42,
       "type": "integer",
       "locations": [
         "body"
@@ -555,7 +559,7 @@
       "canonicalTerm": "failure_reason",
       "preferredName": "failure_reason",
       "description": "Failure reason (when status=FAILED).",
-      "example": "FAILURE_REASON_VALUE",
+      "example": "missing_market_price",
       "type": "object",
       "locations": [
         "body"
@@ -658,14 +662,14 @@
       "semanticId": "lotus.held_since_date",
       "canonicalTerm": "held_since_date",
       "preferredName": "held_since_date",
-      "description": "Business date for held since date.",
+      "description": "Start date of the current continuous holding period in the active epoch.",
       "example": "2026-02-27",
-      "type": "string",
+      "type": "object",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "string"
+        "object"
       ]
     },
     {
@@ -673,7 +677,7 @@
       "canonicalTerm": "id",
       "preferredName": "id",
       "description": "Canonical identifier used by UI selectors.",
-      "example": "ID_VALUE",
+      "example": "ITEM_001",
       "type": "string",
       "locations": [
         "body"
@@ -683,11 +687,27 @@
       ]
     },
     {
+      "semanticId": "lotus.include_cash_positions",
+      "canonicalTerm": "include_cash_positions",
+      "preferredName": "include_cash_positions",
+      "description": "Include cash-class positions in section responses.",
+      "example": true,
+      "type": "boolean",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "boolean"
+      ]
+    },
+    {
       "semanticId": "lotus.include_sections",
       "canonicalTerm": "include_sections",
       "preferredName": "include_sections",
       "description": "Canonical include sections value used in request parameter.",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "query"
@@ -697,25 +717,27 @@
       ]
     },
     {
-      "semanticId": "lotus.income",
-      "canonicalTerm": "income",
-      "preferredName": "income",
-      "description": "enriched position field: income.",
-      "example": "INCOME_VALUE",
-      "type": "object",
+      "semanticId": "lotus.include_zero_quantity_positions",
+      "canonicalTerm": "include_zero_quantity_positions",
+      "preferredName": "include_zero_quantity_positions",
+      "description": "Include positions with zero quantity in section responses.",
+      "example": true,
+      "type": "boolean",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "object"
+        "boolean"
       ]
     },
     {
-      "semanticId": "lotus.instrument_details",
-      "canonicalTerm": "instrument_details",
-      "preferredName": "instrument_details",
-      "description": "enriched position field: instrument details.",
-      "example": "INSTRUMENT_DETAILS_VALUE",
+      "semanticId": "lotus.instrument_enrichment",
+      "canonicalTerm": "instrument_enrichment",
+      "preferredName": "instrument_enrichment",
+      "description": "Reference enrichment for securities included in snapshot sections.",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "body"
@@ -743,7 +765,7 @@
       "canonicalTerm": "instrument_name",
       "preferredName": "instrument_name",
       "description": "Instrument display name.",
-      "example": "INSTRUMENT_NAME_VALUE",
+      "example": "Apple Inc.",
       "type": "string",
       "locations": [
         "body"
@@ -828,13 +850,14 @@
       "semanticId": "lotus.isin",
       "canonicalTerm": "isin",
       "preferredName": "isin",
-      "description": "instrument record field: isin.",
-      "example": "ISIN_VALUE",
+      "description": "ISIN instrument identifier.",
+      "example": "US0378331005",
       "type": "string",
       "locations": [
         "body"
       ],
       "observedTypes": [
+        "object",
         "string"
       ]
     },
@@ -887,7 +910,7 @@
       "canonicalTerm": "key",
       "preferredName": "key",
       "description": "Canonical feature key.",
-      "example": "KEY_VALUE",
+      "example": "portfolio_state",
       "type": "string",
       "locations": [
         "body"
@@ -901,7 +924,7 @@
       "canonicalTerm": "label",
       "preferredName": "label",
       "description": "Display label for UI selector option.",
-      "example": "LABEL_VALUE",
+      "example": "Global Equity Portfolio",
       "type": "string",
       "locations": [
         "body"
@@ -1058,7 +1081,7 @@
       "canonicalTerm": "message",
       "preferredName": "message",
       "description": "Validation error message for the row.",
-      "example": "MESSAGE_VALUE",
+      "example": "Operation completed successfully.",
       "type": "string",
       "locations": [
         "body"
@@ -1072,7 +1095,9 @@
       "canonicalTerm": "metadata",
       "preferredName": "metadata",
       "description": "simulation change input field: metadata.",
-      "example": "METADATA_VALUE",
+      "example": {
+        "source": "lotus-core"
+      },
       "type": "object",
       "locations": [
         "body"
@@ -1100,7 +1125,7 @@
       "canonicalTerm": "name",
       "preferredName": "name",
       "description": "instrument record field: name.",
-      "example": "NAME_VALUE",
+      "example": "Global Balanced Portfolio",
       "type": "string",
       "locations": [
         "body"
@@ -1114,7 +1139,7 @@
       "canonicalTerm": "net_cost",
       "preferredName": "net_cost",
       "description": "transaction record field: net cost.",
-      "example": "NET_COST_VALUE",
+      "example": 98000.0,
       "type": "object",
       "locations": [
         "body"
@@ -1128,7 +1153,7 @@
       "canonicalTerm": "net_cost_local",
       "preferredName": "net_cost_local",
       "description": "transaction record field: net cost local.",
-      "example": "NET_COST_LOCAL_VALUE",
+      "example": 98000.0,
       "type": "object",
       "locations": [
         "body"
@@ -1156,7 +1181,7 @@
       "canonicalTerm": "objective",
       "preferredName": "objective",
       "description": "Primary client objective for this portfolio.",
-      "example": "OBJECTIVE_VALUE",
+      "example": "CAPITAL_APPRECIATION",
       "type": "object",
       "locations": [
         "body"
@@ -1180,11 +1205,25 @@
       ]
     },
     {
+      "semanticId": "lotus.options",
+      "canonicalTerm": "options",
+      "preferredName": "options",
+      "description": "Section behavior options.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "CoreSnapshotRequestOptions"
+      ]
+    },
+    {
       "semanticId": "lotus.owner_service",
       "canonicalTerm": "owner_service",
       "preferredName": "owner_service",
       "description": "Owning service for the feature capability.",
-      "example": "OWNER_SERVICE_VALUE",
+      "example": "lotus-core",
       "type": "string",
       "locations": [
         "body"
@@ -1225,11 +1264,9 @@
       "semanticId": "lotus.policy_provenance",
       "canonicalTerm": "policy_provenance",
       "preferredName": "policy_provenance",
-      "description": "Canonical policy provenance value used in api body.",
-      "example": {
-        "id": "OBJ_001"
-      },
-      "type": "object",
+      "description": "effective integration policy response field: policy provenance.",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1242,7 +1279,7 @@
       "canonicalTerm": "policy_source",
       "preferredName": "policy_source",
       "description": "policy provenance metadata field: policy source.",
-      "example": "POLICY_SOURCE_VALUE",
+      "example": "tenant-default-policy",
       "type": "string",
       "locations": [
         "body"
@@ -1257,6 +1294,20 @@
       "preferredName": "policy_version",
       "description": "policy provenance metadata field: policy version.",
       "example": "tenant-default-v1",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.portfolio_currency",
+      "canonicalTerm": "portfolio_currency",
+      "preferredName": "portfolio_currency",
+      "description": "Portfolio base currency used by lotus-core for valuation storage.",
+      "example": "USD",
       "type": "string",
       "locations": [
         "body"
@@ -1283,11 +1334,27 @@
       ]
     },
     {
+      "semanticId": "lotus.portfolio_totals",
+      "canonicalTerm": "portfolio_totals",
+      "preferredName": "portfolio_totals",
+      "description": "Portfolio-level baseline/projected totals and delta.",
+      "example": {
+        "id": "OBJ_001"
+      },
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
       "semanticId": "lotus.portfolio_type",
       "canonicalTerm": "portfolio_type",
       "preferredName": "portfolio_type",
       "description": "Portfolio product/type classification.",
-      "example": "PORTFOLIO_TYPE_VALUE",
+      "example": "DISCRETIONARY",
       "type": "string",
       "locations": [
         "body"
@@ -1310,6 +1377,20 @@
       ],
       "observedTypes": [
         "array"
+      ]
+    },
+    {
+      "semanticId": "lotus.position_basis",
+      "canonicalTerm": "position_basis",
+      "preferredName": "position_basis",
+      "description": "Basis used for position valuation fields.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "CoreSnapshotPositionBasis"
       ]
     },
     {
@@ -1340,6 +1421,63 @@
       ],
       "observedTypes": [
         "array"
+      ]
+    },
+    {
+      "semanticId": "lotus.positions_baseline",
+      "canonicalTerm": "positions_baseline",
+      "preferredName": "positions_baseline",
+      "description": "Baseline positions resolved for as_of_date.",
+      "example": [
+        {
+          "security_id": "SEC_AAPL_US",
+          "quantity": "100.0000000000"
+        }
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.positions_delta",
+      "canonicalTerm": "positions_delta",
+      "preferredName": "positions_delta",
+      "description": "Per-security baseline versus projected deltas.",
+      "example": [
+        {
+          "security_id": "SEC_AAPL_US",
+          "delta_quantity": "20.0000000000"
+        }
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.positions_projected",
+      "canonicalTerm": "positions_projected",
+      "preferredName": "positions_projected",
+      "description": "Projected positions after applying simulation changes.",
+      "example": [
+        {
+          "security_id": "SEC_AAPL_US",
+          "quantity": "120.0000000000"
+        }
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -1393,7 +1531,9 @@
       "canonicalTerm": "product_type",
       "preferredName": "product_type",
       "description": "Filter by a specific product type (e.g., Equity).",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "string",
       "locations": [
         "body",
@@ -1437,7 +1577,9 @@
       "canonicalTerm": "q",
       "preferredName": "q",
       "description": "Optional case-insensitive search text applied to portfolio ID.",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "query"
@@ -1466,7 +1608,7 @@
       "canonicalTerm": "rate",
       "preferredName": "rate",
       "description": "Rate/price value for rate.",
-      "example": "RATE_VALUE",
+      "example": 1.2345,
       "type": "string",
       "locations": [
         "body"
@@ -1511,7 +1653,7 @@
       "canonicalTerm": "rating",
       "preferredName": "rating",
       "description": "Credit rating for fixed income instruments (e.g., 'AAA').",
-      "example": "RATING_VALUE",
+      "example": "A",
       "type": "object",
       "locations": [
         "body"
@@ -1525,7 +1667,7 @@
       "canonicalTerm": "realized_gain_loss",
       "preferredName": "realized_gain_loss",
       "description": "transaction record field: realized gain loss.",
-      "example": "REALIZED_GAIN_LOSS_VALUE",
+      "example": 525.75,
       "type": "object",
       "locations": [
         "body"
@@ -1539,13 +1681,28 @@
       "canonicalTerm": "realized_gain_loss_local",
       "preferredName": "realized_gain_loss_local",
       "description": "transaction record field: realized gain loss local.",
-      "example": "REALIZED_GAIN_LOSS_LOCAL_VALUE",
+      "example": 525.75,
       "type": "object",
       "locations": [
         "body"
       ],
       "observedTypes": [
         "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.reporting_currency",
+      "canonicalTerm": "reporting_currency",
+      "preferredName": "reporting_currency",
+      "description": "ISO currency code for reporting conversion. Defaults to portfolio base currency.",
+      "example": "USD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object",
+        "string"
       ]
     },
     {
@@ -1585,7 +1742,7 @@
       "canonicalTerm": "risk_exposure",
       "preferredName": "risk_exposure",
       "description": "Client risk exposure classification.",
-      "example": "RISK_EXPOSURE_VALUE",
+      "example": "MODERATE",
       "type": "string",
       "locations": [
         "body"
@@ -1630,15 +1787,20 @@
       "semanticId": "lotus.sections",
       "canonicalTerm": "sections",
       "preferredName": "sections",
-      "description": "position analytics request field: sections.",
+      "description": "Requested snapshot sections to include in the response payload.",
       "example": [
-        "SECTIONS_ITEM_VALUE"
+        "positions_baseline",
+        "positions_projected",
+        "positions_delta",
+        "portfolio_totals",
+        "instrument_enrichment"
       ],
       "type": "array",
       "locations": [
         "body"
       ],
       "observedTypes": [
+        "CoreSnapshotSections",
         "array"
       ]
     },
@@ -1646,8 +1808,8 @@
       "semanticId": "lotus.sector",
       "canonicalTerm": "sector",
       "preferredName": "sector",
-      "description": "Industry sector for equities (e.g., 'Technology').",
-      "example": "SECTOR_VALUE",
+      "description": "Instrument sector classification.",
+      "example": "TECHNOLOGY",
       "type": "object",
       "locations": [
         "body"
@@ -1677,11 +1839,9 @@
       "semanticId": "lotus.session",
       "canonicalTerm": "session",
       "preferredName": "session",
-      "description": "Canonical session value used in api body.",
-      "example": {
-        "id": "OBJ_001"
-      },
-      "type": "object",
+      "description": "simulation session response field: session.",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1710,6 +1870,22 @@
       "preferredName": "settlement_date",
       "description": "transaction field: settlement date.",
       "example": "2026-02-27",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.simulation",
+      "canonicalTerm": "simulation",
+      "preferredName": "simulation",
+      "description": "Simulation options required for SIMULATION mode.",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "body"
@@ -1748,11 +1924,27 @@
       ]
     },
     {
+      "semanticId": "lotus.snapshot_mode",
+      "canonicalTerm": "snapshot_mode",
+      "preferredName": "snapshot_mode",
+      "description": "Snapshot mode: BASELINE for current state or SIMULATION for projected state.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "CoreSnapshotMode"
+      ]
+    },
+    {
       "semanticId": "lotus.sort_by",
       "canonicalTerm": "sort_by",
       "preferredName": "sort_by",
       "description": "Field to sort by (e.g., 'transaction_date').",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "query"
@@ -1766,7 +1958,9 @@
       "canonicalTerm": "sort_order",
       "preferredName": "sort_order",
       "description": "Sort order: 'asc' or 'desc'.",
-      "example": "STANDARD",
+      "example": {
+        "id": "OBJ_001"
+      },
       "type": "object",
       "locations": [
         "query"
@@ -1948,20 +2142,6 @@
       ]
     },
     {
-      "semanticId": "lotus.total_market_value",
-      "canonicalTerm": "total_market_value",
-      "preferredName": "total_market_value",
-      "description": "Monetary value for total market value.",
-      "example": 125000.5,
-      "type": "number",
-      "locations": [
-        "body"
-      ],
-      "observedTypes": [
-        "number"
-      ]
-    },
-    {
       "semanticId": "lotus.total_proposed_positions",
       "canonicalTerm": "total_proposed_positions",
       "preferredName": "total_proposed_positions",
@@ -2036,7 +2216,7 @@
       "canonicalTerm": "transaction_fx_rate",
       "preferredName": "transaction_fx_rate",
       "description": "Rate/price value for transaction fx rate.",
-      "example": "TRANSACTION_FX_RATE_VALUE",
+      "example": 1.1032,
       "type": "object",
       "locations": [
         "body"
@@ -2080,7 +2260,7 @@
       "canonicalTerm": "transaction_type",
       "preferredName": "transaction_type",
       "description": "transaction record field: transaction type.",
-      "example": "TRANSACTION_TYPE_VALUE",
+      "example": "BUY",
       "type": "string",
       "locations": [
         "body"
@@ -2152,13 +2332,32 @@
       "canonicalTerm": "valuation",
       "preferredName": "valuation",
       "description": "Valuation details for this record.",
-      "example": "VALUATION_VALUE",
+      "example": 125000.5,
       "type": "object",
       "locations": [
         "body"
       ],
       "observedTypes": [
         "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.valuation_context",
+      "canonicalTerm": "valuation_context",
+      "preferredName": "valuation_context",
+      "description": "Valuation and weight basis context applied to all sections.",
+      "example": {
+        "portfolio_currency": "EUR",
+        "reporting_currency": "USD",
+        "position_basis": "market_value_base",
+        "weight_basis": "total_market_value_base"
+      },
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "CoreSnapshotValuationContext"
       ]
     },
     {
@@ -2209,14 +2408,30 @@
       "semanticId": "lotus.weight",
       "canonicalTerm": "weight",
       "preferredName": "weight",
-      "description": "enriched position field: weight.",
-      "example": 0.125,
-      "type": "number",
+      "description": "Position weight versus total portfolio market value (0.0 to 1.0).",
+      "example": {
+        "id": "OBJ_001"
+      },
+      "type": "object",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "number"
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.weight_basis",
+      "canonicalTerm": "weight_basis",
+      "preferredName": "weight_basis",
+      "description": "Basis used to calculate weight fields.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "CoreSnapshotWeightBasis"
       ]
     },
     {
@@ -2681,21 +2896,6 @@
       "allowedValues": [],
       "description": "Unique portfolio identifier.",
       "example": "PORTFOLIO_001",
-      "behaviorImpact": "Affects get_position_analytics_portfolios__portfolio_id__positions_analytics_post request behavior.",
-      "exposure": "consumer_visible",
-      "canonicalTerm": "portfolio_id",
-      "semanticId": "lotus.portfolio_id"
-    },
-    {
-      "name": "portfolio_id",
-      "kind": "request_option",
-      "location": "path",
-      "type": "string",
-      "required": true,
-      "default": "",
-      "allowedValues": [],
-      "description": "Unique portfolio identifier.",
-      "example": "PORTFOLIO_001",
       "behaviorImpact": "Affects get_support_overview_support_portfolios__portfolio_id__overview_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "portfolio_id",
@@ -2970,6 +3170,21 @@
       "exposure": "consumer_visible",
       "canonicalTerm": "include_sections",
       "semanticId": "lotus.include_sections"
+    },
+    {
+      "name": "portfolio_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique portfolio identifier.",
+      "example": "PORTFOLIO_001",
+      "behaviorImpact": "Affects create_core_snapshot_integration_portfolios__portfolio_id__core_snapshot_post request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "portfolio_id",
+      "semanticId": "lotus.portfolio_id"
     },
     {
       "name": "consumer_system",
@@ -3278,55 +3493,55 @@
       "semanticId": "lotus.session_id"
     },
     {
-      "name": "PAS_CAP_SUPPORT_APIS_ENABLED",
+      "name": "LOTUS_CORE_CAP_SUPPORT_APIS_ENABLED",
       "kind": "feature_toggle",
       "default": true,
       "description": "Toggles support overview capability exposure.",
       "affects": [
-        "pas.support.overview_api"
+        "lotus_core.support.overview_api"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_cap_support_apis_enabled",
-      "semanticId": "lotus.pas_cap_support_apis_enabled"
+      "canonicalTerm": "lotus_core_cap_support_apis_enabled",
+      "semanticId": "lotus.lotus_core_cap_support_apis_enabled"
     },
     {
-      "name": "PAS_CAP_LINEAGE_APIS_ENABLED",
+      "name": "LOTUS_CORE_CAP_LINEAGE_APIS_ENABLED",
       "kind": "feature_toggle",
       "default": true,
       "description": "Toggles lineage capability exposure.",
       "affects": [
-        "pas.support.lineage_api"
+        "lotus_core.support.lineage_api"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_cap_lineage_apis_enabled",
-      "semanticId": "lotus.pas_cap_lineage_apis_enabled"
+      "canonicalTerm": "lotus_core_cap_lineage_apis_enabled",
+      "semanticId": "lotus.lotus_core_cap_lineage_apis_enabled"
     },
     {
-      "name": "PAS_CAP_UPLOAD_APIS_ENABLED",
+      "name": "LOTUS_CORE_CAP_UPLOAD_APIS_ENABLED",
       "kind": "feature_toggle",
       "default": true,
       "description": "Toggles bulk upload capability exposure.",
       "affects": [
-        "pas.ingestion.bulk_upload"
+        "lotus_core.ingestion.bulk_upload"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_cap_upload_apis_enabled",
-      "semanticId": "lotus.pas_cap_upload_apis_enabled"
+      "canonicalTerm": "lotus_core_cap_upload_apis_enabled",
+      "semanticId": "lotus.lotus_core_cap_upload_apis_enabled"
     },
     {
-      "name": "PAS_CAP_SIMULATION_ENABLED",
+      "name": "LOTUS_CORE_CAP_SIMULATION_ENABLED",
       "kind": "feature_toggle",
       "default": true,
       "description": "Toggles simulation capability exposure.",
       "affects": [
-        "pas.simulation.what_if"
+        "lotus_core.simulation.what_if"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_cap_simulation_enabled",
-      "semanticId": "lotus.pas_cap_simulation_enabled"
+      "canonicalTerm": "lotus_core_cap_simulation_enabled",
+      "semanticId": "lotus.lotus_core_cap_simulation_enabled"
     },
     {
-      "name": "PAS_CAPABILITY_TENANT_OVERRIDES_JSON",
+      "name": "LOTUS_CORE_CAPABILITY_TENANT_OVERRIDES_JSON",
       "kind": "service_policy",
       "default": "{}",
       "description": "Tenant-level capability and workflow override policy.",
@@ -3334,35 +3549,35 @@
         "/integration/capabilities"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_capability_tenant_overrides_json",
-      "semanticId": "lotus.pas_capability_tenant_overrides_json"
+      "canonicalTerm": "lotus_core_capability_tenant_overrides_json",
+      "semanticId": "lotus.lotus_core_capability_tenant_overrides_json"
     },
     {
-      "name": "PAS_POLICY_VERSION",
+      "name": "LOTUS_CORE_POLICY_VERSION",
       "kind": "service_policy",
       "default": "tenant-default-v1",
       "description": "Policy version surfaced in capabilities and policy metadata.",
       "affects": [
-        "policyVersion",
-        "policyProvenance.policyVersion"
+        "policy_version",
+        "policy_provenance.policy_version"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_policy_version",
-      "semanticId": "lotus.pas_policy_version"
+      "canonicalTerm": "lotus_core_policy_version",
+      "semanticId": "lotus.lotus_core_policy_version"
     },
     {
-      "name": "PAS_INTEGRATION_SNAPSHOT_POLICY_JSON",
+      "name": "LOTUS_CORE_INTEGRATION_SNAPSHOT_POLICY_JSON",
       "kind": "service_policy",
       "default": "{}",
       "description": "Integration policy controlling allowed sections and strict mode.",
       "affects": [
         "/integration/policy/effective",
-        "allowedSections",
+        "allowed_sections",
         "warnings"
       ],
       "exposure": "server_side",
-      "canonicalTerm": "pas_integration_snapshot_policy_json",
-      "semanticId": "lotus.pas_integration_snapshot_policy_json"
+      "canonicalTerm": "lotus_core_integration_snapshot_policy_json",
+      "semanticId": "lotus.lotus_core_integration_snapshot_policy_json"
     }
   ],
   "endpoints": [
@@ -3887,7 +4102,7 @@
             "name": "positions[].cost_basis",
             "location": "body",
             "required": true,
-            "type": "number",
+            "type": "string",
             "semanticId": "lotus.cost_basis",
             "attributeRef": "lotus.cost_basis"
           },
@@ -3935,14 +4150,20 @@
           "asset_class",
           "cost_basis",
           "cost_basis_local",
+          "country_of_risk",
+          "currency",
+          "held_since_date",
           "instrument_name",
+          "isin",
           "portfolio_id",
           "position_date",
           "positions",
           "quantity",
           "reprocessing_status",
+          "sector",
           "security_id",
-          "valuation"
+          "valuation",
+          "weight"
         ]
       },
       "request": {
@@ -4018,10 +4239,42 @@
             "attributeRef": "lotus.asset_class"
           },
           {
+            "name": "positions[].isin",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.isin",
+            "attributeRef": "lotus.isin"
+          },
+          {
+            "name": "positions[].currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.currency",
+            "attributeRef": "lotus.currency"
+          },
+          {
+            "name": "positions[].sector",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.sector",
+            "attributeRef": "lotus.sector"
+          },
+          {
+            "name": "positions[].country_of_risk",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.country_of_risk",
+            "attributeRef": "lotus.country_of_risk"
+          },
+          {
             "name": "positions[].cost_basis",
             "location": "body",
             "required": true,
-            "type": "number",
+            "type": "string",
             "semanticId": "lotus.cost_basis",
             "attributeRef": "lotus.cost_basis"
           },
@@ -4048,6 +4301,22 @@
             "type": "object",
             "semanticId": "lotus.reprocessing_status",
             "attributeRef": "lotus.reprocessing_status"
+          },
+          {
+            "name": "positions[].held_since_date",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.held_since_date",
+            "attributeRef": "lotus.held_since_date"
+          },
+          {
+            "name": "positions[].weight",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.weight",
+            "attributeRef": "lotus.weight"
           }
         ]
       }
@@ -4676,157 +4945,6 @@
             "type": "string",
             "semanticId": "lotus.rate",
             "attributeRef": "lotus.rate"
-          }
-        ]
-      }
-    },
-    {
-      "operationId": "get_position_analytics_portfolios__portfolio_id__positions_analytics_post",
-      "method": "POST",
-      "path": "/portfolios/{portfolio_id}/positions-analytics",
-      "domain": "position_analytics",
-      "serviceGroup": "query",
-      "tags": [
-        "Position Analytics"
-      ],
-      "summary": "Retrieve Detailed Position-Level Analytics",
-      "description": "Provides a detailed, multi-section breakdown of analytics for all positions held within a portfolio as of a specific date.",
-      "naming": {
-        "boundedContext": "position_analytics",
-        "canonicalTerms": [
-          "as_of_date",
-          "held_since_date",
-          "income",
-          "instrument_details",
-          "portfolio_id",
-          "positions",
-          "quantity",
-          "sections",
-          "security_id",
-          "total_market_value",
-          "valuation",
-          "weight"
-        ]
-      },
-      "request": {
-        "fields": [
-          {
-            "name": "portfolio_id",
-            "location": "path",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.portfolio_id",
-            "attributeRef": "lotus.portfolio_id"
-          },
-          {
-            "name": "as_of_date",
-            "location": "body",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.as_of_date",
-            "attributeRef": "lotus.as_of_date"
-          },
-          {
-            "name": "sections",
-            "location": "body",
-            "required": true,
-            "type": "array",
-            "semanticId": "lotus.sections",
-            "attributeRef": "lotus.sections"
-          }
-        ]
-      },
-      "response": {
-        "httpStatus": 200,
-        "model": "PositionAnalyticsResponse",
-        "fields": [
-          {
-            "name": "portfolio_id",
-            "location": "body",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.portfolio_id",
-            "attributeRef": "lotus.portfolio_id"
-          },
-          {
-            "name": "as_of_date",
-            "location": "body",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.as_of_date",
-            "attributeRef": "lotus.as_of_date"
-          },
-          {
-            "name": "total_market_value",
-            "location": "body",
-            "required": true,
-            "type": "number",
-            "semanticId": "lotus.total_market_value",
-            "attributeRef": "lotus.total_market_value"
-          },
-          {
-            "name": "positions",
-            "location": "body",
-            "required": true,
-            "type": "array",
-            "semanticId": "lotus.positions",
-            "attributeRef": "lotus.positions"
-          },
-          {
-            "name": "positions[].security_id",
-            "location": "body",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.security_id",
-            "attributeRef": "lotus.security_id"
-          },
-          {
-            "name": "positions[].quantity",
-            "location": "body",
-            "required": true,
-            "type": "number",
-            "semanticId": "lotus.quantity",
-            "attributeRef": "lotus.quantity"
-          },
-          {
-            "name": "positions[].weight",
-            "location": "body",
-            "required": true,
-            "type": "number",
-            "semanticId": "lotus.weight",
-            "attributeRef": "lotus.weight"
-          },
-          {
-            "name": "positions[].held_since_date",
-            "location": "body",
-            "required": true,
-            "type": "string",
-            "semanticId": "lotus.held_since_date",
-            "attributeRef": "lotus.held_since_date"
-          },
-          {
-            "name": "positions[].instrument_details",
-            "location": "body",
-            "required": false,
-            "type": "object",
-            "semanticId": "lotus.instrument_details",
-            "attributeRef": "lotus.instrument_details"
-          },
-          {
-            "name": "positions[].valuation",
-            "location": "body",
-            "required": false,
-            "type": "object",
-            "semanticId": "lotus.valuation",
-            "attributeRef": "lotus.valuation"
-          },
-          {
-            "name": "positions[].income",
-            "location": "body",
-            "required": false,
-            "type": "object",
-            "semanticId": "lotus.income",
-            "attributeRef": "lotus.income"
           }
         ]
       }
@@ -5693,6 +5811,268 @@
             "type": "array",
             "semanticId": "lotus.warnings",
             "attributeRef": "lotus.warnings"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "create_core_snapshot_integration_portfolios__portfolio_id__core_snapshot_post",
+      "method": "POST",
+      "path": "/integration/portfolios/{portfolio_id}/core-snapshot",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Generate a generic core snapshot",
+      "description": "Returns baseline or simulation snapshot sections for an integration consumer. Supports positions baseline/projected/delta, portfolio totals, and instrument enrichment.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "as_of_date",
+          "generated_at",
+          "include_cash_positions",
+          "include_zero_quantity_positions",
+          "instrument_enrichment",
+          "options",
+          "portfolio_currency",
+          "portfolio_id",
+          "portfolio_totals",
+          "position_basis",
+          "positions_baseline",
+          "positions_delta",
+          "positions_projected",
+          "reporting_currency",
+          "sections",
+          "simulation",
+          "snapshot_mode",
+          "valuation_context",
+          "weight_basis"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "as_of_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.as_of_date",
+            "attributeRef": "lotus.as_of_date"
+          },
+          {
+            "name": "snapshot_mode",
+            "location": "body",
+            "required": false,
+            "type": "CoreSnapshotMode",
+            "semanticId": "lotus.snapshot_mode",
+            "attributeRef": "lotus.snapshot_mode"
+          },
+          {
+            "name": "reporting_currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "sections",
+            "location": "body",
+            "required": true,
+            "type": "array",
+            "semanticId": "lotus.sections",
+            "attributeRef": "lotus.sections"
+          },
+          {
+            "name": "simulation",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.simulation",
+            "attributeRef": "lotus.simulation"
+          },
+          {
+            "name": "options",
+            "location": "body",
+            "required": false,
+            "type": "CoreSnapshotRequestOptions",
+            "semanticId": "lotus.options",
+            "attributeRef": "lotus.options"
+          },
+          {
+            "name": "options.include_zero_quantity_positions",
+            "location": "body",
+            "required": false,
+            "type": "boolean",
+            "semanticId": "lotus.include_zero_quantity_positions",
+            "attributeRef": "lotus.include_zero_quantity_positions"
+          },
+          {
+            "name": "options.include_cash_positions",
+            "location": "body",
+            "required": false,
+            "type": "boolean",
+            "semanticId": "lotus.include_cash_positions",
+            "attributeRef": "lotus.include_cash_positions"
+          },
+          {
+            "name": "options.position_basis",
+            "location": "body",
+            "required": false,
+            "type": "CoreSnapshotPositionBasis",
+            "semanticId": "lotus.position_basis",
+            "attributeRef": "lotus.position_basis"
+          },
+          {
+            "name": "options.weight_basis",
+            "location": "body",
+            "required": false,
+            "type": "CoreSnapshotWeightBasis",
+            "semanticId": "lotus.weight_basis",
+            "attributeRef": "lotus.weight_basis"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "CoreSnapshotResponse",
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "as_of_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.as_of_date",
+            "attributeRef": "lotus.as_of_date"
+          },
+          {
+            "name": "snapshot_mode",
+            "location": "body",
+            "required": true,
+            "type": "CoreSnapshotMode",
+            "semanticId": "lotus.snapshot_mode",
+            "attributeRef": "lotus.snapshot_mode"
+          },
+          {
+            "name": "generated_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_at",
+            "attributeRef": "lotus.generated_at"
+          },
+          {
+            "name": "valuation_context",
+            "location": "body",
+            "required": true,
+            "type": "CoreSnapshotValuationContext",
+            "semanticId": "lotus.valuation_context",
+            "attributeRef": "lotus.valuation_context"
+          },
+          {
+            "name": "valuation_context.portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_currency",
+            "attributeRef": "lotus.portfolio_currency"
+          },
+          {
+            "name": "valuation_context.reporting_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "valuation_context.position_basis",
+            "location": "body",
+            "required": true,
+            "type": "CoreSnapshotPositionBasis",
+            "semanticId": "lotus.position_basis",
+            "attributeRef": "lotus.position_basis"
+          },
+          {
+            "name": "valuation_context.weight_basis",
+            "location": "body",
+            "required": true,
+            "type": "CoreSnapshotWeightBasis",
+            "semanticId": "lotus.weight_basis",
+            "attributeRef": "lotus.weight_basis"
+          },
+          {
+            "name": "simulation",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.simulation",
+            "attributeRef": "lotus.simulation"
+          },
+          {
+            "name": "sections",
+            "location": "body",
+            "required": true,
+            "type": "CoreSnapshotSections",
+            "semanticId": "lotus.sections",
+            "attributeRef": "lotus.sections"
+          },
+          {
+            "name": "sections.positions_baseline",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.positions_baseline",
+            "attributeRef": "lotus.positions_baseline"
+          },
+          {
+            "name": "sections.positions_projected",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.positions_projected",
+            "attributeRef": "lotus.positions_projected"
+          },
+          {
+            "name": "sections.positions_delta",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.positions_delta",
+            "attributeRef": "lotus.positions_delta"
+          },
+          {
+            "name": "sections.portfolio_totals",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.portfolio_totals",
+            "attributeRef": "lotus.portfolio_totals"
+          },
+          {
+            "name": "sections.instrument_enrichment",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.instrument_enrichment",
+            "attributeRef": "lotus.instrument_enrichment"
           }
         ]
       }
