@@ -13,7 +13,7 @@
       "openApiVersion": "3.1.0"
     }
   ],
-  "generatedAt": "2026-02-27T06:03:15.041608+00:00",
+  "generatedAt": "2026-02-27T06:18:32.520955+00:00",
   "attributeCatalog": [
     {
       "semanticId": "lotus.active_reprocessing_keys",
@@ -21,6 +21,7 @@
       "preferredName": "active_reprocessing_keys",
       "description": "Number of portfolio-security keys currently marked REPROCESSING.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -34,6 +35,7 @@
       "preferredName": "advisor_id",
       "description": "Primary advisor identifier.",
       "example": "ADVISOR_001",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -49,6 +51,7 @@
       "example": [
         "ALLOWED_SECTIONS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -62,6 +65,7 @@
       "preferredName": "amount",
       "description": "Monetary value for amount.",
       "example": "AMOUNT_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -75,6 +79,7 @@
       "preferredName": "as_of_date",
       "description": "Business date for as of date.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -88,6 +93,7 @@
       "preferredName": "asset_class",
       "description": "Asset class for grouping and reporting.",
       "example": "ASSET_CLASS_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -101,6 +107,7 @@
       "preferredName": "attempt_count",
       "description": "Current retry attempt count for valuation jobs.",
       "example": "ATTEMPT_COUNT_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -114,6 +121,7 @@
       "preferredName": "base_currency",
       "description": "ISO base currency code.",
       "example": "USD",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -127,6 +135,7 @@
       "preferredName": "baseline_as_of",
       "description": "projected positions response field: baseline as of.",
       "example": "BASELINE_AS_OF_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -140,6 +149,7 @@
       "preferredName": "baseline_quantity",
       "description": "Quantity value for baseline quantity.",
       "example": 100.0,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -152,7 +162,8 @@
       "canonicalTerm": "booking_center_code",
       "preferredName": "booking_center_code",
       "description": "Filter by booking center to get all portfolios for a business unit.",
-      "example": "BOOKING_CENTER_CODE_VALUE",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -168,6 +179,7 @@
       "preferredName": "business_date",
       "description": "Business date for the job (valuation_date or aggregation_date).",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -183,6 +195,7 @@
       "example": [
         "2026-02-27"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -196,6 +209,7 @@
       "preferredName": "cashflow",
       "description": "transaction record field: cashflow.",
       "example": "CASHFLOW_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -209,6 +223,7 @@
       "preferredName": "change_id",
       "description": "Unique change identifier.",
       "example": "CHG_0001",
+      "type": "string",
       "locations": [
         "body",
         "path"
@@ -225,6 +240,7 @@
       "example": [
         "CHANGES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -238,6 +254,7 @@
       "preferredName": "client_id",
       "description": "Filter by the client grouping ID (CIF) to get all portfolios for a client.",
       "example": "CLIENT_001",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -253,6 +270,7 @@
       "preferredName": "close_date",
       "description": "Portfolio close date, if portfolio is closed.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -265,7 +283,8 @@
       "canonicalTerm": "consumer_system",
       "preferredName": "consumer_system",
       "description": "Canonical consumer system value used in request parameter.",
-      "example": "CONSUMER_SYSTEM_VALUE",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -280,6 +299,7 @@
       "preferredName": "contract_version",
       "description": "effective integration policy response field: contract version.",
       "example": "v1",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -293,6 +313,7 @@
       "preferredName": "cost_basis",
       "description": "The total cost basis of the holding as of this record.",
       "example": 10.5,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -307,6 +328,7 @@
       "preferredName": "cost_basis_local",
       "description": "The total cost basis in the instrument's local currency.",
       "example": "COST_BASIS_LOCAL_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -320,6 +342,7 @@
       "preferredName": "cost_basis_method",
       "description": "portfolio field: cost basis method.",
       "example": "COST_BASIS_METHOD_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -333,6 +356,7 @@
       "preferredName": "country_of_risk",
       "description": "The country of primary risk exposure.",
       "example": "COUNTRY_OF_RISK_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -346,6 +370,7 @@
       "preferredName": "created_at",
       "description": "Timestamp for created at.",
       "example": "2026-02-27T10:30:00Z",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -359,6 +384,7 @@
       "preferredName": "created_by",
       "description": "simulation session create request field: created by.",
       "example": "CREATED_BY_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -372,6 +398,7 @@
       "preferredName": "currency",
       "description": "ISO currency code for currency.",
       "example": "USD",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -386,6 +413,7 @@
       "preferredName": "current_epoch",
       "description": "Current active epoch for the portfolio across position state keys.",
       "example": "CURRENT_EPOCH_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -399,6 +427,7 @@
       "preferredName": "delta_quantity",
       "description": "Quantity value for delta quantity.",
       "example": 100.0,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -412,6 +441,7 @@
       "preferredName": "description",
       "description": "Human-readable capability summary.",
       "example": "DESCRIPTION_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -425,6 +455,7 @@
       "preferredName": "effective_date",
       "description": "simulation change input field: effective date.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -438,6 +469,7 @@
       "preferredName": "enabled",
       "description": "Whether this feature is enabled.",
       "example": true,
+      "type": "boolean",
       "locations": [
         "body"
       ],
@@ -451,6 +483,7 @@
       "preferredName": "end_date",
       "description": "The end date for the date range filter (inclusive).",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -464,6 +497,7 @@
       "preferredName": "entity_type",
       "description": "upload preview response field: entity type.",
       "example": "portfolios",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -477,6 +511,7 @@
       "preferredName": "epoch",
       "description": "Epoch for valuation jobs.",
       "example": "EPOCH_VALUE",
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -493,6 +528,7 @@
       "example": [
         "ERRORS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -506,6 +542,7 @@
       "preferredName": "expires_at",
       "description": "Timestamp for expires at.",
       "example": "2026-02-27T10:30:00Z",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -519,6 +556,7 @@
       "preferredName": "failure_reason",
       "description": "Failure reason (when status=FAILED).",
       "example": "FAILURE_REASON_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -534,6 +572,7 @@
       "example": [
         "FEATURES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -547,6 +586,7 @@
       "preferredName": "file_format",
       "description": "upload preview response field: file format.",
       "example": "csv",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -560,6 +600,7 @@
       "preferredName": "from_currency",
       "description": "The base currency (e.g., USD).",
       "example": "USD",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -576,6 +617,7 @@
       "example": [
         "FX_RATES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -589,6 +631,7 @@
       "preferredName": "generated_at",
       "description": "Timestamp for generated at.",
       "example": "2026-02-27T10:30:00Z",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -602,6 +645,7 @@
       "preferredName": "gross_transaction_amount",
       "description": "Monetary value for gross transaction amount.",
       "example": 125000.5,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -616,6 +660,7 @@
       "preferredName": "held_since_date",
       "description": "Business date for held since date.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -629,6 +674,7 @@
       "preferredName": "id",
       "description": "Canonical identifier used by UI selectors.",
       "example": "ID_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -641,7 +687,8 @@
       "canonicalTerm": "include_sections",
       "preferredName": "include_sections",
       "description": "Canonical include sections value used in request parameter.",
-      "example": "INCLUDE_SECTIONS_VALUE",
+      "example": "STANDARD",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -655,6 +702,7 @@
       "preferredName": "income",
       "description": "enriched position field: income.",
       "example": "INCOME_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -668,6 +716,7 @@
       "preferredName": "instrument_details",
       "description": "enriched position field: instrument details.",
       "example": "INSTRUMENT_DETAILS_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -681,6 +730,7 @@
       "preferredName": "instrument_id",
       "description": "Unique instrument identifier.",
       "example": "EQ_US_AAPL",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -694,6 +744,7 @@
       "preferredName": "instrument_name",
       "description": "Instrument display name.",
       "example": "INSTRUMENT_NAME_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -707,6 +758,7 @@
       "preferredName": "instrument_page_limit",
       "description": "Canonical instrument page limit value used in request parameter.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "query"
       ],
@@ -722,6 +774,7 @@
       "example": [
         "INSTRUMENTS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -735,6 +788,7 @@
       "preferredName": "invalid_rows",
       "description": "upload preview response field: invalid rows.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -748,6 +802,7 @@
       "preferredName": "investment_time_horizon",
       "description": "Investment horizon category.",
       "example": "2026-02-27T10:30:00Z",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -761,6 +816,7 @@
       "preferredName": "is_leverage_allowed",
       "description": "Whether leverage is allowed for this portfolio.",
       "example": true,
+      "type": "boolean",
       "locations": [
         "body"
       ],
@@ -774,6 +830,7 @@
       "preferredName": "isin",
       "description": "instrument record field: isin.",
       "example": "ISIN_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -787,6 +844,7 @@
       "preferredName": "issuer_id",
       "description": "Identifier for the direct issuer of the security.",
       "example": "ISSUER_001",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -802,6 +860,7 @@
       "example": [
         "ITEMS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -815,6 +874,7 @@
       "preferredName": "job_type",
       "description": "Type of support job.",
       "example": "VALUATION",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -828,6 +888,7 @@
       "preferredName": "key",
       "description": "Canonical feature key.",
       "example": "KEY_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -841,6 +902,7 @@
       "preferredName": "label",
       "description": "Display label for UI selector option.",
       "example": "LABEL_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -854,6 +916,7 @@
       "preferredName": "latest_daily_snapshot_date",
       "description": "Latest date available in daily_position_snapshots for current epoch.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -867,6 +930,7 @@
       "preferredName": "latest_position_history_date",
       "description": "Latest date available in position_history for current epoch.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -880,6 +944,7 @@
       "preferredName": "latest_position_snapshot_date",
       "description": "Most recent daily position snapshot date in the current epoch.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -893,6 +958,7 @@
       "preferredName": "latest_transaction_date",
       "description": "Most recent transaction business date observed for the portfolio.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -906,6 +972,7 @@
       "preferredName": "latest_valuation_job_date",
       "description": "Latest valuation job business date for current epoch.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -919,6 +986,7 @@
       "preferredName": "latest_valuation_job_status",
       "description": "Status of the latest valuation job for current epoch.",
       "example": "ACTIVE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -932,6 +1000,7 @@
       "preferredName": "limit",
       "description": "Maximum number of records to return",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body",
         "query"
@@ -948,6 +1017,7 @@
       "example": [
         "MARKET_PRICES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -961,6 +1031,7 @@
       "preferredName": "matched_rule_id",
       "description": "Unique matched rule identifier.",
       "example": "MATCHED_RULE_001",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -974,6 +1045,7 @@
       "preferredName": "maturity_date",
       "description": "Maturity date for fixed income instruments.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -987,6 +1059,7 @@
       "preferredName": "message",
       "description": "Validation error message for the row.",
       "example": "MESSAGE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1000,6 +1073,7 @@
       "preferredName": "metadata",
       "description": "simulation change input field: metadata.",
       "example": "METADATA_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1013,6 +1087,7 @@
       "preferredName": "mode",
       "description": "Ingestion mode for bundle semantics; current behavior is UPSERT-style event publication.",
       "example": "UPSERT",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1026,6 +1101,7 @@
       "preferredName": "name",
       "description": "instrument record field: name.",
       "example": "NAME_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1039,6 +1115,7 @@
       "preferredName": "net_cost",
       "description": "transaction record field: net cost.",
       "example": "NET_COST_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1052,6 +1129,7 @@
       "preferredName": "net_cost_local",
       "description": "transaction record field: net cost local.",
       "example": "NET_COST_LOCAL_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1065,6 +1143,7 @@
       "preferredName": "net_delta_quantity",
       "description": "Quantity value for net delta quantity.",
       "example": 100.0,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -1078,6 +1157,7 @@
       "preferredName": "objective",
       "description": "Primary client objective for this portfolio.",
       "example": "OBJECTIVE_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1091,6 +1171,7 @@
       "preferredName": "open_date",
       "description": "Portfolio inception/open date.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1104,6 +1185,7 @@
       "preferredName": "owner_service",
       "description": "Owning service for the feature capability.",
       "example": "OWNER_SERVICE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1117,6 +1199,7 @@
       "preferredName": "pending_aggregation_jobs",
       "description": "Number of pending/processing portfolio aggregation jobs for the portfolio.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1130,6 +1213,7 @@
       "preferredName": "pending_valuation_jobs",
       "description": "Number of pending/processing valuation jobs for the portfolio.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1143,8 +1227,9 @@
       "preferredName": "policy_provenance",
       "description": "Canonical policy provenance value used in api body.",
       "example": {
-        "key": "value"
+        "id": "OBJ_001"
       },
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1158,6 +1243,7 @@
       "preferredName": "policy_source",
       "description": "policy provenance metadata field: policy source.",
       "example": "POLICY_SOURCE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1171,6 +1257,7 @@
       "preferredName": "policy_version",
       "description": "policy provenance metadata field: policy version.",
       "example": "tenant-default-v1",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1184,6 +1271,7 @@
       "preferredName": "portfolio_id",
       "description": "Filter by a single, specific portfolio ID.",
       "example": "PORTFOLIO_001",
+      "type": "string",
       "locations": [
         "body",
         "path",
@@ -1200,6 +1288,7 @@
       "preferredName": "portfolio_type",
       "description": "Portfolio product/type classification.",
       "example": "PORTFOLIO_TYPE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1215,6 +1304,7 @@
       "example": [
         "PORTFOLIOS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1228,6 +1318,7 @@
       "preferredName": "position_date",
       "description": "The date of this position snapshot.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1243,6 +1334,7 @@
       "example": [
         "POSITIONS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1256,6 +1348,7 @@
       "preferredName": "price",
       "description": "Rate/price value for price.",
       "example": 1.2345,
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1271,6 +1364,7 @@
       "preferredName": "price_date",
       "description": "Business date for price date.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1286,6 +1380,7 @@
       "example": [
         "PRICES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1298,7 +1393,8 @@
       "canonicalTerm": "product_type",
       "preferredName": "product_type",
       "description": "Filter by a specific product type (e.g., Equity).",
-      "example": "PRODUCT_TYPE_VALUE",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -1314,6 +1410,7 @@
       "preferredName": "proposed_quantity",
       "description": "Quantity value for proposed quantity.",
       "example": 100.0,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -1327,6 +1424,7 @@
       "preferredName": "published_rows",
       "description": "upload commit response field: published rows.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1339,7 +1437,8 @@
       "canonicalTerm": "q",
       "preferredName": "q",
       "description": "Optional case-insensitive search text applied to portfolio ID.",
-      "example": "Q_VALUE",
+      "example": "STANDARD",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -1353,6 +1452,7 @@
       "preferredName": "quantity",
       "description": "The number of shares held as of this record.",
       "example": 100.0,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -1367,6 +1467,7 @@
       "preferredName": "rate",
       "description": "Rate/price value for rate.",
       "example": "RATE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1381,6 +1482,7 @@
       "preferredName": "rate_date",
       "description": "Business date for rate date.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1396,6 +1498,7 @@
       "example": [
         "RATES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1409,6 +1512,7 @@
       "preferredName": "rating",
       "description": "Credit rating for fixed income instruments (e.g., 'AAA').",
       "example": "RATING_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1422,6 +1526,7 @@
       "preferredName": "realized_gain_loss",
       "description": "transaction record field: realized gain loss.",
       "example": "REALIZED_GAIN_LOSS_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1435,6 +1540,7 @@
       "preferredName": "realized_gain_loss_local",
       "description": "transaction record field: realized gain loss local.",
       "example": "REALIZED_GAIN_LOSS_LOCAL_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1448,6 +1554,7 @@
       "preferredName": "reprocessing_status",
       "description": "Reprocessing status for this portfolio-security key.",
       "example": "ACTIVE",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -1465,6 +1572,7 @@
       "example": [
         "REQUIRED_FEATURES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1478,6 +1586,7 @@
       "preferredName": "risk_exposure",
       "description": "Client risk exposure classification.",
       "example": "RISK_EXPOSURE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1491,6 +1600,7 @@
       "preferredName": "row_number",
       "description": "1-based row number from the uploaded file.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1508,6 +1618,7 @@
           "key": "value"
         }
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1523,6 +1634,7 @@
       "example": [
         "SECTIONS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1536,6 +1648,7 @@
       "preferredName": "sector",
       "description": "Industry sector for equities (e.g., 'Technology').",
       "example": "SECTOR_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1549,6 +1662,7 @@
       "preferredName": "security_id",
       "description": "The unique identifier for the security to query.",
       "example": "SECURITY_001",
+      "type": "string",
       "locations": [
         "body",
         "path",
@@ -1565,8 +1679,9 @@
       "preferredName": "session",
       "description": "Canonical session value used in api body.",
       "example": {
-        "key": "value"
+        "id": "OBJ_001"
       },
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1580,6 +1695,7 @@
       "preferredName": "session_id",
       "description": "Unique session identifier.",
       "example": "SIM_0001",
+      "type": "string",
       "locations": [
         "body",
         "path"
@@ -1594,6 +1710,7 @@
       "preferredName": "settlement_date",
       "description": "transaction field: settlement date.",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1607,6 +1724,7 @@
       "preferredName": "skip",
       "description": "Number of records to skip for pagination",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body",
         "query"
@@ -1621,6 +1739,7 @@
       "preferredName": "skipped_rows",
       "description": "upload commit response field: skipped rows.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1633,7 +1752,8 @@
       "canonicalTerm": "sort_by",
       "preferredName": "sort_by",
       "description": "Field to sort by (e.g., 'transaction_date').",
-      "example": "SORT_BY_VALUE",
+      "example": "STANDARD",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -1646,7 +1766,8 @@
       "canonicalTerm": "sort_order",
       "preferredName": "sort_order",
       "description": "Sort order: 'asc' or 'desc'.",
-      "example": "SORT_ORDER_VALUE",
+      "example": "STANDARD",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -1659,7 +1780,8 @@
       "canonicalTerm": "source",
       "preferredName": "source",
       "description": "Currency source scope. Use ALL, PORTFOLIOS, or INSTRUMENTS.",
-      "example": "SOURCE_VALUE",
+      "example": "STANDARD",
+      "type": "string",
       "locations": [
         "query"
       ],
@@ -1673,6 +1795,7 @@
       "preferredName": "source_service",
       "description": "effective integration policy response field: source service.",
       "example": "lotus-core",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1686,6 +1809,7 @@
       "preferredName": "source_system",
       "description": "Upstream source system identifier for audit and lineage.",
       "example": "UI_UPLOAD",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1699,6 +1823,7 @@
       "preferredName": "start_date",
       "description": "The start date for the date range filter (inclusive).",
       "example": "2026-02-27",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -1712,6 +1837,7 @@
       "preferredName": "status",
       "description": "Portfolio lifecycle status.",
       "example": "ACTIVE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1725,6 +1851,7 @@
       "preferredName": "status_filter",
       "description": "Optional job status filter (e.g., PENDING, PROCESSING).",
       "example": "ACTIVE",
+      "type": "object",
       "locations": [
         "query"
       ],
@@ -1738,6 +1865,7 @@
       "preferredName": "strict_mode",
       "description": "policy provenance metadata field: strict mode.",
       "example": true,
+      "type": "boolean",
       "locations": [
         "body"
       ],
@@ -1753,6 +1881,7 @@
       "example": [
         "SUPPORTED_INPUT_MODES_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1766,6 +1895,7 @@
       "preferredName": "tenant_id",
       "description": "Unique tenant identifier.",
       "example": "TENANT_001",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -1780,6 +1910,7 @@
       "preferredName": "to_currency",
       "description": "The quote currency (e.g., SGD).",
       "example": "USD",
+      "type": "string",
       "locations": [
         "body",
         "query"
@@ -1794,6 +1925,7 @@
       "preferredName": "total",
       "description": "The total number of transactions matching the query.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1807,6 +1939,7 @@
       "preferredName": "total_baseline_positions",
       "description": "projected summary response field: total baseline positions.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1820,6 +1953,7 @@
       "preferredName": "total_market_value",
       "description": "Monetary value for total market value.",
       "example": 125000.5,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -1833,6 +1967,7 @@
       "preferredName": "total_proposed_positions",
       "description": "projected summary response field: total proposed positions.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1846,6 +1981,7 @@
       "preferredName": "total_rows",
       "description": "upload preview response field: total rows.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1859,6 +1995,7 @@
       "preferredName": "trade_currency",
       "description": "ISO currency code for trade currency.",
       "example": "USD",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1872,6 +2009,7 @@
       "preferredName": "trade_fee",
       "description": "transaction field: trade fee.",
       "example": "5.0",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1885,6 +2023,7 @@
       "preferredName": "transaction_date",
       "description": "Timestamp for transaction date.",
       "example": "2026-02-27T10:30:00Z",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1898,6 +2037,7 @@
       "preferredName": "transaction_fx_rate",
       "description": "Rate/price value for transaction fx rate.",
       "example": "TRANSACTION_FX_RATE_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1911,6 +2051,7 @@
       "preferredName": "transaction_id",
       "description": "The ID of the transaction that created this position state.",
       "example": "TXN_0001",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1926,6 +2067,7 @@
       "example": [
         "TRANSACTION_IDS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1939,6 +2081,7 @@
       "preferredName": "transaction_type",
       "description": "transaction record field: transaction type.",
       "example": "TRANSACTION_TYPE_VALUE",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -1954,6 +2097,7 @@
       "example": [
         "TRANSACTIONS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -1967,6 +2111,7 @@
       "preferredName": "ttl_hours",
       "description": "simulation session create request field: ttl hours.",
       "example": 24,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -1980,6 +2125,7 @@
       "preferredName": "ultimate_parent_issuer_id",
       "description": "Identifier for the ultimate parent of the issuer.",
       "example": "ULTIMATE_PARENT_ISSUER_001",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -1993,6 +2139,7 @@
       "preferredName": "valid_rows",
       "description": "upload preview response field: valid rows.",
       "example": 10,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -2006,6 +2153,7 @@
       "preferredName": "valuation",
       "description": "Valuation details for this record.",
       "example": "VALUATION_VALUE",
+      "type": "object",
       "locations": [
         "body"
       ],
@@ -2019,6 +2167,7 @@
       "preferredName": "version",
       "description": "simulation session record field: version.",
       "example": 1,
+      "type": "integer",
       "locations": [
         "body"
       ],
@@ -2034,6 +2183,7 @@
       "example": [
         "WARNINGS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -2047,6 +2197,7 @@
       "preferredName": "watermark_date",
       "description": "Watermark date from which replay/reprocessing is active.",
       "example": "2026-02-27",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -2060,6 +2211,7 @@
       "preferredName": "weight",
       "description": "enriched position field: weight.",
       "example": 0.125,
+      "type": "number",
       "locations": [
         "body"
       ],
@@ -2073,6 +2225,7 @@
       "preferredName": "workflow_key",
       "description": "Workflow identifier.",
       "example": "portfolio_bulk_onboarding",
+      "type": "string",
       "locations": [
         "body"
       ],
@@ -2088,6 +2241,7 @@
       "example": [
         "WORKFLOWS_ITEM_VALUE"
       ],
+      "type": "array",
       "locations": [
         "body"
       ],
@@ -2136,7 +2290,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Filter by booking center to get all portfolios for a business unit.",
-      "example": "BOOKING_CENTER_CODE_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_portfolios_portfolios__get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "booking_center_code",
@@ -2331,7 +2485,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Field to sort by (e.g., 'transaction_date').",
-      "example": "SORT_BY_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_transactions_portfolios__portfolio_id__transactions_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "sort_by",
@@ -2346,7 +2500,7 @@
       "default": "desc",
       "allowedValues": [],
       "description": "Sort order: 'asc' or 'desc'.",
-      "example": "SORT_ORDER_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_transactions_portfolios__portfolio_id__transactions_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "sort_order",
@@ -2376,7 +2530,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Filter by a specific product type (e.g., Equity).",
-      "example": "PRODUCT_TYPE_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_instruments_instruments__get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "product_type",
@@ -2781,7 +2935,7 @@
       "default": "lotus-gateway",
       "allowedValues": [],
       "description": "Canonical consumer system value used in request parameter.",
-      "example": "CONSUMER_SYSTEM_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_effective_integration_policy_integration_policy_effective_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "consumer_system",
@@ -2811,7 +2965,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Canonical include sections value used in request parameter.",
-      "example": "INCLUDE_SECTIONS_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_effective_integration_policy_integration_policy_effective_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "include_sections",
@@ -2877,7 +3031,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Optional booking-center filter for business-unit specific catalogs.",
-      "example": "BOOKING_CENTER_CODE_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_portfolio_lookups_lookups_portfolios_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "booking_center_code",
@@ -2892,7 +3046,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Optional case-insensitive search text applied to portfolio ID.",
-      "example": "Q_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_portfolio_lookups_lookups_portfolios_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "q",
@@ -2937,7 +3091,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Optional product type filter (for example: Equity, Bond).",
-      "example": "PRODUCT_TYPE_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_instrument_lookups_lookups_instruments_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "product_type",
@@ -2952,7 +3106,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Optional case-insensitive search text applied to security ID and instrument name.",
-      "example": "Q_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_instrument_lookups_lookups_instruments_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "q",
@@ -2982,7 +3136,7 @@
       "default": "ALL",
       "allowedValues": [],
       "description": "Currency source scope. Use ALL, PORTFOLIOS, or INSTRUMENTS.",
-      "example": "SOURCE_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_currency_lookups_lookups_currencies_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "source",
@@ -2997,7 +3151,7 @@
       "default": "",
       "allowedValues": [],
       "description": "Optional case-insensitive search text applied to currency code.",
-      "example": "Q_VALUE",
+      "example": "STANDARD",
       "behaviorImpact": "Affects get_currency_lookups_lookups_currencies_get request behavior.",
       "exposure": "consumer_visible",
       "canonicalTerm": "q",
