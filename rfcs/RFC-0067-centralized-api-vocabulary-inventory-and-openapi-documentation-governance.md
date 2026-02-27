@@ -33,6 +33,9 @@ This RFC governs:
 6. Attribute names must be canonical snake_case and WM/business meaningful.
 7. Implementation-local naming is forbidden in canonical attributes (for example service-prefixed internal names).
 8. Legacy terms are explicitly rejected when canonical terms exist (for example `cif_id` -> `client_id`, `booking_center` -> `booking_center_code`).
+9. Inventory ownership follows a hybrid model:
+ - per-application inventory files remain app-owned implementation truth
+ - platform cross-app validation is the semantic conformance truth
 
 ## Inventory Specification (Per Application)
 
@@ -99,6 +102,7 @@ Mandatory gates:
 - OpenAPI quality gate
 - API vocabulary inventory gate
 - no-alias/no-legacy-term contract guard
+- platform cross-app vocabulary catalog conformance gate
 
 Builds fail if:
 
@@ -106,6 +110,7 @@ Builds fail if:
 - legacy terms appear where canonical terms exist
 - alias patterns are introduced
 - required documentation metadata is missing
+- cross-app semantic/canonical conflicts are detected
 
 ## Drift Prevention Workflow
 
@@ -228,6 +233,18 @@ Each app adopting RFC-0067 must include all gates below as required checks:
 5. migration contract gate (DB-backed services only):
  - fail if Alembic head count != 1
 
+## Required Platform Gate (`lotus-platform`)
+
+`lotus-platform` must run a cross-app vocabulary conformance validator over all
+`platform-contracts/api-vocabulary/*-api-vocabulary.v1.json` inventories.
+
+This platform-level gate fails when:
+
+1. the same `semanticId` maps to different canonical terms across apps.
+2. the same canonical term maps to different semantic IDs across apps.
+3. legacy/canonical conflicts coexist (for example `cif_id` with `client_id`).
+4. per-app structural invariants are violated (`canonicalTerm == preferredName`, snake_case, unique `semanticId`).
+
 ## PR Review Contract (Per App)
 
 A PR is non-compliant unless all are present:
@@ -274,6 +291,42 @@ Use this checklist for each application (`lotus-risk`, `lotus-performance`, `lot
 10. Add service-level tests that assert canonical field names for critical endpoints.
 11. Regenerate inventory after every contract change and include it in the same PR.
 12. Validate RFC sync in PR review (contract change + standards update when governance changes).
+
+## Mandatory Onboarding Standard (All Future Apps)
+
+Any newly onboarded Lotus app (or app newly adopting API contracts) must follow this exact sequence:
+
+1. Generate app inventory in the app repository from app OpenAPI.
+2. Pass app-level gates in the app repository:
+ - OpenAPI quality gate
+ - app inventory gate
+ - no-alias/no-legacy guard
+ - strict type check gate
+3. Sync inventory to `lotus-platform/platform-contracts/api-vocabulary/<app>-api-vocabulary.v1.json`.
+4. Run platform cross-app vocabulary gate in `lotus-platform`.
+5. Merge only when both app-level and platform-level gates pass.
+
+No app is considered RFC-0067 compliant until step 5 is complete.
+
+## Platform PR Contract for Vocabulary Sync
+
+A vocabulary-sync PR in `lotus-platform` is non-compliant unless it includes:
+
+1. updated `platform-contracts/api-vocabulary/<app>-api-vocabulary.v1.json` for each changed app.
+2. successful run of platform cross-app validator.
+3. RFC updates when governance rules are changed.
+
+## Drift Rejection Rules (Cross-App)
+
+Platform cross-app validation must reject:
+
+1. same `semanticId` with different canonical terms across apps.
+2. same canonical term bound to different semantic IDs across apps.
+3. simultaneous legacy/canonical term presence where canonical mapping exists.
+4. non-snake-case canonical terms.
+5. per-app inventory rows where `canonicalTerm != preferredName`.
+
+No warning mode is allowed on protected branches.
 
 ### Definition of Done Per Application
 
