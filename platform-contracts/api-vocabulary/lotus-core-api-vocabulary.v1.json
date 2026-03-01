@@ -13,7 +13,7 @@
       "openApiVersion": "3.1.0"
     }
   ],
-  "generatedAt": "2026-03-01T11:39:50.687373+00:00",
+  "generatedAt": "2026-03-01T13:52:17.736278+00:00",
   "attributeCatalog": [
     {
       "semanticId": "lotus.accepted_count",
@@ -119,14 +119,15 @@
       "semanticId": "lotus.amount",
       "canonicalTerm": "amount",
       "preferredName": "amount",
-      "description": "Monetary value for amount.",
-      "example": "amount_example",
-      "type": "object",
+      "description": "Cash flow amount in the same currency context as the parent observation.",
+      "example": "example_amount",
+      "type": "string",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "object"
+        "object",
+        "string"
       ]
     },
     {
@@ -354,6 +355,62 @@
       ],
       "observedTypes": [
         "number"
+      ]
+    },
+    {
+      "semanticId": "lotus.beginning_market_value",
+      "canonicalTerm": "beginning_market_value",
+      "preferredName": "beginning_market_value",
+      "description": "Beginning market value in reporting_currency for the valuation_date.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.beginning_market_value_portfolio_currency",
+      "canonicalTerm": "beginning_market_value_portfolio_currency",
+      "preferredName": "beginning_market_value_portfolio_currency",
+      "description": "Beginning value in portfolio currency.",
+      "example": "USD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.beginning_market_value_position_currency",
+      "canonicalTerm": "beginning_market_value_position_currency",
+      "preferredName": "beginning_market_value_position_currency",
+      "description": "Beginning value in position currency.",
+      "example": "USD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.beginning_market_value_reporting_currency",
+      "canonicalTerm": "beginning_market_value_reporting_currency",
+      "preferredName": "beginning_market_value_reporting_currency",
+      "description": "Beginning value converted to reporting currency.",
+      "example": "USD",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -670,6 +727,50 @@
       ]
     },
     {
+      "semanticId": "lotus.calendar_id",
+      "canonicalTerm": "calendar_id",
+      "preferredName": "calendar_id",
+      "description": "Calendar identifier for resolved observations.",
+      "example": "CALENDAR_001",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.cash_flow_type",
+      "canonicalTerm": "cash_flow_type",
+      "preferredName": "cash_flow_type",
+      "description": "Canonical cash flow type for performance analytics treatment.",
+      "example": "external_flow",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.cash_flows",
+      "canonicalTerm": "cash_flows",
+      "preferredName": "cash_flows",
+      "description": "Canonical cash flow events for the valuation_date.",
+      "example": [
+        "cash_flows_item_example"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
+      ]
+    },
+    {
       "semanticId": "lotus.cashflow",
       "canonicalTerm": "cashflow",
       "preferredName": "cashflow",
@@ -879,7 +980,7 @@
       "semanticId": "lotus.completed_at",
       "canonicalTerm": "completed_at",
       "preferredName": "completed_at",
-      "description": "Timestamp when the job reached a terminal or queued state.",
+      "description": "UTC timestamp when processing completed or failed.",
       "example": "completed_at_example",
       "type": "object",
       "locations": [
@@ -990,6 +1091,21 @@
       ],
       "observedTypes": [
         "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.compression",
+      "canonicalTerm": "compression",
+      "preferredName": "compression",
+      "description": "Preferred result compression mode.",
+      "example": "none",
+      "type": "string",
+      "locations": [
+        "body",
+        "query"
+      ],
+      "observedTypes": [
+        "string"
       ]
     },
     {
@@ -1113,7 +1229,7 @@
       "semanticId": "lotus.created_at",
       "canonicalTerm": "created_at",
       "preferredName": "created_at",
-      "description": "Timestamp for created at.",
+      "description": "UTC timestamp when the export job was created.",
       "example": "2026-02-27T10:30:00Z",
       "type": "string",
       "locations": [
@@ -1184,6 +1300,52 @@
       ]
     },
     {
+      "semanticId": "lotus.data",
+      "canonicalTerm": "data",
+      "preferredName": "data",
+      "description": "Serialized observations or rows from the selected dataset.",
+      "example": [
+        {
+          "key": "value"
+        }
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
+      ]
+    },
+    {
+      "semanticId": "lotus.data_version",
+      "canonicalTerm": "data_version",
+      "preferredName": "data_version",
+      "description": "Canonical dataset version label for traceability and replay.",
+      "example": "example_data_version",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.dataset_type",
+      "canonicalTerm": "dataset_type",
+      "preferredName": "dataset_type",
+      "description": "Dataset contract to export.",
+      "example": "portfolio_timeseries",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.day_count_convention",
       "canonicalTerm": "day_count_convention",
       "preferredName": "day_count_convention",
@@ -1226,6 +1388,34 @@
       ]
     },
     {
+      "semanticId": "lotus.diagnostics",
+      "canonicalTerm": "diagnostics",
+      "preferredName": "diagnostics",
+      "description": "Quality and completeness diagnostics.",
+      "example": "diagnostics_example",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "QualityDiagnostics"
+      ]
+    },
+    {
+      "semanticId": "lotus.dimension",
+      "canonicalTerm": "dimension",
+      "preferredName": "dimension",
+      "description": "Dimension field used for filter evaluation.",
+      "example": "asset_class",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.dimension_description",
       "canonicalTerm": "dimension_description",
       "preferredName": "dimension_description",
@@ -1237,6 +1427,22 @@
       ],
       "observedTypes": [
         "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.dimension_filters",
+      "canonicalTerm": "dimension_filters",
+      "preferredName": "dimension_filters",
+      "description": "Optional dimension-based inclusion filters.",
+      "example": [
+        "dimension_filters_item_example"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
       ]
     },
     {
@@ -1265,6 +1471,23 @@
       ],
       "observedTypes": [
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.dimensions",
+      "canonicalTerm": "dimensions",
+      "preferredName": "dimensions",
+      "description": "Dimension labels to project in each position row.",
+      "example": [
+        "asset_class"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array",
+        "object"
       ]
     },
     {
@@ -1424,6 +1647,62 @@
       ]
     },
     {
+      "semanticId": "lotus.ending_market_value",
+      "canonicalTerm": "ending_market_value",
+      "preferredName": "ending_market_value",
+      "description": "Ending market value in reporting_currency for the valuation_date.",
+      "example": "STANDARD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.ending_market_value_portfolio_currency",
+      "canonicalTerm": "ending_market_value_portfolio_currency",
+      "preferredName": "ending_market_value_portfolio_currency",
+      "description": "Ending value in portfolio currency.",
+      "example": "USD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.ending_market_value_position_currency",
+      "canonicalTerm": "ending_market_value_position_currency",
+      "preferredName": "ending_market_value_position_currency",
+      "description": "Ending value in position currency.",
+      "example": "USD",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.ending_market_value_reporting_currency",
+      "canonicalTerm": "ending_market_value_reporting_currency",
+      "preferredName": "ending_market_value_reporting_currency",
+      "description": "Ending value converted to reporting currency.",
+      "example": "USD",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
       "semanticId": "lotus.endpoint",
       "canonicalTerm": "endpoint",
       "preferredName": "endpoint",
@@ -1496,6 +1775,20 @@
       ],
       "observedTypes": [
         "integer",
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.error_message",
+      "canonicalTerm": "error_message",
+      "preferredName": "error_message",
+      "description": "Failure reason when status is failed.",
+      "example": "error_message_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
         "object"
       ]
     },
@@ -1766,6 +2059,20 @@
       ]
     },
     {
+      "semanticId": "lotus.filters",
+      "canonicalTerm": "filters",
+      "preferredName": "filters",
+      "description": "Optional inclusion filters.",
+      "example": "filters_example",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "PositionAnalyticsFilters"
+      ]
+    },
+    {
       "semanticId": "lotus.first_seen_at",
       "canonicalTerm": "first_seen_at",
       "preferredName": "first_seen_at",
@@ -1853,6 +2160,20 @@
       ]
     },
     {
+      "semanticId": "lotus.generated_by",
+      "canonicalTerm": "generated_by",
+      "preferredName": "generated_by",
+      "description": "Service component that generated this response.",
+      "example": "example_generated_by",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.gross_transaction_amount",
       "canonicalTerm": "gross_transaction_amount",
       "preferredName": "gross_transaction_amount",
@@ -1924,6 +2245,20 @@
       "observedTypes": [
         "object",
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.include_cash_flows",
+      "canonicalTerm": "include_cash_flows",
+      "preferredName": "include_cash_flows",
+      "description": "Whether to include per-position canonical cash_flows in each row.",
+      "example": true,
+      "type": "boolean",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "boolean"
       ]
     },
     {
@@ -2326,7 +2661,7 @@
       "semanticId": "lotus.job_id",
       "canonicalTerm": "job_id",
       "preferredName": "job_id",
-      "description": "Asynchronous ingestion job identifier for client-side tracking.",
+      "description": "Stable analytics export job identifier.",
       "example": "JOB_001",
       "type": "string",
       "locations": [
@@ -2581,6 +2916,7 @@
         "body"
       ],
       "observedTypes": [
+        "LineageMetadata",
         "object"
       ]
     },
@@ -2774,6 +3110,20 @@
       ]
     },
     {
+      "semanticId": "lotus.missing_observation_policy",
+      "canonicalTerm": "missing_observation_policy",
+      "preferredName": "missing_observation_policy",
+      "description": "Policy describing missing-observation handling semantics.",
+      "example": "strict",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.mode",
       "canonicalTerm": "mode",
       "preferredName": "mode",
@@ -2886,6 +3236,20 @@
       ]
     },
     {
+      "semanticId": "lotus.next_page_token",
+      "canonicalTerm": "next_page_token",
+      "preferredName": "next_page_token",
+      "description": "Opaque continuation token for the next page, null when no additional pages remain.",
+      "example": "next_page_token_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
       "semanticId": "lotus.objective",
       "canonicalTerm": "objective",
       "preferredName": "objective",
@@ -2897,6 +3261,22 @@
       ],
       "observedTypes": [
         "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.observations",
+      "canonicalTerm": "observations",
+      "preferredName": "observations",
+      "description": "Ordered portfolio valuation observations.",
+      "example": [
+        "observations_item_example"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
       ]
     },
     {
@@ -3114,6 +3494,49 @@
       ]
     },
     {
+      "semanticId": "lotus.page",
+      "canonicalTerm": "page",
+      "preferredName": "page",
+      "description": "Paging controls for high-volume dataset traversal.",
+      "example": "page_example",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "PageMetadata",
+        "PageRequest"
+      ]
+    },
+    {
+      "semanticId": "lotus.page_size",
+      "canonicalTerm": "page_size",
+      "preferredName": "page_size",
+      "description": "Maximum number of records per response page.",
+      "example": 10,
+      "type": "integer",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "integer"
+      ]
+    },
+    {
+      "semanticId": "lotus.page_token",
+      "canonicalTerm": "page_token",
+      "preferredName": "page_token",
+      "description": "Opaque continuation token from a previous response page.",
+      "example": "page_token_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
       "semanticId": "lotus.payload_excerpt",
       "canonicalTerm": "payload_excerpt",
       "preferredName": "payload_excerpt",
@@ -3153,6 +3576,34 @@
       ],
       "observedTypes": [
         "integer"
+      ]
+    },
+    {
+      "semanticId": "lotus.performance_end_date",
+      "canonicalTerm": "performance_end_date",
+      "preferredName": "performance_end_date",
+      "description": "Latest available valuation date in the canonical store for this portfolio.",
+      "example": "2026-02-27",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
+      "semanticId": "lotus.period",
+      "canonicalTerm": "period",
+      "preferredName": "period",
+      "description": "Relative period selector used when explicit window is not provided.",
+      "example": "period_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -3242,6 +3693,20 @@
       ]
     },
     {
+      "semanticId": "lotus.portfolio_close_date",
+      "canonicalTerm": "portfolio_close_date",
+      "preferredName": "portfolio_close_date",
+      "description": "Portfolio close date when closed.",
+      "example": "2026-02-27",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
+      ]
+    },
+    {
       "semanticId": "lotus.portfolio_currency",
       "canonicalTerm": "portfolio_currency",
       "preferredName": "portfolio_currency",
@@ -3270,6 +3735,34 @@
       "observedTypes": [
         "object",
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.portfolio_open_date",
+      "canonicalTerm": "portfolio_open_date",
+      "preferredName": "portfolio_open_date",
+      "description": "Portfolio inception date.",
+      "example": "2026-02-27",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.portfolio_timeseries_request",
+      "canonicalTerm": "portfolio_timeseries_request",
+      "preferredName": "portfolio_timeseries_request",
+      "description": "Portfolio timeseries request when dataset_type is portfolio_timeseries.",
+      "example": "2026-02-27T10:30:00Z",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -3342,6 +3835,50 @@
       ],
       "observedTypes": [
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.position_id",
+      "canonicalTerm": "position_id",
+      "preferredName": "position_id",
+      "description": "Canonical position identifier.",
+      "example": "POSITION_001",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.position_ids",
+      "canonicalTerm": "position_ids",
+      "preferredName": "position_ids",
+      "description": "Optional position_id inclusion filter.",
+      "example": [
+        "example_position_ids_item"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
+      ]
+    },
+    {
+      "semanticId": "lotus.position_timeseries_request",
+      "canonicalTerm": "position_timeseries_request",
+      "preferredName": "position_timeseries_request",
+      "description": "Position timeseries request when dataset_type is position_timeseries.",
+      "example": "2026-02-27T10:30:00Z",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -4014,6 +4551,20 @@
       ]
     },
     {
+      "semanticId": "lotus.request_fingerprint",
+      "canonicalTerm": "request_fingerprint",
+      "preferredName": "request_fingerprint",
+      "description": "Deterministic request fingerprint used for replay and diagnostics.",
+      "example": "example_request_fingerprint",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.request_id",
       "canonicalTerm": "request_id",
       "preferredName": "request_id",
@@ -4082,7 +4633,37 @@
         "body"
       ],
       "observedTypes": [
+        "AnalyticsWindow",
         "IntegrationWindow"
+      ]
+    },
+    {
+      "semanticId": "lotus.result_format",
+      "canonicalTerm": "result_format",
+      "preferredName": "result_format",
+      "description": "Preferred result serialization format.",
+      "example": "json",
+      "type": "string",
+      "locations": [
+        "body",
+        "query"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.result_row_count",
+      "canonicalTerm": "result_row_count",
+      "preferredName": "result_row_count",
+      "description": "Count of rows exported when status is completed.",
+      "example": "result_row_count_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -4183,6 +4764,22 @@
       ],
       "observedTypes": [
         "integer"
+      ]
+    },
+    {
+      "semanticId": "lotus.rows",
+      "canonicalTerm": "rows",
+      "preferredName": "rows",
+      "description": "Ordered position valuation rows.",
+      "example": [
+        "rows_item_example"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
       ]
     },
     {
@@ -4586,6 +5183,20 @@
       ]
     },
     {
+      "semanticId": "lotus.stale_points_count",
+      "canonicalTerm": "stale_points_count",
+      "preferredName": "stale_points_count",
+      "description": "Count of stale points detected based on staleness policy.",
+      "example": 10,
+      "type": "integer",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "integer"
+      ]
+    },
+    {
       "semanticId": "lotus.start_date",
       "canonicalTerm": "start_date",
       "preferredName": "start_date",
@@ -4599,6 +5210,20 @@
       "observedTypes": [
         "object",
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.started_at",
+      "canonicalTerm": "started_at",
+      "preferredName": "started_at",
+      "description": "UTC timestamp when processing started.",
+      "example": "started_at_example",
+      "type": "object",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "object"
       ]
     },
     {
@@ -4736,6 +5361,22 @@
       ]
     },
     {
+      "semanticId": "lotus.taxonomy_dimensions",
+      "canonicalTerm": "taxonomy_dimensions",
+      "preferredName": "taxonomy_dimensions",
+      "description": "Canonical dimensions supported for analytics grouping.",
+      "example": [
+        "example_taxonomy_dimensions_item"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
+      ]
+    },
+    {
       "semanticId": "lotus.taxonomy_scope",
       "canonicalTerm": "taxonomy_scope",
       "preferredName": "taxonomy_scope",
@@ -4792,6 +5433,20 @@
       ],
       "observedTypes": [
         "integer"
+      ]
+    },
+    {
+      "semanticId": "lotus.timing",
+      "canonicalTerm": "timing",
+      "preferredName": "timing",
+      "description": "Cash flow timing relative to valuation boundaries.",
+      "example": "bod",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
       ]
     },
     {
@@ -5193,6 +5848,34 @@
       ]
     },
     {
+      "semanticId": "lotus.valuation_date",
+      "canonicalTerm": "valuation_date",
+      "preferredName": "valuation_date",
+      "description": "Business date of the valuation observation.",
+      "example": "2026-02-27",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.valuation_status",
+      "canonicalTerm": "valuation_status",
+      "preferredName": "valuation_status",
+      "description": "Valuation state used by downstream analytics controls.",
+      "example": "final",
+      "type": "string",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "string"
+      ]
+    },
+    {
       "semanticId": "lotus.value",
       "canonicalTerm": "value",
       "preferredName": "value",
@@ -5221,6 +5904,22 @@
       ],
       "observedTypes": [
         "string"
+      ]
+    },
+    {
+      "semanticId": "lotus.values",
+      "canonicalTerm": "values",
+      "preferredName": "values",
+      "description": "Allowed canonical values for the selected dimension.",
+      "example": [
+        "example_values_item"
+      ],
+      "type": "array",
+      "locations": [
+        "body"
+      ],
+      "observedTypes": [
+        "array"
       ]
     },
     {
@@ -5301,12 +6000,13 @@
       "preferredName": "window",
       "description": "Date window for series extraction.",
       "example": "window_example",
-      "type": "string",
+      "type": "object",
       "locations": [
         "body"
       ],
       "observedTypes": [
-        "IntegrationWindow"
+        "IntegrationWindow",
+        "object"
       ]
     },
     {
@@ -6330,6 +7030,117 @@
       "exposure": "consumer_visible",
       "canonicalTerm": "currency",
       "semanticId": "lotus.currency"
+    },
+    {
+      "name": "portfolio_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique portfolio identifier.",
+      "example": "PORTFOLIO_001",
+      "behaviorImpact": "Affects get_portfolio_analytics_timeseries_integration_portfolios__portfolio_id__analytics_portfolio_timeseries_post request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "portfolio_id",
+      "semanticId": "lotus.portfolio_id"
+    },
+    {
+      "name": "portfolio_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique portfolio identifier.",
+      "example": "PORTFOLIO_001",
+      "behaviorImpact": "Affects get_position_analytics_timeseries_integration_portfolios__portfolio_id__analytics_position_timeseries_post request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "portfolio_id",
+      "semanticId": "lotus.portfolio_id"
+    },
+    {
+      "name": "portfolio_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique portfolio identifier.",
+      "example": "PORTFOLIO_001",
+      "behaviorImpact": "Affects get_portfolio_analytics_reference_integration_portfolios__portfolio_id__analytics_reference_post request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "portfolio_id",
+      "semanticId": "lotus.portfolio_id"
+    },
+    {
+      "name": "job_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique job identifier.",
+      "example": "JOB_001",
+      "behaviorImpact": "Affects get_analytics_export_job_integration_exports_analytics_timeseries_jobs__job_id__get request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "job_id",
+      "semanticId": "lotus.job_id"
+    },
+    {
+      "name": "job_id",
+      "kind": "request_option",
+      "location": "path",
+      "type": "string",
+      "required": true,
+      "default": "",
+      "allowedValues": [],
+      "description": "Unique job identifier.",
+      "example": "JOB_001",
+      "behaviorImpact": "Affects get_analytics_export_job_result_integration_exports_analytics_timeseries_jobs__job_id__result_get request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "job_id",
+      "semanticId": "lotus.job_id"
+    },
+    {
+      "name": "result_format",
+      "kind": "request_option",
+      "location": "query",
+      "type": "string",
+      "required": false,
+      "default": "json",
+      "allowedValues": [
+        "json",
+        "ndjson"
+      ],
+      "description": "Preferred serialization format for export result retrieval.",
+      "example": "json",
+      "behaviorImpact": "Affects get_analytics_export_job_result_integration_exports_analytics_timeseries_jobs__job_id__result_get request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "result_format",
+      "semanticId": "lotus.result_format"
+    },
+    {
+      "name": "compression",
+      "kind": "request_option",
+      "location": "query",
+      "type": "string",
+      "required": false,
+      "default": "none",
+      "allowedValues": [
+        "none",
+        "gzip"
+      ],
+      "description": "Optional transport compression for result retrieval.",
+      "example": "none",
+      "behaviorImpact": "Affects get_analytics_export_job_result_integration_exports_analytics_timeseries_jobs__job_id__result_get request behavior.",
+      "exposure": "consumer_visible",
+      "canonicalTerm": "compression",
+      "semanticId": "lotus.compression"
     },
     {
       "name": "consumer_system",
@@ -13173,6 +13984,1565 @@
             "type": "object",
             "semanticId": "lotus.quality_status_distribution",
             "attributeRef": "lotus.quality_status_distribution"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "get_portfolio_analytics_timeseries_integration_portfolios__portfolio_id__analytics_portfolio_timeseries_post",
+      "method": "POST",
+      "path": "/integration/portfolios/{portfolio_id}/analytics/portfolio-timeseries",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Fetch portfolio analytics timeseries inputs",
+      "description": "What: Return canonical portfolio valuation and cash-flow timeseries required by lotus-performance.\nHow: Resolve effective window, apply deterministic paging, and include lineage/quality diagnostics.\nWhen: Used for stateful TWR and MWR input acquisition without direct database coupling.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "amount",
+          "as_of_date",
+          "beginning_market_value",
+          "calendar_id",
+          "cash_flow_type",
+          "cash_flows",
+          "consumer_system",
+          "contract_version",
+          "data_version",
+          "diagnostics",
+          "end_date",
+          "ending_market_value",
+          "frequency",
+          "generated_at",
+          "generated_by",
+          "lineage",
+          "missing_dates_count",
+          "missing_observation_policy",
+          "next_page_token",
+          "observations",
+          "page",
+          "page_size",
+          "page_token",
+          "performance_end_date",
+          "period",
+          "portfolio_close_date",
+          "portfolio_currency",
+          "portfolio_id",
+          "portfolio_open_date",
+          "quality_status_distribution",
+          "reporting_currency",
+          "request_fingerprint",
+          "resolved_window",
+          "stale_points_count",
+          "start_date",
+          "timing",
+          "valuation_date",
+          "valuation_status",
+          "window"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "as_of_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.as_of_date",
+            "attributeRef": "lotus.as_of_date"
+          },
+          {
+            "name": "window",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.window",
+            "attributeRef": "lotus.window"
+          },
+          {
+            "name": "period",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.period",
+            "attributeRef": "lotus.period"
+          },
+          {
+            "name": "reporting_currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "frequency",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.frequency",
+            "attributeRef": "lotus.frequency"
+          },
+          {
+            "name": "consumer_system",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.consumer_system",
+            "attributeRef": "lotus.consumer_system"
+          },
+          {
+            "name": "page",
+            "location": "body",
+            "required": false,
+            "type": "PageRequest",
+            "semanticId": "lotus.page",
+            "attributeRef": "lotus.page"
+          },
+          {
+            "name": "page.page_size",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.page_size",
+            "attributeRef": "lotus.page_size"
+          },
+          {
+            "name": "page.page_token",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.page_token",
+            "attributeRef": "lotus.page_token"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "PortfolioAnalyticsTimeseriesResponse",
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_currency",
+            "attributeRef": "lotus.portfolio_currency"
+          },
+          {
+            "name": "reporting_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "portfolio_open_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_open_date",
+            "attributeRef": "lotus.portfolio_open_date"
+          },
+          {
+            "name": "portfolio_close_date",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.portfolio_close_date",
+            "attributeRef": "lotus.portfolio_close_date"
+          },
+          {
+            "name": "performance_end_date",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.performance_end_date",
+            "attributeRef": "lotus.performance_end_date"
+          },
+          {
+            "name": "resolved_window",
+            "location": "body",
+            "required": true,
+            "type": "AnalyticsWindow",
+            "semanticId": "lotus.resolved_window",
+            "attributeRef": "lotus.resolved_window"
+          },
+          {
+            "name": "resolved_window.start_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.start_date",
+            "attributeRef": "lotus.start_date"
+          },
+          {
+            "name": "resolved_window.end_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.end_date",
+            "attributeRef": "lotus.end_date"
+          },
+          {
+            "name": "frequency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.frequency",
+            "attributeRef": "lotus.frequency"
+          },
+          {
+            "name": "contract_version",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.contract_version",
+            "attributeRef": "lotus.contract_version"
+          },
+          {
+            "name": "calendar_id",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.calendar_id",
+            "attributeRef": "lotus.calendar_id"
+          },
+          {
+            "name": "missing_observation_policy",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.missing_observation_policy",
+            "attributeRef": "lotus.missing_observation_policy"
+          },
+          {
+            "name": "lineage",
+            "location": "body",
+            "required": true,
+            "type": "LineageMetadata",
+            "semanticId": "lotus.lineage",
+            "attributeRef": "lotus.lineage"
+          },
+          {
+            "name": "lineage.generated_by",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_by",
+            "attributeRef": "lotus.generated_by"
+          },
+          {
+            "name": "lineage.generated_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_at",
+            "attributeRef": "lotus.generated_at"
+          },
+          {
+            "name": "lineage.request_fingerprint",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.request_fingerprint",
+            "attributeRef": "lotus.request_fingerprint"
+          },
+          {
+            "name": "lineage.data_version",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.data_version",
+            "attributeRef": "lotus.data_version"
+          },
+          {
+            "name": "diagnostics",
+            "location": "body",
+            "required": true,
+            "type": "QualityDiagnostics",
+            "semanticId": "lotus.diagnostics",
+            "attributeRef": "lotus.diagnostics"
+          },
+          {
+            "name": "diagnostics.quality_status_distribution",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.quality_status_distribution",
+            "attributeRef": "lotus.quality_status_distribution"
+          },
+          {
+            "name": "diagnostics.missing_dates_count",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.missing_dates_count",
+            "attributeRef": "lotus.missing_dates_count"
+          },
+          {
+            "name": "diagnostics.stale_points_count",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.stale_points_count",
+            "attributeRef": "lotus.stale_points_count"
+          },
+          {
+            "name": "page",
+            "location": "body",
+            "required": true,
+            "type": "PageMetadata",
+            "semanticId": "lotus.page",
+            "attributeRef": "lotus.page"
+          },
+          {
+            "name": "page.next_page_token",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.next_page_token",
+            "attributeRef": "lotus.next_page_token"
+          },
+          {
+            "name": "observations",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.observations",
+            "attributeRef": "lotus.observations"
+          },
+          {
+            "name": "observations[].valuation_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.valuation_date",
+            "attributeRef": "lotus.valuation_date"
+          },
+          {
+            "name": "observations[].beginning_market_value",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.beginning_market_value",
+            "attributeRef": "lotus.beginning_market_value"
+          },
+          {
+            "name": "observations[].ending_market_value",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.ending_market_value",
+            "attributeRef": "lotus.ending_market_value"
+          },
+          {
+            "name": "observations[].valuation_status",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.valuation_status",
+            "attributeRef": "lotus.valuation_status"
+          },
+          {
+            "name": "observations[].cash_flows",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.cash_flows",
+            "attributeRef": "lotus.cash_flows"
+          },
+          {
+            "name": "observations[].cash_flows[].amount",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.amount",
+            "attributeRef": "lotus.amount"
+          },
+          {
+            "name": "observations[].cash_flows[].timing",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.timing",
+            "attributeRef": "lotus.timing"
+          },
+          {
+            "name": "observations[].cash_flows[].cash_flow_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.cash_flow_type",
+            "attributeRef": "lotus.cash_flow_type"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "get_position_analytics_timeseries_integration_portfolios__portfolio_id__analytics_position_timeseries_post",
+      "method": "POST",
+      "path": "/integration/portfolios/{portfolio_id}/analytics/position-timeseries",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Fetch position analytics timeseries inputs",
+      "description": "What: Return canonical position-level valuation timeseries required by contribution and attribution analytics.\nHow: Apply deterministic paging and optional dimension/filter selectors while keeping enrichment separate.\nWhen: Used by lotus-performance analytics pipelines for large-window position input retrieval.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "amount",
+          "as_of_date",
+          "beginning_market_value_portfolio_currency",
+          "beginning_market_value_position_currency",
+          "beginning_market_value_reporting_currency",
+          "calendar_id",
+          "cash_flow_type",
+          "cash_flows",
+          "consumer_system",
+          "contract_version",
+          "data_version",
+          "diagnostics",
+          "dimension",
+          "dimension_filters",
+          "dimensions",
+          "end_date",
+          "ending_market_value_portfolio_currency",
+          "ending_market_value_position_currency",
+          "ending_market_value_reporting_currency",
+          "filters",
+          "frequency",
+          "generated_at",
+          "generated_by",
+          "include_cash_flows",
+          "lineage",
+          "missing_dates_count",
+          "missing_observation_policy",
+          "next_page_token",
+          "page",
+          "page_size",
+          "page_token",
+          "period",
+          "portfolio_currency",
+          "portfolio_id",
+          "position_id",
+          "position_ids",
+          "quality_status_distribution",
+          "quantity",
+          "reporting_currency",
+          "request_fingerprint",
+          "resolved_window",
+          "rows",
+          "security_id",
+          "security_ids",
+          "stale_points_count",
+          "start_date",
+          "timing",
+          "valuation_date",
+          "valuation_status",
+          "values",
+          "window"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "as_of_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.as_of_date",
+            "attributeRef": "lotus.as_of_date"
+          },
+          {
+            "name": "window",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.window",
+            "attributeRef": "lotus.window"
+          },
+          {
+            "name": "period",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.period",
+            "attributeRef": "lotus.period"
+          },
+          {
+            "name": "reporting_currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "frequency",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.frequency",
+            "attributeRef": "lotus.frequency"
+          },
+          {
+            "name": "dimensions",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.dimensions",
+            "attributeRef": "lotus.dimensions"
+          },
+          {
+            "name": "include_cash_flows",
+            "location": "body",
+            "required": false,
+            "type": "boolean",
+            "semanticId": "lotus.include_cash_flows",
+            "attributeRef": "lotus.include_cash_flows"
+          },
+          {
+            "name": "consumer_system",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.consumer_system",
+            "attributeRef": "lotus.consumer_system"
+          },
+          {
+            "name": "filters",
+            "location": "body",
+            "required": false,
+            "type": "PositionAnalyticsFilters",
+            "semanticId": "lotus.filters",
+            "attributeRef": "lotus.filters"
+          },
+          {
+            "name": "filters.security_ids",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.security_ids",
+            "attributeRef": "lotus.security_ids"
+          },
+          {
+            "name": "filters.position_ids",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.position_ids",
+            "attributeRef": "lotus.position_ids"
+          },
+          {
+            "name": "filters.dimension_filters",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.dimension_filters",
+            "attributeRef": "lotus.dimension_filters"
+          },
+          {
+            "name": "filters.dimension_filters[].dimension",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.dimension",
+            "attributeRef": "lotus.dimension"
+          },
+          {
+            "name": "filters.dimension_filters[].values",
+            "location": "body",
+            "required": true,
+            "type": "array",
+            "semanticId": "lotus.values",
+            "attributeRef": "lotus.values"
+          },
+          {
+            "name": "page",
+            "location": "body",
+            "required": false,
+            "type": "PageRequest",
+            "semanticId": "lotus.page",
+            "attributeRef": "lotus.page"
+          },
+          {
+            "name": "page.page_size",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.page_size",
+            "attributeRef": "lotus.page_size"
+          },
+          {
+            "name": "page.page_token",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.page_token",
+            "attributeRef": "lotus.page_token"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "PositionAnalyticsTimeseriesResponse",
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_currency",
+            "attributeRef": "lotus.portfolio_currency"
+          },
+          {
+            "name": "reporting_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.reporting_currency",
+            "attributeRef": "lotus.reporting_currency"
+          },
+          {
+            "name": "resolved_window",
+            "location": "body",
+            "required": true,
+            "type": "AnalyticsWindow",
+            "semanticId": "lotus.resolved_window",
+            "attributeRef": "lotus.resolved_window"
+          },
+          {
+            "name": "resolved_window.start_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.start_date",
+            "attributeRef": "lotus.start_date"
+          },
+          {
+            "name": "resolved_window.end_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.end_date",
+            "attributeRef": "lotus.end_date"
+          },
+          {
+            "name": "frequency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.frequency",
+            "attributeRef": "lotus.frequency"
+          },
+          {
+            "name": "contract_version",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.contract_version",
+            "attributeRef": "lotus.contract_version"
+          },
+          {
+            "name": "calendar_id",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.calendar_id",
+            "attributeRef": "lotus.calendar_id"
+          },
+          {
+            "name": "missing_observation_policy",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.missing_observation_policy",
+            "attributeRef": "lotus.missing_observation_policy"
+          },
+          {
+            "name": "lineage",
+            "location": "body",
+            "required": true,
+            "type": "LineageMetadata",
+            "semanticId": "lotus.lineage",
+            "attributeRef": "lotus.lineage"
+          },
+          {
+            "name": "lineage.generated_by",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_by",
+            "attributeRef": "lotus.generated_by"
+          },
+          {
+            "name": "lineage.generated_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_at",
+            "attributeRef": "lotus.generated_at"
+          },
+          {
+            "name": "lineage.request_fingerprint",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.request_fingerprint",
+            "attributeRef": "lotus.request_fingerprint"
+          },
+          {
+            "name": "lineage.data_version",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.data_version",
+            "attributeRef": "lotus.data_version"
+          },
+          {
+            "name": "diagnostics",
+            "location": "body",
+            "required": true,
+            "type": "QualityDiagnostics",
+            "semanticId": "lotus.diagnostics",
+            "attributeRef": "lotus.diagnostics"
+          },
+          {
+            "name": "diagnostics.quality_status_distribution",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.quality_status_distribution",
+            "attributeRef": "lotus.quality_status_distribution"
+          },
+          {
+            "name": "diagnostics.missing_dates_count",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.missing_dates_count",
+            "attributeRef": "lotus.missing_dates_count"
+          },
+          {
+            "name": "diagnostics.stale_points_count",
+            "location": "body",
+            "required": false,
+            "type": "integer",
+            "semanticId": "lotus.stale_points_count",
+            "attributeRef": "lotus.stale_points_count"
+          },
+          {
+            "name": "page",
+            "location": "body",
+            "required": true,
+            "type": "PageMetadata",
+            "semanticId": "lotus.page",
+            "attributeRef": "lotus.page"
+          },
+          {
+            "name": "page.next_page_token",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.next_page_token",
+            "attributeRef": "lotus.next_page_token"
+          },
+          {
+            "name": "rows",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.rows",
+            "attributeRef": "lotus.rows"
+          },
+          {
+            "name": "rows[].position_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.position_id",
+            "attributeRef": "lotus.position_id"
+          },
+          {
+            "name": "rows[].security_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.security_id",
+            "attributeRef": "lotus.security_id"
+          },
+          {
+            "name": "rows[].valuation_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.valuation_date",
+            "attributeRef": "lotus.valuation_date"
+          },
+          {
+            "name": "rows[].dimensions",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.dimensions",
+            "attributeRef": "lotus.dimensions"
+          },
+          {
+            "name": "rows[].beginning_market_value_position_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.beginning_market_value_position_currency",
+            "attributeRef": "lotus.beginning_market_value_position_currency"
+          },
+          {
+            "name": "rows[].ending_market_value_position_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.ending_market_value_position_currency",
+            "attributeRef": "lotus.ending_market_value_position_currency"
+          },
+          {
+            "name": "rows[].beginning_market_value_portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.beginning_market_value_portfolio_currency",
+            "attributeRef": "lotus.beginning_market_value_portfolio_currency"
+          },
+          {
+            "name": "rows[].ending_market_value_portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.ending_market_value_portfolio_currency",
+            "attributeRef": "lotus.ending_market_value_portfolio_currency"
+          },
+          {
+            "name": "rows[].beginning_market_value_reporting_currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.beginning_market_value_reporting_currency",
+            "attributeRef": "lotus.beginning_market_value_reporting_currency"
+          },
+          {
+            "name": "rows[].ending_market_value_reporting_currency",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.ending_market_value_reporting_currency",
+            "attributeRef": "lotus.ending_market_value_reporting_currency"
+          },
+          {
+            "name": "rows[].valuation_status",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.valuation_status",
+            "attributeRef": "lotus.valuation_status"
+          },
+          {
+            "name": "rows[].quantity",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.quantity",
+            "attributeRef": "lotus.quantity"
+          },
+          {
+            "name": "rows[].cash_flows",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.cash_flows",
+            "attributeRef": "lotus.cash_flows"
+          },
+          {
+            "name": "rows[].cash_flows[].amount",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.amount",
+            "attributeRef": "lotus.amount"
+          },
+          {
+            "name": "rows[].cash_flows[].timing",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.timing",
+            "attributeRef": "lotus.timing"
+          },
+          {
+            "name": "rows[].cash_flows[].cash_flow_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.cash_flow_type",
+            "attributeRef": "lotus.cash_flow_type"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "get_portfolio_analytics_reference_integration_portfolios__portfolio_id__analytics_reference_post",
+      "method": "POST",
+      "path": "/integration/portfolios/{portfolio_id}/analytics/reference",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Fetch analytics portfolio reference metadata",
+      "description": "What: Return portfolio-level reference metadata for analytics joins and lifecycle context.\nHow: Resolve canonical portfolio attributes with lineage metadata.\nWhen: Used alongside analytics timeseries endpoints to avoid repetitive metadata payload duplication.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "as_of_date",
+          "booking_center_code",
+          "client_id",
+          "contract_version",
+          "data_version",
+          "generated_at",
+          "generated_by",
+          "lineage",
+          "objective",
+          "performance_end_date",
+          "portfolio_close_date",
+          "portfolio_currency",
+          "portfolio_id",
+          "portfolio_open_date",
+          "portfolio_type",
+          "request_fingerprint",
+          "taxonomy_dimensions"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "as_of_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.as_of_date",
+            "attributeRef": "lotus.as_of_date"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "PortfolioAnalyticsReferenceResponse",
+        "fields": [
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "portfolio_currency",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_currency",
+            "attributeRef": "lotus.portfolio_currency"
+          },
+          {
+            "name": "portfolio_open_date",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_open_date",
+            "attributeRef": "lotus.portfolio_open_date"
+          },
+          {
+            "name": "portfolio_close_date",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.portfolio_close_date",
+            "attributeRef": "lotus.portfolio_close_date"
+          },
+          {
+            "name": "performance_end_date",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.performance_end_date",
+            "attributeRef": "lotus.performance_end_date"
+          },
+          {
+            "name": "client_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.client_id",
+            "attributeRef": "lotus.client_id"
+          },
+          {
+            "name": "booking_center_code",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.booking_center_code",
+            "attributeRef": "lotus.booking_center_code"
+          },
+          {
+            "name": "portfolio_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_type",
+            "attributeRef": "lotus.portfolio_type"
+          },
+          {
+            "name": "objective",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.objective",
+            "attributeRef": "lotus.objective"
+          },
+          {
+            "name": "lineage",
+            "location": "body",
+            "required": true,
+            "type": "LineageMetadata",
+            "semanticId": "lotus.lineage",
+            "attributeRef": "lotus.lineage"
+          },
+          {
+            "name": "lineage.generated_by",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_by",
+            "attributeRef": "lotus.generated_by"
+          },
+          {
+            "name": "lineage.generated_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_at",
+            "attributeRef": "lotus.generated_at"
+          },
+          {
+            "name": "lineage.request_fingerprint",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.request_fingerprint",
+            "attributeRef": "lotus.request_fingerprint"
+          },
+          {
+            "name": "lineage.data_version",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.data_version",
+            "attributeRef": "lotus.data_version"
+          },
+          {
+            "name": "contract_version",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.contract_version",
+            "attributeRef": "lotus.contract_version"
+          },
+          {
+            "name": "taxonomy_dimensions",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.taxonomy_dimensions",
+            "attributeRef": "lotus.taxonomy_dimensions"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "create_analytics_export_job_integration_exports_analytics_timeseries_jobs_post",
+      "method": "POST",
+      "path": "/integration/exports/analytics-timeseries/jobs",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Create analytics timeseries export job",
+      "description": "What: Create a durable export job for portfolio or position analytics timeseries datasets.\nHow: Validates canonical request payload, computes deterministic fingerprint, and persists lifecycle state.\nWhen: Used for large horizon extractions that should be retrieved asynchronously by downstream analytics.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "completed_at",
+          "compression",
+          "consumer_system",
+          "created_at",
+          "dataset_type",
+          "error_message",
+          "job_id",
+          "portfolio_id",
+          "portfolio_timeseries_request",
+          "position_timeseries_request",
+          "request_fingerprint",
+          "result_format",
+          "result_row_count",
+          "started_at",
+          "status"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "dataset_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.dataset_type",
+            "attributeRef": "lotus.dataset_type"
+          },
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "portfolio_timeseries_request",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.portfolio_timeseries_request",
+            "attributeRef": "lotus.portfolio_timeseries_request"
+          },
+          {
+            "name": "position_timeseries_request",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.position_timeseries_request",
+            "attributeRef": "lotus.position_timeseries_request"
+          },
+          {
+            "name": "result_format",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.result_format",
+            "attributeRef": "lotus.result_format"
+          },
+          {
+            "name": "compression",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.compression",
+            "attributeRef": "lotus.compression"
+          },
+          {
+            "name": "consumer_system",
+            "location": "body",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.consumer_system",
+            "attributeRef": "lotus.consumer_system"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "AnalyticsExportJobResponse",
+        "fields": [
+          {
+            "name": "job_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.job_id",
+            "attributeRef": "lotus.job_id"
+          },
+          {
+            "name": "dataset_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.dataset_type",
+            "attributeRef": "lotus.dataset_type"
+          },
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "status",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.status",
+            "attributeRef": "lotus.status"
+          },
+          {
+            "name": "request_fingerprint",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.request_fingerprint",
+            "attributeRef": "lotus.request_fingerprint"
+          },
+          {
+            "name": "result_format",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.result_format",
+            "attributeRef": "lotus.result_format"
+          },
+          {
+            "name": "compression",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.compression",
+            "attributeRef": "lotus.compression"
+          },
+          {
+            "name": "result_row_count",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.result_row_count",
+            "attributeRef": "lotus.result_row_count"
+          },
+          {
+            "name": "error_message",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.error_message",
+            "attributeRef": "lotus.error_message"
+          },
+          {
+            "name": "created_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.created_at",
+            "attributeRef": "lotus.created_at"
+          },
+          {
+            "name": "started_at",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.started_at",
+            "attributeRef": "lotus.started_at"
+          },
+          {
+            "name": "completed_at",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.completed_at",
+            "attributeRef": "lotus.completed_at"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "get_analytics_export_job_integration_exports_analytics_timeseries_jobs__job_id__get",
+      "method": "GET",
+      "path": "/integration/exports/analytics-timeseries/jobs/{job_id}",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Fetch analytics export job status",
+      "description": "What: Fetch lifecycle status for an analytics export job.\nHow: Reads persisted job metadata and terminal status from canonical query-service storage.\nWhen: Used by polling clients before attempting result retrieval.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "completed_at",
+          "compression",
+          "created_at",
+          "dataset_type",
+          "error_message",
+          "job_id",
+          "portfolio_id",
+          "request_fingerprint",
+          "result_format",
+          "result_row_count",
+          "started_at",
+          "status"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "job_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.job_id",
+            "attributeRef": "lotus.job_id"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "AnalyticsExportJobResponse",
+        "fields": [
+          {
+            "name": "job_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.job_id",
+            "attributeRef": "lotus.job_id"
+          },
+          {
+            "name": "dataset_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.dataset_type",
+            "attributeRef": "lotus.dataset_type"
+          },
+          {
+            "name": "portfolio_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.portfolio_id",
+            "attributeRef": "lotus.portfolio_id"
+          },
+          {
+            "name": "status",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.status",
+            "attributeRef": "lotus.status"
+          },
+          {
+            "name": "request_fingerprint",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.request_fingerprint",
+            "attributeRef": "lotus.request_fingerprint"
+          },
+          {
+            "name": "result_format",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.result_format",
+            "attributeRef": "lotus.result_format"
+          },
+          {
+            "name": "compression",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.compression",
+            "attributeRef": "lotus.compression"
+          },
+          {
+            "name": "result_row_count",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.result_row_count",
+            "attributeRef": "lotus.result_row_count"
+          },
+          {
+            "name": "error_message",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.error_message",
+            "attributeRef": "lotus.error_message"
+          },
+          {
+            "name": "created_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.created_at",
+            "attributeRef": "lotus.created_at"
+          },
+          {
+            "name": "started_at",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.started_at",
+            "attributeRef": "lotus.started_at"
+          },
+          {
+            "name": "completed_at",
+            "location": "body",
+            "required": false,
+            "type": "object",
+            "semanticId": "lotus.completed_at",
+            "attributeRef": "lotus.completed_at"
+          }
+        ]
+      }
+    },
+    {
+      "operationId": "get_analytics_export_job_result_integration_exports_analytics_timeseries_jobs__job_id__result_get",
+      "method": "GET",
+      "path": "/integration/exports/analytics-timeseries/jobs/{job_id}/result",
+      "domain": "integration_contracts",
+      "serviceGroup": "query",
+      "tags": [
+        "Integration Contracts"
+      ],
+      "summary": "Fetch analytics export job result",
+      "description": "What: Retrieve finalized export payload for a completed analytics export job.\nHow: Returns JSON envelope or NDJSON stream with optional gzip encoding.\nWhen: Used by lotus-performance batch pipelines after job completion.",
+      "naming": {
+        "boundedContext": "integration_contracts",
+        "canonicalTerms": [
+          "compression",
+          "contract_version",
+          "data",
+          "dataset_type",
+          "generated_at",
+          "job_id",
+          "result_format"
+        ]
+      },
+      "request": {
+        "fields": [
+          {
+            "name": "job_id",
+            "location": "path",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.job_id",
+            "attributeRef": "lotus.job_id"
+          },
+          {
+            "name": "result_format",
+            "location": "query",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.result_format",
+            "attributeRef": "lotus.result_format"
+          },
+          {
+            "name": "compression",
+            "location": "query",
+            "required": false,
+            "type": "string",
+            "semanticId": "lotus.compression",
+            "attributeRef": "lotus.compression"
+          }
+        ]
+      },
+      "response": {
+        "httpStatus": 200,
+        "model": "AnalyticsExportJsonResultResponse",
+        "fields": [
+          {
+            "name": "job_id",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.job_id",
+            "attributeRef": "lotus.job_id"
+          },
+          {
+            "name": "dataset_type",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.dataset_type",
+            "attributeRef": "lotus.dataset_type"
+          },
+          {
+            "name": "generated_at",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.generated_at",
+            "attributeRef": "lotus.generated_at"
+          },
+          {
+            "name": "contract_version",
+            "location": "body",
+            "required": true,
+            "type": "string",
+            "semanticId": "lotus.contract_version",
+            "attributeRef": "lotus.contract_version"
+          },
+          {
+            "name": "data",
+            "location": "body",
+            "required": false,
+            "type": "array",
+            "semanticId": "lotus.data",
+            "attributeRef": "lotus.data"
           }
         ]
       }
