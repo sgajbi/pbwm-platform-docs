@@ -27,6 +27,12 @@ For each application inventory:
 - Source: `lotus-risk` OpenAPI contracts
 - Generator: `lotus-risk/scripts/api_vocabulary_inventory.py`
 
+## lotus-performance Inventory
+
+- File: `lotus-performance-api-vocabulary.v1.json`
+- Source: `lotus-performance` OpenAPI contracts
+- Generator: `lotus-performance/scripts/api_vocabulary_inventory.py`
+
 ## Regeneration
 
 ```powershell
@@ -40,6 +46,15 @@ python ..\lotus-risk\scripts\api_vocabulary_inventory.py `
 Copy-Item `
   ..\lotus-risk\docs\standards\api-vocabulary\lotus-risk-api-vocabulary.v1.json `
   .\platform-contracts\api-vocabulary\lotus-risk-api-vocabulary.v1.json `
+  -Force
+```
+
+```powershell
+python ..\lotus-performance\scripts\api_vocabulary_inventory.py `
+  --output .\docs\standards\api-vocabulary\lotus-performance-api-vocabulary.v1.json
+Copy-Item `
+  ..\lotus-performance\docs\standards\api-vocabulary\lotus-performance-api-vocabulary.v1.json `
+  .\platform-contracts\api-vocabulary\lotus-performance-api-vocabulary.v1.json `
   -Force
 ```
 
